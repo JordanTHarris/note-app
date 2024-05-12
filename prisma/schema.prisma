@@ -14,9 +14,10 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
+model Note {
     id        Int      @id @default(autoincrement())
     name      String
+    content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -62,7 +63,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    notes         Note[]
 }
 
 model VerificationToken {

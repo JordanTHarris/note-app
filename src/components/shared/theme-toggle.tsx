@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   function toggleTheme() {
-    setTheme(theme === "light" ? "dark" : "light");
+    setTheme(resolvedTheme === "light" ? "dark" : "light");
   }
 
   return (
@@ -30,7 +30,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       <Moon
         className={cn(
           className,
-          "absolute rotate-90 scale-0 text-indigo-500 transition-all dark:rotate-0 dark:scale-75",
+          "absolute rotate-90 scale-0 text-indigo-400 transition-all dark:rotate-0 dark:scale-75",
         )}
       />
       <span className="sr-only">Toggle theme</span>
