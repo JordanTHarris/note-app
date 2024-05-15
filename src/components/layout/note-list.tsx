@@ -41,7 +41,11 @@ export function NoteList({
         </TableHeader>
         <TableBody>
           {notes.map((note) => (
-            <TableRow key={note.id} onClick={() => handleClick(note.id)}>
+            <TableRow
+              className="cursor-pointer"
+              key={note.id}
+              onClick={() => handleClick(note.id)}
+            >
               <TableCell className="font-medium">{note?.title}</TableCell>
               <TableCell className="">{note?.createdAt.toDateString()}</TableCell>
               <TableCell className="">{note?.updatedAt.toDateString()}</TableCell>
