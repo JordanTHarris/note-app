@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { createNote } from "@/server/notes";
+import { type Note } from "@prisma/client";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,8 +52,7 @@ export function DataTable<TData, TValue>({
 
   async function handleCreateNew() {
     const note = await createNote(userId, "Untitled", "");
-    const noteId = note.id;
-    router.push(`/notes/${noteId}`);
+    router.push(`/notes/${note?.id}`);
   }
 
   return (
@@ -77,7 +77,15 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  className="cursor-pointer"
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  onClick={() => {
+                    const original = row.original as Note;
+                    router.push(`/notes/${original.id}`);
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

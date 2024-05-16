@@ -24,15 +24,25 @@ export async function getNotes(userId: string) {
 }
 
 export async function createNote(userId: string, title: string, content: string) {
+  const noteCount = await db.note.count(); // Add count for testing
   const note = await db.note.create({
     data: {
-      title: title,
+      title: `${title} ${noteCount + 1}`,
       content: content,
       createdBy: {
         connect: {
           id: userId,
         },
       },
+    },
+  });
+  return note;
+}
+
+export async function deleteNote(id: number) {
+  const note = await db.note.delete({
+    where: {
+      id: id,
     },
   });
   return note;
