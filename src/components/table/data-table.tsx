@@ -23,6 +23,8 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { createNote } from "@/server/notes";
 import { type Note } from "@prisma/client";
+import { ScrollArea } from "../ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -56,10 +58,10 @@ export function DataTable<TData, TValue>({
   }
 
   return (
-    <div className={className}>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+    <div className={cn("flex flex-col", className)}>
+      <ScrollArea className="h-full rounded-md border">
+        <Table className="h-full">
+          <TableHeader className="sticky top-0 bg-background ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -102,7 +104,7 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>
+      </ScrollArea>
       <div className="flex items-center justify-between space-x-2 py-4">
         <Button variant="outline" size="sm" onClick={handleCreateNew}>
           Create new <Plus className="ml-1 h-4 w-4" />
