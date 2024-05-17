@@ -1,4 +1,3 @@
-import { NoteList } from "@/components/layout/note-list";
 import { DataTable } from "@/components/table/data-table";
 import { getServerAuthSession } from "@/server/auth";
 import { getNotes } from "@/server/notes";

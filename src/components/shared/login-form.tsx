@@ -9,11 +9,11 @@ import { Button } from "@/components/ui/button";
 export const LoginForm = () => {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [discordLoading, setDiscordLoading] = useState(false);
-  const googleColor = "#5865F2";
+  const googleColor = "#FBBD0A";
   const discordColor = "#5865F2";
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center gap-2">
       <Button
         disabled={googleLoading}
         variant="ghost"
@@ -25,8 +25,7 @@ export const LoginForm = () => {
         }}
       >
         {googleLoading ? (
-          // <LoadingDots className="bg-primary" />
-          <Bars height="80" width="80" color={discordColor} />
+          <Bars height="80" width="80" color={googleColor} />
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center gap-2">
             <Google className="h-20 w-20" />
@@ -48,7 +47,6 @@ export const LoginForm = () => {
         }}
       >
         {discordLoading ? (
-          // <LoadingDots className="bg-primary" />
           <Bars height="80" width="80" color={discordColor} />
         ) : (
           <div className="flex flex-1 flex-col items-center justify-center gap-2">

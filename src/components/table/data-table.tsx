@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   type ColumnDef,
+  ColumnFiltersState,
   type SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -20,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { createNote } from "@/server/notes";
 import { type Note } from "@prisma/client";
@@ -38,7 +41,9 @@ export function DataTable<TData, TValue>({
   userId,
 }: DataTableProps<TData, TValue> & { className?: string; userId: string }) {
   const router = useRouter();
+
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -47,8 +52,11 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
@@ -59,6 +67,19 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className={cn("flex flex-col", className)}>
+      <div className="flex items-center justify-between py-4">
+        <Input
+          placeholder="Search notes..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            table.getColumn("title")?.setFilterValue(event.target.value)
+          }
+          className="w-1/2"
+        />
+        <Button variant="default" size="sm" onClick={handleCreateNew}>
+          New <Plus className="ml-1 h-4 w-4" />
+        </Button>
+      </div>
       <ScrollArea className="h-full rounded-md border">
         <Table className="h-full">
           <TableHeader className="sticky top-0 bg-background ">
@@ -105,28 +126,23 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </ScrollArea>
-      <div className="flex items-center justify-between space-x-2 py-4">
-        <Button variant="outline" size="sm" onClick={handleCreateNew}>
-          Create new <Plus className="ml-1 h-4 w-4" />
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
         </Button>
-        <div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );
