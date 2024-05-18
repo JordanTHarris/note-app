@@ -47,3 +47,15 @@ export async function deleteNote(id: number) {
   });
   return note;
 }
+
+export async function updateTitle(id: number, title: string) {
+  const note = await db.note.update({
+    where: {
+      id: id,
+    },
+    data: {
+      title: title,
+    },
+  });
+  return note;
+}

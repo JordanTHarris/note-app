@@ -36,7 +36,7 @@ export const columns: ColumnDef<Note>[] = [
     },
     cell: ({ row }) => {
       const { title } = row.original;
-      return <div className="w-24 truncate font-medium">{title}</div>;
+      return <div className="w-32 truncate font-medium">{title}</div>;
     },
   },
   {
