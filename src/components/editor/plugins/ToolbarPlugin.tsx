@@ -1,5 +1,6 @@
 "use client";
 
+import { ActionTooltip } from "@/components/shared/action-tooltip";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -91,122 +92,142 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="mb-1 flex gap-1 border-b p-1" ref={toolbarRef}>
-      <Button
-        variant="ghost"
-        size="icon"
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        className=""
-        aria-label="Undo"
-      >
-        <Undo />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        disabled={!canRedo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        className=""
-        aria-label="Redo"
-      >
-        <Redo />
-      </Button>
+    <div className="mb-1 flex flex-wrap gap-1 p-1" ref={toolbarRef}>
+      <ActionTooltip label="Undo">
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!canUndo}
+          onClick={() => {
+            editor.dispatchCommand(UNDO_COMMAND, undefined);
+          }}
+          className=""
+          aria-label="Undo"
+        >
+          <Undo />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Redo">
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!canRedo}
+          onClick={() => {
+            editor.dispatchCommand(REDO_COMMAND, undefined);
+          }}
+          className=""
+          aria-label="Redo"
+        >
+          <Redo />
+        </Button>
+      </ActionTooltip>
       <Divider />
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-        }}
-        // className={"toolbar-item spaced " + (isBold ? "active" : "")}
-        className={cn("", isBold && "bg-secondary")}
-        aria-label="Format Bold"
-      >
-        <Bold />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-        }}
-        className={cn("", isItalic && "bg-secondary")}
-        aria-label="Format Italics"
-      >
-        <Italic />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-        }}
-        className={cn("", isUnderline && "bg-secondary")}
-        aria-label="Format Underline"
-      >
-        <Underline />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-        }}
-        className={cn("", isStrikethrough && "bg-secondary")}
-        aria-label="Format Strikethrough"
-      >
-        <Strikethrough />
-      </Button>
+      <ActionTooltip label="Bold">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
+          }}
+          // className={"toolbar-item spaced " + (isBold ? "active" : "")}
+          className={cn("", isBold && "bg-secondary")}
+          aria-label="Format Bold"
+        >
+          <Bold />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Italic">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+          }}
+          className={cn("", isItalic && "bg-secondary")}
+          aria-label="Format Italics"
+        >
+          <Italic />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Underline">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+          }}
+          className={cn("", isUnderline && "bg-secondary")}
+          aria-label="Format Underline"
+        >
+          <Underline />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Strikethrough">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+          }}
+          className={cn("", isStrikethrough && "bg-secondary")}
+          aria-label="Format Strikethrough"
+        >
+          <Strikethrough />
+        </Button>
+      </ActionTooltip>
       <Divider />
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
-        }}
-        className=""
-        aria-label="Left Align"
-      >
-        <AlignLeft />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-        }}
-        className=""
-        aria-label="Center Align"
-      >
-        <AlignCenter />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-        }}
-        className=""
-        aria-label="Right Align"
-      >
-        <AlignRight />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-        }}
-        className=""
-        aria-label="Justify Align"
-      >
-        <AlignJustify />
-      </Button>{" "}
+      <ActionTooltip label="Left Align">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+          }}
+          className=""
+          aria-label="Left Align"
+        >
+          <AlignLeft />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Center Align">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+          }}
+          className=""
+          aria-label="Center Align"
+        >
+          <AlignCenter />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Right Align">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+          }}
+          className=""
+          aria-label="Right Align"
+        >
+          <AlignRight />
+        </Button>
+      </ActionTooltip>
+      <ActionTooltip label="Justify Align">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+          }}
+          className=""
+          aria-label="Justify Align"
+        >
+          <AlignJustify />
+        </Button>
+      </ActionTooltip>
     </div>
   );
 }

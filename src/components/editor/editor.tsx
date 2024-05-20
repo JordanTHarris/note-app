@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateTitle } from "@/server/notes";
+import { EditReadModePlugin } from "./plugins/EditReadModePlugin";
 
 function Placeholder() {
   return (
@@ -28,7 +29,7 @@ function Placeholder() {
 }
 
 const editorConfig = {
-  namespace: "React.js Demo",
+  namespace: "Note",
   nodes: [],
   // Handling of errors during update
   onError(error: Error) {
@@ -92,14 +93,17 @@ export function Editor({ className, note }: { className?: string; note: Note }) 
           onBlur={handleTitleBlur}
         />
         <div className="flex w-20 justify-end">
-          <Button variant="default" size="default" onClick={handleSave}>
+          <Button variant="secondary" size="sm" onClick={handleSave}>
             Save
           </Button>
         </div>
       </div>
       <LexicalComposer initialConfig={editorConfig}>
         <div className={cn("flex flex-1 flex-col rounded-md border")}>
-          <ToolbarPlugin />
+          <div className="flex items-start justify-between border-b">
+            <ToolbarPlugin />
+            <EditReadModePlugin />
+          </div>
           <div className="relative flex h-full">
             <RichTextPlugin
               contentEditable={
