@@ -23,7 +23,7 @@ import { EditReadModePlugin } from "./plugins/EditReadModePlugin";
 function Placeholder() {
   return (
     <div className="pointer-events-none absolute left-0 top-0 inline-block select-none truncate px-4 py-2 text-muted-foreground">
-      Enter some rich text...
+      Enter some text...
     </div>
   );
 }

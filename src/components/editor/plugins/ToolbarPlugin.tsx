@@ -101,7 +101,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(UNDO_COMMAND, undefined);
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Undo"
         >
           <Undo />
@@ -115,7 +115,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(REDO_COMMAND, undefined);
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Redo"
         >
           <Redo />
@@ -129,8 +129,10 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
           }}
-          // className={"toolbar-item spaced " + (isBold ? "active" : "")}
-          className={cn("", isBold && "bg-secondary")}
+          className={cn(
+            "text-muted-foreground",
+            isBold && "bg-secondary text-foreground",
+          )}
           aria-label="Format Bold"
         >
           <Bold />
@@ -143,7 +145,10 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
           }}
-          className={cn("", isItalic && "bg-secondary")}
+          className={cn(
+            "text-muted-foreground",
+            isItalic && "bg-secondary text-foreground",
+          )}
           aria-label="Format Italics"
         >
           <Italic />
@@ -156,7 +161,10 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
           }}
-          className={cn("", isUnderline && "bg-secondary")}
+          className={cn(
+            "text-muted-foreground",
+            isUnderline && "bg-secondary text-foreground",
+          )}
           aria-label="Format Underline"
         >
           <Underline />
@@ -169,7 +177,10 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
           }}
-          className={cn("", isStrikethrough && "bg-secondary")}
+          className={cn(
+            "text-muted-foreground",
+            isStrikethrough && "bg-secondary text-foreground",
+          )}
           aria-label="Format Strikethrough"
         >
           <Strikethrough />
@@ -183,7 +194,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Left Align"
         >
           <AlignLeft />
@@ -196,7 +207,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Center Align"
         >
           <AlignCenter />
@@ -209,7 +220,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Right Align"
         >
           <AlignRight />
@@ -222,7 +233,7 @@ export default function ToolbarPlugin() {
           onClick={() => {
             editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
           }}
-          className=""
+          className="text-muted-foreground"
           aria-label="Justify Align"
         >
           <AlignJustify />

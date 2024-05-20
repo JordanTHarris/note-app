@@ -10,7 +10,7 @@ export async function Navbar() {
   const user = session?.user;
 
   return (
-    <div className="bg-card flex items-center justify-between border-b px-2 py-1">
+    <div className="flex items-center justify-between border-b bg-card px-2 py-1">
       <Link href="/" className="text-xl font-semibold">
         Note App
       </Link>
