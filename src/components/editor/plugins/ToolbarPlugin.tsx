@@ -50,8 +50,8 @@ import {
   FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   INDENT_CONTENT_COMMAND,
-  LexicalEditor,
-  NodeKey,
+  type LexicalEditor,
+  type NodeKey,
   OUTDENT_CONTENT_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
@@ -61,7 +61,7 @@ import {
   $createHeadingNode,
   $createQuoteNode,
   $isHeadingNode,
-  HeadingTagType,
+  type HeadingTagType,
 } from "@lexical/rich-text";
 import {
   $getSelectionStyleValueForProperty,
@@ -148,11 +148,6 @@ const FONT_SIZE_OPTIONS: [string, string][] = [
   ["20px", "20px"],
 ];
 
-function dropDownActiveClass(active: boolean) {
-  if (active) return "active dropdown-item-active";
-  else return "";
-}
-
 function BlockFormatDropDown({
   editor,
   blockType,
@@ -237,8 +232,35 @@ function BlockFormatDropDown({
     }
   };
 
+  function handleSelect(value: string) {
+    if (value === "paragraph") {
+      formatParagraph();
+    } else if (value === "h1") {
+      formatHeading("h1");
+    } else if (value === "h2") {
+      formatHeading("h2");
+    } else if (value === "h3") {
+      formatHeading("h3");
+    } else if (value === "bullet") {
+      formatBulletList();
+    } else if (value === "number") {
+      formatNumberedList();
+    } else if (value === "check") {
+      formatCheckList();
+    } else if (value === "quote") {
+      formatQuote();
+    } else if (value === "code") {
+      formatCode();
+    }
+  }
+
   return (
-    <Select disabled={disabled} defaultValue="paragraph">
+    <Select
+      disabled={disabled}
+      defaultValue="paragraph"
+      value={blockType}
+      onValueChange={handleSelect}
+    >
       <SelectTrigger className="w-40">
         <SelectValue placeholder="Select a format" />
       </SelectTrigger>
@@ -622,14 +644,11 @@ export default function ToolbarPlugin() {
       </ActionTooltip>
       <Divider />
       {blockType in blockTypeToBlockName && activeEditor === editor && (
-        <>
-          <BlockFormatDropDown
-            disabled={!isEditable}
-            blockType={blockType}
-            editor={editor}
-          />
-          <Divider />
-        </>
+        <BlockFormatDropDown
+          disabled={!isEditable}
+          blockType={blockType}
+          editor={editor}
+        />
       )}
       <Divider />
       <ActionTooltip label="Bold">

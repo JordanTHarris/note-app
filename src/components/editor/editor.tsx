@@ -1,6 +1,7 @@
 "use client";
 
-import "./editor-styles.css";
+import "@/styles/globals.css";
+// import "./editor-styles.css";
 
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
@@ -165,6 +166,8 @@ export function Editor({ className, note }: { className?: string; note: Note }) 
               />
             )}
             {/* <TreeViewPlugin /> */}
+            <ListPlugin />
+            <LinkPlugin />
           </div>
         </div>
       </LexicalComposer>

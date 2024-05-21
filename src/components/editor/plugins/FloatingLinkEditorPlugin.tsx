@@ -1,4 +1,4 @@
-import "../editor-styles.css";
+import "@/styles/globals.css";
 
 import { $isAutoLinkNode, $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
