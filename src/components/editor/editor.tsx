@@ -9,6 +9,19 @@ import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { TRANSFORMERS } from "@lexical/markdown";
+import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
+import FloatingLinkEditorPlugin from "./plugins/FloatingLinkEditorPlugin";
+
 import ToolbarPlugin from "./plugins/ToolbarPlugin";
 import { editorTheme } from "./editor-theme";
 import { cn } from "@/lib/utils";
@@ -19,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { updateTitle } from "@/server/notes";
 import { EditReadModePlugin } from "./plugins/EditReadModePlugin";
+import { useState } from "react";
 
 function Placeholder() {
   return (
@@ -30,7 +44,19 @@ function Placeholder() {
 
 const editorConfig = {
   namespace: "Note",
-  nodes: [],
+  nodes: [
+    HeadingNode,
+    ListNode,
+    ListItemNode,
+    QuoteNode,
+    CodeNode,
+    CodeHighlightNode,
+    TableNode,
+    TableCellNode,
+    TableRowNode,
+    AutoLinkNode,
+    LinkNode,
+  ],
   // Handling of errors during update
   onError(error: Error) {
     throw error;
@@ -41,6 +67,17 @@ const editorConfig = {
 
 export function Editor({ className, note }: { className?: string; note: Note }) {
   const router = useRouter();
+
+  const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(
+    null,
+  );
+  const [isLinkEditMode, setIsLinkEditMode] = useState<boolean>(false);
+
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
   async function handleTitleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Enter") {
@@ -107,16 +144,26 @@ export function Editor({ className, note }: { className?: string; note: Note }) 
           <div className="relative flex h-full">
             <RichTextPlugin
               contentEditable={
-                <ContentEditable
-                  // className="editor-input"
-                  className="relative min-h-40 flex-1 resize-none px-4 py-2 text-base outline-none"
-                />
+                <div className="flex flex-1" ref={onRef}>
+                  <ContentEditable
+                    // className="editor-input"
+                    className="relative min-h-40 flex-1 resize-none px-4 py-2 text-base outline-none"
+                  />
+                </div>
               }
               placeholder={<Placeholder />}
               ErrorBoundary={LexicalErrorBoundary}
             />
             <HistoryPlugin />
             <AutoFocusPlugin />
+            <AutoLinkPlugin />
+            {floatingAnchorElem && (
+              <FloatingLinkEditorPlugin
+                anchorElem={floatingAnchorElem}
+                isLinkEditMode={isLinkEditMode}
+                setIsLinkEditMode={setIsLinkEditMode}
+              />
+            )}
             {/* <TreeViewPlugin /> */}
           </div>
         </div>
