@@ -99,6 +99,44 @@ import { InsertPollDialog } from "../PollPlugin";
 import { InsertTableDialog } from "../TablePlugin";
 import FontSize from "./fontSize";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  Bold,
+  Code2,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+  Italic,
+  Link2,
+  ListChecks,
+  ListIcon,
+  ListOrdered,
+  MessageSquareQuote,
+  Redo,
+  Strikethrough,
+  Text,
+  Type,
+  Underline,
+  Undo,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
 const catTypingGif = "/images/cat-typing.gif";
 
 const blockTypeToBlockName = {
@@ -114,6 +152,21 @@ const blockTypeToBlockName = {
   number: "Numbered List",
   paragraph: "Normal",
   quote: "Quote",
+};
+
+const blockTypeToIcon = {
+  bullet: <ListIcon className="mr-1 h-5 w-5" />,
+  check: <ListChecks className="mr-1 h-5 w-5" />,
+  code: <Code2 className="mr-1 h-5 w-5" />,
+  h1: <Heading1 className="mr-1 h-5 w-5" />,
+  h2: <Heading2 className="mr-1 h-5 w-5" />,
+  h3: <Heading3 className="mr-1 h-5 w-5" />,
+  h4: <Heading4 className="mr-1 h-5 w-5" />,
+  h5: <Heading5 className="mr-1 h-5 w-5" />,
+  h6: <Heading6 className="mr-1 h-5 w-5" />,
+  number: <ListOrdered className="mr-1 h-5 w-5" />,
+  paragraph: <Text className="mr-1 h-5 w-5" />,
+  quote: <MessageSquareQuote className="mr-1 h-5 w-5" />,
 };
 
 const rootTypeToRootName = {
@@ -287,78 +340,109 @@ function BlockFormatDropDown({
     }
   };
 
+  function handleSelect(value: string) {
+    if (value === "paragraph") {
+      formatParagraph();
+    } else if (value === "h1") {
+      formatHeading("h1");
+    } else if (value === "h2") {
+      formatHeading("h2");
+    } else if (value === "h3") {
+      formatHeading("h3");
+    } else if (value === "bullet") {
+      formatBulletList();
+    } else if (value === "number") {
+      formatNumberedList();
+    } else if (value === "check") {
+      formatCheckList();
+    } else if (value === "quote") {
+      formatQuote();
+    } else if (value === "code") {
+      formatCode();
+    }
+  }
+
   return (
-    <DropDown
+    <Select
       disabled={disabled}
-      buttonClassName="toolbar-item block-controls"
-      buttonIconClassName={"icon block-type " + blockType}
-      buttonLabel={blockTypeToBlockName[blockType]}
-      buttonAriaLabel="Formatting options for text style"
+      defaultValue="paragraph"
+      value={blockType}
+      onValueChange={handleSelect}
     >
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "paragraph")}
-        onClick={formatParagraph}
+      <SelectTrigger className="h-7 w-fit truncate">
+        {/* <SelectValue placeholder="Select a format" /> */}
+        <div className="flex items-center truncate">
+          {blockTypeToIcon[blockType]}
+          <span className="hidden font-medium lg:block">
+            {blockTypeToBlockName[blockType]}
+          </span>
+        </div>
+      </SelectTrigger>
+      <SelectContent
+        // disable focus on select and change focus back to editor
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          editor.focus();
+        }}
       >
-        <i className="icon paragraph" />
-        <span className="text">Normal</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "h1")}
-        onClick={() => formatHeading("h1")}
-      >
-        <i className="icon h1" />
-        <span className="text">Heading 1</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "h2")}
-        onClick={() => formatHeading("h2")}
-      >
-        <i className="icon h2" />
-        <span className="text">Heading 2</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "h3")}
-        onClick={() => formatHeading("h3")}
-      >
-        <i className="icon h3" />
-        <span className="text">Heading 3</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "bullet")}
-        onClick={formatBulletList}
-      >
-        <i className="icon bullet-list" />
-        <span className="text">Bullet List</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "number")}
-        onClick={formatNumberedList}
-      >
-        <i className="icon numbered-list" />
-        <span className="text">Numbered List</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "check")}
-        onClick={formatCheckList}
-      >
-        <i className="icon check-list" />
-        <span className="text">Check List</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "quote")}
-        onClick={formatQuote}
-      >
-        <i className="icon quote" />
-        <span className="text">Quote</span>
-      </DropDownItem>
-      <DropDownItem
-        className={"item " + dropDownActiveClass(blockType === "code")}
-        onClick={formatCode}
-      >
-        <i className="icon code" />
-        <span className="text">Code Block</span>
-      </DropDownItem>
-    </DropDown>
+        <SelectGroup>
+          <SelectItem value="paragraph" onClick={formatParagraph}>
+            <div className="flex items-center">
+              {blockTypeToIcon.paragraph}
+              <span className="font-medium">Normal</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="h1" onClick={() => formatHeading("h1")}>
+            <div className="flex items-center">
+              {blockTypeToIcon.h1}
+              <span className="font-medium">Heading 1</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="h2" onClick={() => formatHeading("h2")}>
+            <div className="flex items-center">
+              {blockTypeToIcon.h2}
+              <span className="font-medium">Heading 2</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="h3" onClick={() => formatHeading("h3")}>
+            <div className="flex items-center">
+              {blockTypeToIcon.h3}
+              <span className="font-medium">Heading 3</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="bullet" onClick={formatBulletList}>
+            <div className="flex items-center">
+              {blockTypeToIcon.bullet}
+              <span className="font-medium">Bullet List</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="number" onClick={formatNumberedList}>
+            <div className="flex items-center">
+              {blockTypeToIcon.number}
+              <span className="font-medium">Number List</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="check" onClick={formatCheckList}>
+            <div className="flex items-center">
+              {blockTypeToIcon.check}
+              <span className="font-medium">Check List</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="quote" onClick={formatQuote}>
+            <div className="flex items-center">
+              {blockTypeToIcon.quote}
+              <span className="font-medium">Quote</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="code" onClick={formatCode}>
+            <div className="flex items-center">
+              {blockTypeToIcon.code}
+              <span className="font-medium">Code Block</span>
+            </div>
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -397,27 +481,43 @@ function FontDropDown({
       : "Formatting options for font size";
 
   return (
-    <DropDown
+    <Select
       disabled={disabled}
-      buttonClassName={"toolbar-item " + style}
-      buttonLabel={value}
-      buttonIconClassName={style === "font-family" ? "icon block-type font-family" : ""}
-      buttonAriaLabel={buttonAriaLabel}
+      defaultValue="paragraph"
+      value={value}
+      onValueChange={handleClick}
     >
-      {(style === "font-family" ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
-        ([option, text]) => (
-          <DropDownItem
-            className={`item ${dropDownActiveClass(value === option)} ${
-              style === "font-size" ? "fontsize-item" : ""
-            }`}
-            onClick={() => handleClick(option)}
-            key={option}
-          >
-            <span className="text">{text}</span>
-          </DropDownItem>
-        ),
-      )}
-    </DropDown>
+      <SelectTrigger className="h-7 w-fit truncate">
+        <div className="flex items-center truncate">
+          <Type className="mr-1 h-5 w-5" />
+          <span className="hidden font-medium lg:block">{value}</span>
+        </div>
+      </SelectTrigger>
+      <SelectContent
+        // disable focus on select and change focus back to editor
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          editor.focus();
+        }}
+      >
+        <SelectGroup>
+          {(style === "font-family" ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
+            ([option, text]) => (
+              <SelectItem
+                value={option}
+                className={`item ${dropDownActiveClass(value === option)} ${
+                  style === "font-size" ? "fontsize-item" : ""
+                }`}
+                onClick={() => handleClick(option)}
+                key={option}
+              >
+                <span className="font-medium">{text}</span>
+              </SelectItem>
+            ),
+          )}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -833,32 +933,36 @@ export default function ToolbarPlugin({
   };
 
   return (
-    <div className="toolbar">
-      {/* <div className="sticky top-0 z-10 flex h-9 items-center overflow-auto p-1"> */}
-      <button
+    // <div className="toolbar items-center">
+    <div className="sticky top-0 z-10 flex items-center gap-1 overflow-auto p-1">
+      <Button
+        variant="ghost"
+        size="icon"
         disabled={!canUndo || !isEditable}
         onClick={() => {
           activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
         }}
         title={IS_APPLE ? "Undo (⌘Z)" : "Undo (Ctrl+Z)"}
         type="button"
-        className="toolbar-item spaced"
+        className="h-7 w-7 text-muted-foreground"
         aria-label="Undo"
       >
-        <i className="format undo" />
-      </button>
-      <button
+        <Undo />
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
         disabled={!canRedo || !isEditable}
         onClick={() => {
           activeEditor.dispatchCommand(REDO_COMMAND, undefined);
         }}
         title={IS_APPLE ? "Redo (⌘Y)" : "Redo (Ctrl+Y)"}
         type="button"
-        className="toolbar-item"
+        className="h-7 w-7 text-muted-foreground"
         aria-label="Redo"
       >
-        <i className="format redo" />
-      </button>
+        <Redo />
+      </Button>
       <Divider />
       {blockType in blockTypeToBlockName && activeEditor === editor && (
         <>
@@ -905,66 +1009,91 @@ export default function ToolbarPlugin({
             disabled={!isEditable}
           />
           <Divider />
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
             }}
-            className={"toolbar-item spaced " + (isBold ? "active" : "")}
+            className={cn(
+              "h-7 w-7 text-muted-foreground",
+              isBold && "bg-secondary text-foreground",
+            )}
             title={IS_APPLE ? "Bold (⌘B)" : "Bold (Ctrl+B)"}
             type="button"
             aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? "⌘B" : "Ctrl+B"}`}
           >
-            <i className="format bold" />
-          </button>
-          <button
+            <Bold className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
             }}
-            className={"toolbar-item spaced " + (isItalic ? "active" : "")}
+            className={cn(
+              "h-7 w-7 text-muted-foreground",
+              isItalic && "bg-secondary text-foreground",
+            )}
             title={IS_APPLE ? "Italic (⌘I)" : "Italic (Ctrl+I)"}
             type="button"
             aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? "⌘I" : "Ctrl+I"}`}
           >
-            <i className="format italic" />
-          </button>
-          <button
+            <Italic className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
             }}
-            className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
+            className={cn(
+              "h-7 w-7 text-muted-foreground",
+              isUnderline && "bg-secondary text-foreground",
+            )}
             title={IS_APPLE ? "Underline (⌘U)" : "Underline (Ctrl+U)"}
             type="button"
             aria-label={`Format text to underlined. Shortcut: ${
               IS_APPLE ? "⌘U" : "Ctrl+U"
             }`}
           >
-            <i className="format underline" />
-          </button>
-          <button
+            <Underline className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={() => {
               activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
             }}
-            className={"toolbar-item spaced " + (isCode ? "active" : "")}
+            className={cn(
+              "h-7 w-7 text-muted-foreground",
+              isCode && "bg-secondary text-foreground",
+            )}
             title="Insert code block"
             type="button"
             aria-label="Insert code block"
           >
-            <i className="format code" />
-          </button>
-          <button
+            <Code2 className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
             disabled={!isEditable}
             onClick={insertLink}
-            className={"toolbar-item spaced " + (isLink ? "active" : "")}
+            className={cn(
+              "h-7 w-7 text-muted-foreground",
+              isLink && "bg-secondary text-foreground",
+            )}
             aria-label="Insert link"
             title="Insert link"
             type="button"
           >
-            <i className="format link" />
-          </button>
+            <Link2 className="h-5 w-5" />
+          </Button>
           <DropdownColorPicker
             disabled={!isEditable}
             buttonClassName="toolbar-item color-picker"
