@@ -12,6 +12,8 @@ import "./fontSize.css";
 import { $patchStyleText } from "@lexical/selection";
 import { $getSelection, LexicalEditor } from "lexical";
 import * as React from "react";
+import { Minus, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const MIN_ALLOWED_FONT_SIZE = 8;
 const MAX_ALLOWED_FONT_SIZE = 72;
@@ -181,18 +183,19 @@ export default function FontSize({
   }, [selectionFontSize]);
 
   return (
-    <div className="flex items-center">
-      <button
-        type="button"
+    <div className="flex h-7 items-center">
+      <Button
+        variant="ghost"
+        size="icon"
         disabled={
           disabled ||
           (selectionFontSize !== "" && Number(inputValue) <= MIN_ALLOWED_FONT_SIZE)
         }
         onClick={() => handleButtonClick(updateFontSizeType.decrement)}
-        className="toolbar-item font-decrement"
+        className="h-full w-5 text-muted-foreground"
       >
-        <i className="format minus-icon" />
-      </button>
+        <Minus />
+      </Button>
 
       <input
         type="number"
@@ -207,17 +210,18 @@ export default function FontSize({
         onBlur={handleInputBlur}
       />
 
-      <button
-        type="button"
+      <Button
+        variant="ghost"
+        size="icon"
         disabled={
           disabled ||
           (selectionFontSize !== "" && Number(inputValue) >= MAX_ALLOWED_FONT_SIZE)
         }
         onClick={() => handleButtonClick(updateFontSizeType.increment)}
-        className="toolbar-item font-increment"
+        className="h-full w-5 text-muted-foreground"
       >
-        <i className="format add-icon" />
-      </button>
+        <Plus />
+      </Button>
     </div>
   );
 }

@@ -121,12 +121,14 @@ import {
   Heading4,
   Heading5,
   Heading6,
+  Indent,
   Italic,
   Link2,
   ListChecks,
   ListIcon,
   ListOrdered,
   MessageSquareQuote,
+  Outdent,
   Redo,
   Strikethrough,
   Text,
@@ -136,6 +138,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -211,39 +214,39 @@ const FONT_SIZE_OPTIONS: [string, string][] = [
 
 const ELEMENT_FORMAT_OPTIONS: {
   [key in Exclude<ElementFormatType, "">]: {
-    icon: string;
-    iconRTL: string;
+    icon: React.ReactElement;
+    iconRTL: React.ReactElement;
     name: string;
   };
 } = {
   center: {
-    icon: "center-align",
-    iconRTL: "center-align",
+    icon: <AlignCenter className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignCenter className="mr-1 h-5 w-5" />,
     name: "Center Align",
   },
   end: {
-    icon: "right-align",
-    iconRTL: "left-align",
+    icon: <AlignRight className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
     name: "End Align",
   },
   justify: {
-    icon: "justify-align",
-    iconRTL: "justify-align",
+    icon: <AlignJustify className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignJustify className="mr-1 h-5 w-5" />,
     name: "Justify Align",
   },
   left: {
-    icon: "left-align",
-    iconRTL: "left-align",
+    icon: <AlignLeft className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
     name: "Left Align",
   },
   right: {
-    icon: "right-align",
-    iconRTL: "right-align",
+    icon: <AlignRight className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
     name: "Right Align",
   },
   start: {
-    icon: "left-align",
-    iconRTL: "right-align",
+    icon: <AlignLeft className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
     name: "Start Align",
   },
 };
@@ -386,55 +389,55 @@ function BlockFormatDropDown({
         }}
       >
         <SelectGroup>
-          <SelectItem value="paragraph" onClick={formatParagraph}>
+          <SelectItem value="paragraph">
             <div className="flex items-center">
               {blockTypeToIcon.paragraph}
               <span className="font-medium">Normal</span>
             </div>
           </SelectItem>
-          <SelectItem value="h1" onClick={() => formatHeading("h1")}>
+          <SelectItem value="h1">
             <div className="flex items-center">
               {blockTypeToIcon.h1}
               <span className="font-medium">Heading 1</span>
             </div>
           </SelectItem>
-          <SelectItem value="h2" onClick={() => formatHeading("h2")}>
+          <SelectItem value="h2">
             <div className="flex items-center">
               {blockTypeToIcon.h2}
               <span className="font-medium">Heading 2</span>
             </div>
           </SelectItem>
-          <SelectItem value="h3" onClick={() => formatHeading("h3")}>
+          <SelectItem value="h3">
             <div className="flex items-center">
               {blockTypeToIcon.h3}
               <span className="font-medium">Heading 3</span>
             </div>
           </SelectItem>
-          <SelectItem value="bullet" onClick={formatBulletList}>
+          <SelectItem value="bullet">
             <div className="flex items-center">
               {blockTypeToIcon.bullet}
               <span className="font-medium">Bullet List</span>
             </div>
           </SelectItem>
-          <SelectItem value="number" onClick={formatNumberedList}>
+          <SelectItem value="number">
             <div className="flex items-center">
               {blockTypeToIcon.number}
               <span className="font-medium">Number List</span>
             </div>
           </SelectItem>
-          <SelectItem value="check" onClick={formatCheckList}>
+          <SelectItem value="check">
             <div className="flex items-center">
               {blockTypeToIcon.check}
               <span className="font-medium">Check List</span>
             </div>
           </SelectItem>
-          <SelectItem value="quote" onClick={formatQuote}>
+          <SelectItem value="quote">
             <div className="flex items-center">
               {blockTypeToIcon.quote}
               <span className="font-medium">Quote</span>
             </div>
           </SelectItem>
-          <SelectItem value="code" onClick={formatCode}>
+          <SelectItem value="code">
             <div className="flex items-center">
               {blockTypeToIcon.code}
               <span className="font-medium">Code Block</span>
@@ -534,98 +537,123 @@ function ElementFormatDropdown({
 }) {
   const formatOption = ELEMENT_FORMAT_OPTIONS[value || "left"];
 
+  function handleSelect(value: string) {
+    if (value === "left") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+    } else if (value === "center") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+    } else if (value === "right") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+    } else if (value === "justify") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+    } else if (value === "start") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "start");
+    } else if (value === "end") {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "end");
+    } else if (value === "indent") {
+      editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+    } else if (value === "outdent") {
+      editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+    }
+  }
+
   return (
-    <DropDown
+    <Select
       disabled={disabled}
-      buttonLabel={formatOption.name}
-      buttonIconClassName={`icon ${isRTL ? formatOption.iconRTL : formatOption.icon}`}
-      buttonClassName="toolbar-item spaced alignment"
-      buttonAriaLabel="Formatting options for text alignment"
+      defaultValue="left"
+      value={value}
+      onValueChange={handleSelect}
     >
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+      <SelectTrigger className="h-7 w-fit truncate">
+        <div className="flex items-center truncate">
+          {isRTL ? formatOption.iconRTL : formatOption.icon}
+          <span className="hidden font-medium lg:block">{formatOption.name}</span>
+        </div>
+      </SelectTrigger>
+      <SelectContent
+        // disable focus on select and change focus back to editor
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          editor.focus();
         }}
-        className="item"
       >
-        <i className="icon left-align" />
-        <span className="text">Left Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
-        }}
-        className="item"
-      >
-        <i className="icon center-align" />
-        <span className="text">Center Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
-        }}
-        className="item"
-      >
-        <i className="icon right-align" />
-        <span className="text">Right Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
-        }}
-        className="item"
-      >
-        <i className="icon justify-align" />
-        <span className="text">Justify Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "start");
-        }}
-        className="item"
-      >
-        <i
-          className={`icon ${
-            isRTL
-              ? ELEMENT_FORMAT_OPTIONS.start.iconRTL
-              : ELEMENT_FORMAT_OPTIONS.start.icon
-          }`}
-        />
-        <span className="text">Start Align</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "end");
-        }}
-        className="item"
-      >
-        <i
-          className={`icon ${
-            isRTL ? ELEMENT_FORMAT_OPTIONS.end.iconRTL : ELEMENT_FORMAT_OPTIONS.end.icon
-          }`}
-        />
-        <span className="text">End Align</span>
-      </DropDownItem>
-      <Divider />
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
-        }}
-        className="item"
-      >
-        <i className={"icon " + (isRTL ? "indent" : "outdent")} />
-        <span className="text">Outdent</span>
-      </DropDownItem>
-      <DropDownItem
-        onClick={() => {
-          editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
-        }}
-        className="item"
-      >
-        <i className={"icon " + (isRTL ? "outdent" : "indent")} />
-        <span className="text">Indent</span>
-      </DropDownItem>
-    </DropDown>
+        <SelectGroup>
+          <SelectItem value="left">
+            <div className="flex items-center">
+              {ELEMENT_FORMAT_OPTIONS.left.icon}
+              <span className="font-medium">Left Align</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="center">
+            <div className="flex items-center">
+              {ELEMENT_FORMAT_OPTIONS.center.icon}
+              <span className="font-medium">Center Align</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="right">
+            <div className="flex items-center">
+              {ELEMENT_FORMAT_OPTIONS.right.icon}
+              <span className="font-medium">Right Align</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="justify">
+            <div className="flex items-center">
+              {ELEMENT_FORMAT_OPTIONS.justify.icon}
+              <span className="font-medium">Justify Align</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="start">
+            <div className="flex items-center">
+              {isRTL
+                ? ELEMENT_FORMAT_OPTIONS.start.iconRTL
+                : ELEMENT_FORMAT_OPTIONS.start.icon}
+              <span className="font-medium">Start Align</span>
+            </div>
+          </SelectItem>
+          <SelectItem value="end">
+            <div className="flex items-center">
+              {isRTL
+                ? ELEMENT_FORMAT_OPTIONS.end.iconRTL
+                : ELEMENT_FORMAT_OPTIONS.end.icon}
+              <span className="font-medium">End Align</span>
+            </div>
+          </SelectItem>
+        </SelectGroup>
+        <Separator />
+        <SelectGroup>
+          <SelectItem
+            value="outdent"
+            onClick={() => {
+              editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
+            }}
+          >
+            <div className="flex items-center">
+              {isRTL ? (
+                <Indent className="mr-1 h-5 w-5" />
+              ) : (
+                <Outdent className="mr-1 h-5 w-5" />
+              )}
+              <span className="font-medium">Outdent</span>
+            </div>
+          </SelectItem>
+          <SelectItem
+            value="indent"
+            onClick={() => {
+              editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
+            }}
+          >
+            <div className="flex items-center">
+              {isRTL ? (
+                <Outdent className="mr-1 h-5 w-5" />
+              ) : (
+                <Indent className="mr-1 h-5 w-5" />
+              )}
+              <span className="font-medium">Indent</span>
+            </div>
+          </SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -963,7 +991,7 @@ export default function ToolbarPlugin({
       >
         <Redo />
       </Button>
-      <Divider />
+      <Separator orientation="vertical" />
       {blockType in blockTypeToBlockName && activeEditor === editor && (
         <>
           <BlockFormatDropDown
@@ -972,7 +1000,7 @@ export default function ToolbarPlugin({
             rootType={rootType}
             editor={editor}
           />
-          <Divider />
+          <Separator orientation="vertical" />
         </>
       )}
       {blockType === "code" ? (
@@ -1002,13 +1030,13 @@ export default function ToolbarPlugin({
             value={fontFamily}
             editor={editor}
           />
-          <Divider />
+          <Separator orientation="vertical" />
           <FontSize
             selectionFontSize={fontSize.slice(0, -2)}
             editor={editor}
             disabled={!isEditable}
           />
-          <Divider />
+          <Separator orientation="vertical" />
           <Button
             variant="ghost"
             size="icon"
@@ -1162,7 +1190,7 @@ export default function ToolbarPlugin({
               <span className="text">Clear Formatting</span>
             </DropDownItem>
           </DropDown>
-          <Divider />
+          <Separator orientation="vertical" />
           <DropDown
             disabled={!isEditable}
             buttonClassName="toolbar-item spaced"
@@ -1316,7 +1344,7 @@ export default function ToolbarPlugin({
           </DropDown>
         </>
       )}
-      <Divider />
+      <Separator orientation="vertical" />
       <ElementFormatDropdown
         disabled={!isEditable}
         value={elementFormat}
