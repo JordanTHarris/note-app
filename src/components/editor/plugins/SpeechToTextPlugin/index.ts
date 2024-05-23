@@ -42,7 +42,9 @@ const VOICE_COMMANDS: Readonly<
 };
 
 export const SUPPORT_SPEECH_RECOGNITION: boolean =
-  "SpeechRecognition" in window || "webkitSpeechRecognition" in window;
+  typeof window !== "undefined"
+    ? "SpeechRecognition" in window || "webkitSpeechRecognition" in window
+    : false;
 
 function SpeechToTextPlugin(): null {
   const [editor] = useLexicalComposerContext();

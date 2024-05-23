@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -111,7 +113,7 @@ export function InsertImageUploadedDialogBody({
       return "";
     };
     if (files !== null) {
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(files[0]!);
     }
   };
 

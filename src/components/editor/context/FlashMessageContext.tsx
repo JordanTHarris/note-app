@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -13,14 +15,11 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react';
+} from "react";
 
-import FlashMessage from '../ui/FlashMessage';
+import FlashMessage from "../ui/FlashMessage";
 
-export type ShowFlashMessage = (
-  message?: React.ReactNode,
-  duration?: number,
-) => void;
+export type ShowFlashMessage = (message?: React.ReactNode, duration?: number) => void;
 
 interface FlashMessageProps {
   message?: React.ReactNode;
@@ -38,8 +37,7 @@ export const FlashMessageContext = ({
 }): JSX.Element => {
   const [props, setProps] = useState(INITIAL_STATE);
   const showFlashMessage = useCallback<ShowFlashMessage>(
-    (message, duration) =>
-      setProps(message ? {duration, message} : INITIAL_STATE),
+    (message, duration) => setProps(message ? { duration, message } : INITIAL_STATE),
     [],
   );
   useEffect(() => {
@@ -62,7 +60,7 @@ export const FlashMessageContext = ({
 export const useFlashMessageContext = (): ShowFlashMessage => {
   const ctx = useContext(Context);
   if (!ctx) {
-    throw new Error('Missing FlashMessageContext');
+    throw new Error("Missing FlashMessageContext");
   }
   return ctx;
 };

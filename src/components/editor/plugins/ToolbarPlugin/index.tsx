@@ -617,8 +617,8 @@ export default function ToolbarPlugin({
             setBlockType(type as keyof typeof blockTypeToBlockName);
           }
           if ($isCodeNode(element)) {
-            const language = element.getLanguage() as keyof typeof CODE_LANGUAGE_MAP;
-            setCodeLanguage(language ? CODE_LANGUAGE_MAP[language] || language : "");
+            const language = element.getLanguage()!;
+            setCodeLanguage(language ? CODE_LANGUAGE_MAP[language] ?? language : "");
             return;
           }
         }
@@ -646,7 +646,7 @@ export default function ToolbarPlugin({
           ? matchingParent.getFormatType()
           : $isElementNode(node)
             ? node.getFormatType()
-            : parent?.getFormatType() || "left",
+            : parent?.getFormatType() ?? "left",
       );
     }
     if ($isRangeSelection(selection) || $isTableSelection(selection)) {
@@ -755,10 +755,10 @@ export default function ToolbarPlugin({
             // Use a separate variable to ensure TS does not lose the refinement
             let textNode = node;
             if (idx === 0 && anchor.offset !== 0) {
-              textNode = textNode.splitText(anchor.offset)[1] || textNode;
+              textNode = textNode.splitText(anchor.offset)[1] ?? textNode;
             }
             if (idx === nodes.length - 1) {
-              textNode = textNode.splitText(focus.offset)[0] || textNode;
+              textNode = textNode.splitText(focus.offset)[0] ?? textNode;
             }
             /**
              * If the selected text has one format applied
@@ -834,6 +834,7 @@ export default function ToolbarPlugin({
 
   return (
     <div className="toolbar">
+      {/* <div className="sticky top-0 z-10 flex h-9 items-center overflow-auto p-1"> */}
       <button
         disabled={!canUndo || !isEditable}
         onClick={() => {

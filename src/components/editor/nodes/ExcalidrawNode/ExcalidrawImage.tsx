@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
@@ -6,16 +8,16 @@
  *
  */
 
-import {exportToSvg} from '@excalidraw/excalidraw';
+import { exportToSvg } from "@excalidraw/excalidraw";
 import {
   ExcalidrawElement,
   NonDeleted,
-} from '@excalidraw/excalidraw/types/element/types';
-import {AppState, BinaryFiles} from '@excalidraw/excalidraw/types/types';
-import * as React from 'react';
-import {useEffect, useState} from 'react';
+} from "@excalidraw/excalidraw/types/element/types";
+import { AppState, BinaryFiles } from "@excalidraw/excalidraw/types/types";
+import * as React from "react";
+import { useEffect, useState } from "react";
 
-type ImageType = 'svg' | 'canvas';
+type ImageType = "svg" | "canvas";
 
 type Props = {
   /**
@@ -41,7 +43,7 @@ type Props = {
   /**
    * The ref object to be used to render the image
    */
-  imageContainerRef: {current: null | HTMLDivElement};
+  imageContainerRef: { current: null | HTMLDivElement };
   /**
    * The type of image to be rendered
    */
@@ -63,14 +65,14 @@ const removeStyleFromSvg_HACK = (svg: SVGElement) => {
 
   // Generated SVG is getting double-sized by height and width attributes
   // We want to match the real size of the SVG element
-  const viewBox = svg.getAttribute('viewBox');
+  const viewBox = svg.getAttribute("viewBox");
   if (viewBox != null) {
-    const viewBoxDimensions = viewBox.split(' ');
-    svg.setAttribute('width', viewBoxDimensions[2]);
-    svg.setAttribute('height', viewBoxDimensions[3]);
+    const viewBoxDimensions = viewBox.split(" ");
+    svg.setAttribute("width", viewBoxDimensions[2]!);
+    svg.setAttribute("height", viewBoxDimensions[3]!);
   }
 
-  if (styleTag && styleTag.tagName === 'style') {
+  if (styleTag && styleTag.tagName === "style") {
     styleTag.remove();
   }
 };
@@ -97,20 +99,20 @@ export default function ExcalidrawImage({
       });
       removeStyleFromSvg_HACK(svg);
 
-      svg.setAttribute('width', '100%');
-      svg.setAttribute('height', '100%');
-      svg.setAttribute('display', 'block');
+      svg.setAttribute("width", "100%");
+      svg.setAttribute("height", "100%");
+      svg.setAttribute("display", "block");
 
       setSvg(svg);
     };
-    setContent();
+    void setContent();
   }, [elements, files, appState]);
 
   return (
     <div
       ref={imageContainerRef}
-      className={rootClassName ?? ''}
-      dangerouslySetInnerHTML={{__html: Svg?.outerHTML ?? ''}}
+      className={rootClassName ?? ""}
+      dangerouslySetInnerHTML={{ __html: Svg?.outerHTML ?? "" }}
     />
   );
 }
