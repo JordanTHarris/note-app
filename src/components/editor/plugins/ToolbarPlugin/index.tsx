@@ -1121,265 +1121,267 @@ export default function ToolbarPlugin({
 
   return (
     // <div className="toolbar items-center">
-    <div className="sticky top-0 z-10 flex items-center gap-1 overflow-auto p-1">
-      <Button
-        variant="ghost"
-        size="icon"
-        disabled={!canUndo || !isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-        title={IS_APPLE ? "Undo (⌘Z)" : "Undo (Ctrl+Z)"}
-        type="button"
-        className="h-7 w-7 text-muted-foreground"
-        aria-label="Undo"
-      >
-        <Undo />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        disabled={!canRedo || !isEditable}
-        onClick={() => {
-          activeEditor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-        title={IS_APPLE ? "Redo (⌘Y)" : "Redo (Ctrl+Y)"}
-        type="button"
-        className="h-7 w-7 text-muted-foreground"
-        aria-label="Redo"
-      >
-        <Redo />
-      </Button>
-      <Separator orientation="vertical" />
-      {blockType in blockTypeToBlockName && activeEditor === editor && (
-        <>
-          <BlockFormatDropDown
-            disabled={!isEditable}
-            blockType={blockType}
-            rootType={rootType}
-            editor={editor}
-          />
-          <Separator orientation="vertical" />
-        </>
-      )}
-      {blockType === "code" ? (
-        <Select
-          disabled={!isEditable}
-          value={codeLanguage}
-          onValueChange={(value) => onCodeLanguageSelect(value)}
+    <div className="sticky top-0 z-10 flex w-full items-center gap-1 p-1">
+      <div className="flex flex-wrap items-center gap-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!canUndo || !isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(UNDO_COMMAND, undefined);
+          }}
+          title={IS_APPLE ? "Undo (⌘Z)" : "Undo (Ctrl+Z)"}
+          type="button"
+          className="h-7 w-7 text-muted-foreground"
+          aria-label="Undo"
         >
-          <SelectTrigger className="h-7 w-fit truncate">
-            <div className="flex items-center truncate">
-              <span className="hidden font-medium lg:block">
-                {getLanguageFriendlyName(codeLanguage)}
-              </span>
-            </div>
-          </SelectTrigger>
-          <SelectContent
-            className="max-h-96"
-            // disable focus on select and change focus back to editor
-            onCloseAutoFocus={(e) => {
-              e.preventDefault();
-              editor.focus();
-            }}
+          <Undo />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          disabled={!canRedo || !isEditable}
+          onClick={() => {
+            activeEditor.dispatchCommand(REDO_COMMAND, undefined);
+          }}
+          title={IS_APPLE ? "Redo (⌘Y)" : "Redo (Ctrl+Y)"}
+          type="button"
+          className="h-7 w-7 text-muted-foreground"
+          aria-label="Redo"
+        >
+          <Redo />
+        </Button>
+        <Separator orientation="vertical" />
+        {blockType in blockTypeToBlockName && activeEditor === editor && (
+          <>
+            <BlockFormatDropDown
+              disabled={!isEditable}
+              blockType={blockType}
+              rootType={rootType}
+              editor={editor}
+            />
+            <Separator orientation="vertical" />
+          </>
+        )}
+        {blockType === "code" ? (
+          <Select
+            disabled={!isEditable}
+            value={codeLanguage}
+            onValueChange={(value) => onCodeLanguageSelect(value)}
           >
-            <SelectGroup>
-              {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
-                return (
-                  <SelectItem value={value} key={value}>
-                    <span className="font-medium">{name}</span>
-                  </SelectItem>
-                );
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      ) : (
-        <>
-          <FontDropDown
-            disabled={!isEditable}
-            style={"font-family"}
-            value={fontFamily}
-            editor={editor}
-          />
-          <Separator orientation="vertical" />
-          <FontSize
-            selectionFontSize={fontSize.slice(0, -2)}
-            editor={editor}
-            disabled={!isEditable}
-          />
-          <Separator orientation="vertical" />
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={() => {
-              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
-            }}
-            className={cn(
-              "h-7 w-7 text-muted-foreground",
-              isBold && "bg-secondary text-foreground",
-            )}
-            title={IS_APPLE ? "Bold (⌘B)" : "Bold (Ctrl+B)"}
-            type="button"
-            aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? "⌘B" : "Ctrl+B"}`}
-          >
-            <Bold className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={() => {
-              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
-            }}
-            className={cn(
-              "h-7 w-7 text-muted-foreground",
-              isItalic && "bg-secondary text-foreground",
-            )}
-            title={IS_APPLE ? "Italic (⌘I)" : "Italic (Ctrl+I)"}
-            type="button"
-            aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? "⌘I" : "Ctrl+I"}`}
-          >
-            <Italic className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={() => {
-              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
-            }}
-            className={cn(
-              "h-7 w-7 text-muted-foreground",
-              isUnderline && "bg-secondary text-foreground",
-            )}
-            title={IS_APPLE ? "Underline (⌘U)" : "Underline (Ctrl+U)"}
-            type="button"
-            aria-label={`Format text to underlined. Shortcut: ${
-              IS_APPLE ? "⌘U" : "Ctrl+U"
-            }`}
-          >
-            <Underline className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={() => {
-              activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
-            }}
-            className={cn(
-              "h-7 w-7 text-muted-foreground",
-              isCode && "bg-secondary text-foreground",
-            )}
-            title="Insert code block"
-            type="button"
-            aria-label="Insert code block"
-          >
-            <Code2 className="h-5 w-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            disabled={!isEditable}
-            onClick={insertLink}
-            className={cn(
-              "h-7 w-7 text-muted-foreground",
-              isLink && "bg-secondary text-foreground",
-            )}
-            aria-label="Insert link"
-            title="Insert link"
-            type="button"
-          >
-            <Link2 className="h-5 w-5" />
-          </Button>
-          <DropdownColorPicker
-            disabled={!isEditable}
-            color={fontColor}
-            editor={activeEditor}
-            onChange={onFontColorSelect}
-          >
-            <ALargeSmall className="mr-2 h-5 w-5" />
-          </DropdownColorPicker>
-          <DropdownColorPicker
-            disabled={!isEditable}
-            color={bgColor}
-            editor={activeEditor}
-            onChange={onBgColorSelect}
-          >
-            <PaintBucket className="mr-2 h-5 w-5" />
-          </DropdownColorPicker>
-          <DropDown
-            disabled={!isEditable}
-            buttonClassName="toolbar-item spaced"
-            buttonLabel=""
-            buttonAriaLabel="Formatting options for additional text styles"
-            buttonIconClassName="icon dropdown-more"
-          >
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+            <SelectTrigger className="h-7 w-fit truncate">
+              <div className="flex items-center truncate">
+                <span className="hidden font-medium lg:block">
+                  {getLanguageFriendlyName(codeLanguage)}
+                </span>
+              </div>
+            </SelectTrigger>
+            <SelectContent
+              className="max-h-96"
+              // disable focus on select and change focus back to editor
+              onCloseAutoFocus={(e) => {
+                e.preventDefault();
+                editor.focus();
               }}
-              className={"item " + dropDownActiveClass(isStrikethrough)}
-              title="Strikethrough"
-              aria-label="Format text with a strikethrough"
             >
-              <i className="icon strikethrough" />
-              <span className="text">Strikethrough</span>
-            </DropDownItem>
-            <DropDownItem
+              <SelectGroup>
+                {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
+                  return (
+                    <SelectItem value={value} key={value}>
+                      <span className="font-medium">{name}</span>
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        ) : (
+          <>
+            <FontDropDown
+              disabled={!isEditable}
+              style={"font-family"}
+              value={fontFamily}
+              editor={editor}
+            />
+            <Separator orientation="vertical" />
+            <FontSize
+              selectionFontSize={fontSize.slice(0, -2)}
+              editor={editor}
+              disabled={!isEditable}
+            />
+            <Separator orientation="vertical" />
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!isEditable}
               onClick={() => {
-                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
               }}
-              className={"item " + dropDownActiveClass(isSubscript)}
-              title="Subscript"
-              aria-label="Format text with a subscript"
+              className={cn(
+                "h-7 w-7 text-muted-foreground",
+                isBold && "bg-secondary text-foreground",
+              )}
+              title={IS_APPLE ? "Bold (⌘B)" : "Bold (Ctrl+B)"}
+              type="button"
+              aria-label={`Format text as bold. Shortcut: ${IS_APPLE ? "⌘B" : "Ctrl+B"}`}
             >
-              <i className="icon subscript" />
-              <span className="text">Subscript</span>
-            </DropDownItem>
-            <DropDownItem
+              <Bold className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!isEditable}
               onClick={() => {
-                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
               }}
-              className={"item " + dropDownActiveClass(isSuperscript)}
-              title="Superscript"
-              aria-label="Format text with a superscript"
+              className={cn(
+                "h-7 w-7 text-muted-foreground",
+                isItalic && "bg-secondary text-foreground",
+              )}
+              title={IS_APPLE ? "Italic (⌘I)" : "Italic (Ctrl+I)"}
+              type="button"
+              aria-label={`Format text as italics. Shortcut: ${IS_APPLE ? "⌘I" : "Ctrl+I"}`}
             >
-              <i className="icon superscript" />
-              <span className="text">Superscript</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={clearFormatting}
-              className="item"
-              title="Clear text formatting"
-              aria-label="Clear all text formatting"
+              <Italic className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!isEditable}
+              onClick={() => {
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+              }}
+              className={cn(
+                "h-7 w-7 text-muted-foreground",
+                isUnderline && "bg-secondary text-foreground",
+              )}
+              title={IS_APPLE ? "Underline (⌘U)" : "Underline (Ctrl+U)"}
+              type="button"
+              aria-label={`Format text to underlined. Shortcut: ${
+                IS_APPLE ? "⌘U" : "Ctrl+U"
+              }`}
             >
-              <i className="icon clear" />
-              <span className="text">Clear Formatting</span>
-            </DropDownItem>
-          </DropDown>
-          <Separator orientation="vertical" />
+              <Underline className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!isEditable}
+              onClick={() => {
+                activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+              }}
+              className={cn(
+                "h-7 w-7 text-muted-foreground",
+                isCode && "bg-secondary text-foreground",
+              )}
+              title="Insert code block"
+              type="button"
+              aria-label="Insert code block"
+            >
+              <Code2 className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              disabled={!isEditable}
+              onClick={insertLink}
+              className={cn(
+                "h-7 w-7 text-muted-foreground",
+                isLink && "bg-secondary text-foreground",
+              )}
+              aria-label="Insert link"
+              title="Insert link"
+              type="button"
+            >
+              <Link2 className="h-5 w-5" />
+            </Button>
+            <DropdownColorPicker
+              disabled={!isEditable}
+              color={fontColor}
+              editor={activeEditor}
+              onChange={onFontColorSelect}
+            >
+              <ALargeSmall className="mr-2 h-5 w-5" />
+            </DropdownColorPicker>
+            <DropdownColorPicker
+              disabled={!isEditable}
+              color={bgColor}
+              editor={activeEditor}
+              onChange={onBgColorSelect}
+            >
+              <PaintBucket className="mr-2 h-5 w-5" />
+            </DropdownColorPicker>
+            <DropDown
+              disabled={!isEditable}
+              buttonClassName="toolbar-item spaced"
+              buttonLabel=""
+              buttonAriaLabel="Formatting options for additional text styles"
+              buttonIconClassName="icon dropdown-more"
+            >
+              <DropDownItem
+                onClick={() => {
+                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+                }}
+                className={"item " + dropDownActiveClass(isStrikethrough)}
+                title="Strikethrough"
+                aria-label="Format text with a strikethrough"
+              >
+                <i className="icon strikethrough" />
+                <span className="text">Strikethrough</span>
+              </DropDownItem>
+              <DropDownItem
+                onClick={() => {
+                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
+                }}
+                className={"item " + dropDownActiveClass(isSubscript)}
+                title="Subscript"
+                aria-label="Format text with a subscript"
+              >
+                <i className="icon subscript" />
+                <span className="text">Subscript</span>
+              </DropDownItem>
+              <DropDownItem
+                onClick={() => {
+                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
+                }}
+                className={"item " + dropDownActiveClass(isSuperscript)}
+                title="Superscript"
+                aria-label="Format text with a superscript"
+              >
+                <i className="icon superscript" />
+                <span className="text">Superscript</span>
+              </DropDownItem>
+              <DropDownItem
+                onClick={clearFormatting}
+                className="item"
+                title="Clear text formatting"
+                aria-label="Clear all text formatting"
+              >
+                <i className="icon clear" />
+                <span className="text">Clear Formatting</span>
+              </DropDownItem>
+            </DropDown>
+            <Separator orientation="vertical" />
 
-          <InsertDropDown
-            activeEditor={activeEditor}
-            editor={editor}
-            insertGifOnClick={insertGifOnClick}
-            isEditable={isEditable}
-            showModal={showModal}
-          />
-        </>
-      )}
-      <Separator orientation="vertical" />
-      <ElementFormatDropdown
-        disabled={!isEditable}
-        value={elementFormat}
-        editor={editor}
-        isRTL={isRTL}
-      />
+            <InsertDropDown
+              activeEditor={activeEditor}
+              editor={editor}
+              insertGifOnClick={insertGifOnClick}
+              isEditable={isEditable}
+              showModal={showModal}
+            />
+          </>
+        )}
+        <Separator orientation="vertical" />
+        <ElementFormatDropdown
+          disabled={!isEditable}
+          value={elementFormat}
+          editor={editor}
+          isRTL={isRTL}
+        />
 
-      {modal}
+        {modal}
+      </div>
     </div>
   );
 }

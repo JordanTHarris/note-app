@@ -84,6 +84,7 @@ import PlaygroundEditorTheme from "./themes/PlaygroundEditorTheme";
 import { Note } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { isDevPlayground } from "./appSettings";
+import { ScrollArea } from "../ui/scroll-area";
 
 const skipCollaborationInit =
   // @ts-expect-error as in playground
@@ -149,7 +150,7 @@ export function Editor(): JSX.Element {
       <div
         className={cn(
           // "editor-container",
-          "relative block flex-1",
+          "relative h-full max-h-full flex-1",
           showTreeView ? "tree-view" : "",
           !isRichText ? "plain-text" : "",
         )}
@@ -183,11 +184,15 @@ export function Editor(): JSX.Element {
             )}
             <RichTextPlugin
               contentEditable={
-                <div className="editor-scroller">
-                  <div className="editor" ref={onRef}>
+                <ScrollArea
+                  className={cn(
+                    "relative z-0 flex h-96 max-h-full min-h-40 flex-1 resize-y overflow-y-auto border-0",
+                  )}
+                >
+                  <div className="relative flex-1" ref={onRef}>
                     <ContentEditable />
                   </div>
-                </div>
+                </ScrollArea>
               }
               placeholder={placeholder}
               ErrorBoundary={LexicalErrorBoundary}
@@ -262,7 +267,7 @@ export function Editor(): JSX.Element {
           shouldPreserveNewLinesInMarkdown={shouldPreserveNewLinesInMarkdown}
         />
       </div>
-      {showTreeView && <TreeViewPlugin />}
+      {/* {showTreeView && <TreeViewPlugin />} */}
     </>
   );
 }
@@ -369,7 +374,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
           <TableContext>
             <SharedAutocompleteContext>
               {/* <div className="editor-shell"> */}
-              <div className="relative flex-1">
+              <div className="flex h-full max-h-full flex-1 flex-col">
                 <Editor />
               </div>
               <Settings />

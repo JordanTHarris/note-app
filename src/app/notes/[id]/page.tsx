@@ -11,7 +11,7 @@ export default async function NoteIdPage({ params }: { params: { id: string } })
       <div className="flex w-full flex-1 flex-col items-center justify-center gap-2 p-2">
         <SettingsContext>
           <FlashMessageContext>
-            <NoteEditor className="w-full flex-1" note={note!} />
+            <NoteEditor className="flex flex-1" note={note!} />
           </FlashMessageContext>
         </SettingsContext>
       </div>
