@@ -6,11 +6,8 @@
  *
  */
 
-import { Input } from "@/components/ui/input";
-import "./fontSize.css";
-
 import { $patchStyleText } from "@lexical/selection";
-import { $getSelection, LexicalEditor } from "lexical";
+import { $getSelection, type LexicalEditor } from "lexical";
 import * as React from "react";
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -201,8 +198,7 @@ export default function FontSize({
         type="number"
         value={inputValue}
         disabled={disabled}
-        // className="toolbar-item font-size-input"
-        className="h-5 w-5 text-center text-sm font-semibold text-foreground"
+        className="h-5 w-5 text-center text-sm font-semibold text-foreground [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         min={MIN_ALLOWED_FONT_SIZE}
         max={MAX_ALLOWED_FONT_SIZE}
         onChange={(e) => setInputValue(e.target.value)}

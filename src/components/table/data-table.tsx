@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
           className="w-1/2"
         />
         <Button variant="default" size="sm" onClick={handleCreateNew}>
-          New <Plus className="ml-1 h-4 w-4" />
+          New <Plus className="ml-2 h-4 w-4" />
         </Button>
       </div>
       <ScrollArea className="h-full rounded-md border">

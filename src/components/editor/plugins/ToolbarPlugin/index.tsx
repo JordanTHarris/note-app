@@ -179,18 +179,18 @@ const blockTypeToBlockName = {
 };
 
 const blockTypeToIcon = {
-  bullet: <ListIcon className="mr-1 h-5 w-5" />,
-  check: <ListChecks className="mr-1 h-5 w-5" />,
-  code: <Code2 className="mr-1 h-5 w-5" />,
-  h1: <Heading1 className="mr-1 h-5 w-5" />,
-  h2: <Heading2 className="mr-1 h-5 w-5" />,
-  h3: <Heading3 className="mr-1 h-5 w-5" />,
-  h4: <Heading4 className="mr-1 h-5 w-5" />,
-  h5: <Heading5 className="mr-1 h-5 w-5" />,
-  h6: <Heading6 className="mr-1 h-5 w-5" />,
-  number: <ListOrdered className="mr-1 h-5 w-5" />,
-  paragraph: <Text className="mr-1 h-5 w-5" />,
-  quote: <MessageSquareQuote className="mr-1 h-5 w-5" />,
+  bullet: <ListIcon className="mr-2 h-5 w-5" />,
+  check: <ListChecks className="mr-2 h-5 w-5" />,
+  code: <Code2 className="mr-2 h-5 w-5" />,
+  h1: <Heading1 className="mr-2 h-5 w-5" />,
+  h2: <Heading2 className="mr-2 h-5 w-5" />,
+  h3: <Heading3 className="mr-2 h-5 w-5" />,
+  h4: <Heading4 className="mr-2 h-5 w-5" />,
+  h5: <Heading5 className="mr-2 h-5 w-5" />,
+  h6: <Heading6 className="mr-2 h-5 w-5" />,
+  number: <ListOrdered className="mr-2 h-5 w-5" />,
+  paragraph: <Text className="mr-2 h-5 w-5" />,
+  quote: <MessageSquareQuote className="mr-2 h-5 w-5" />,
 };
 
 const rootTypeToRootName = {
@@ -241,33 +241,33 @@ const ELEMENT_FORMAT_OPTIONS: {
   };
 } = {
   center: {
-    icon: <AlignCenter className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignCenter className="mr-1 h-5 w-5" />,
+    icon: <AlignCenter className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignCenter className="mr-2 h-5 w-5" />,
     name: "Center Align",
   },
   end: {
-    icon: <AlignRight className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
+    icon: <AlignRight className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-2 h-5 w-5" />,
     name: "End Align",
   },
   justify: {
-    icon: <AlignJustify className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignJustify className="mr-1 h-5 w-5" />,
+    icon: <AlignJustify className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignJustify className="mr-2 h-5 w-5" />,
     name: "Justify Align",
   },
   left: {
-    icon: <AlignLeft className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
+    icon: <AlignLeft className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-2 h-5 w-5" />,
     name: "Left Align",
   },
   right: {
-    icon: <AlignRight className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
+    icon: <AlignRight className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-2 h-5 w-5" />,
     name: "Right Align",
   },
   start: {
-    icon: <AlignLeft className="mr-1 h-5 w-5" />,
-    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
+    icon: <AlignLeft className="mr-2 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-2 h-5 w-5" />,
     name: "Start Align",
   },
 };
@@ -503,7 +503,7 @@ function FontDropDown({
     <Select disabled={disabled} value={value} onValueChange={handleClick}>
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
-          <Type className="mr-1 h-5 w-5" />
+          <Type className="mr-2 h-5 w-5" />
           <span className="hidden font-medium lg:block">{value}</span>
         </div>
       </SelectTrigger>
@@ -628,9 +628,9 @@ function ElementFormatDropdown({
           >
             <div className="flex items-center">
               {isRTL ? (
-                <Indent className="mr-1 h-5 w-5" />
+                <Indent className="mr-2 h-5 w-5" />
               ) : (
-                <Outdent className="mr-1 h-5 w-5" />
+                <Outdent className="mr-2 h-5 w-5" />
               )}
               <span className="font-medium">Outdent</span>
             </div>
@@ -643,9 +643,9 @@ function ElementFormatDropdown({
           >
             <div className="flex items-center">
               {isRTL ? (
-                <Outdent className="mr-1 h-5 w-5" />
+                <Outdent className="mr-2 h-5 w-5" />
               ) : (
-                <Indent className="mr-1 h-5 w-5" />
+                <Indent className="mr-2 h-5 w-5" />
               )}
               <span className="font-medium">Indent</span>
             </div>
@@ -673,9 +673,9 @@ function InsertDropDown({
     <DropdownMenu>
       <DropdownMenuTrigger className="h-7 rounded-md border border-input px-3 hover:bg-accent">
         <div className="flex items-center">
-          <Plus className="mr-1 h-4 w-4" />
+          <Plus className="mr-2 h-4 w-4" />
           <p className="hidden text-sm font-semibold lg:block">Insert</p>
-          <ChevronDown className="ml-1 h-4 w-4" />
+          <ChevronDown className="ml-2 h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -684,7 +684,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
           }}
         >
-          <FlipVertical className="mr-1 h-4 w-4" />
+          <FlipVertical className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Horizontal Rule</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -692,7 +692,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
           }}
         >
-          <Scissors className="mr-1 h-4 w-4" />
+          <Scissors className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Page Break</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -702,7 +702,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-1 h-4 w-4" />
+          <ImageIcon className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -712,7 +712,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-1 h-4 w-4" />
+          <ImageIcon className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Inline Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -723,7 +723,7 @@ function InsertDropDown({
             })
           }
         >
-          <ImagePlay className="mr-1 h-4 w-4" />
+          <ImagePlay className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">GIF</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -731,7 +731,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
           }}
         >
-          <PencilLine className="mr-1 h-4 w-4" />
+          <PencilLine className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Excalidraw</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -741,7 +741,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Table className="mr-1 h-4 w-4" />
+          <Table className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Table</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -751,7 +751,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ListChecks className="mr-1 h-4 w-4" />
+          <ListChecks className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Poll</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -761,7 +761,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Columns3 className="mr-1 h-4 w-4" />
+          <Columns3 className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Columns Layout</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -771,7 +771,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Radical className="mr-1 h-4 w-4" />
+          <Radical className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Equation</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -783,7 +783,7 @@ function InsertDropDown({
             });
           }}
         >
-          <StickyNote className="mr-1 h-4 w-4" />
+          <StickyNote className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Sticky Note</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -791,7 +791,7 @@ function InsertDropDown({
             editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
           }}
         >
-          <Play className="mr-1 h-4 w-4" />
+          <Play className="mr-2 h-4 w-4" />
           <span className="text-sm font-semibold">Collapsible Container</span>
         </DropdownMenuItem>
         {EmbedConfigs.map((embedConfig) => (
@@ -1158,24 +1158,37 @@ export default function ToolbarPlugin({
         </>
       )}
       {blockType === "code" ? (
-        <DropDown
+        <Select
           disabled={!isEditable}
-          buttonClassName="toolbar-item code-language"
-          buttonLabel={getLanguageFriendlyName(codeLanguage)}
-          buttonAriaLabel="Select language"
+          value={codeLanguage}
+          onValueChange={(value) => onCodeLanguageSelect(value)}
         >
-          {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
-            return (
-              <DropDownItem
-                className={`item ${dropDownActiveClass(value === codeLanguage)}`}
-                onClick={() => onCodeLanguageSelect(value)}
-                key={value}
-              >
-                <span className="text">{name}</span>
-              </DropDownItem>
-            );
-          })}
-        </DropDown>
+          <SelectTrigger className="h-7 w-fit truncate">
+            <div className="flex items-center truncate">
+              <span className="hidden font-medium lg:block">
+                {getLanguageFriendlyName(codeLanguage)}
+              </span>
+            </div>
+          </SelectTrigger>
+          <SelectContent
+            className="max-h-96"
+            // disable focus on select and change focus back to editor
+            onCloseAutoFocus={(e) => {
+              e.preventDefault();
+              editor.focus();
+            }}
+          >
+            <SelectGroup>
+              {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
+                return (
+                  <SelectItem value={value} key={value}>
+                    <span className="font-medium">{name}</span>
+                  </SelectItem>
+                );
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       ) : (
         <>
           <FontDropDown
