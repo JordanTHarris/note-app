@@ -28,6 +28,7 @@ import { DialogActions } from "../../ui/Dialog";
 import { INSERT_FIGMA_COMMAND } from "../FigmaPlugin";
 import { INSERT_TWEET_COMMAND } from "../TwitterPlugin";
 import { INSERT_YOUTUBE_COMMAND } from "../YouTubePlugin";
+import { FigmaIcon, Twitter, Youtube } from "lucide-react";
 
 interface PlaygroundEmbedConfig extends EmbedConfig {
   // Human readable name of the embeded content e.g. Tweet or Google Map.
@@ -52,7 +53,7 @@ export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
   exampleUrl: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
 
   // Icon for display.
-  icon: <i className="icon youtube" />,
+  icon: <Youtube className="mr-1 h-5 w-5" />,
 
   insertNode: (editor: LexicalEditor, result: EmbedMatchResult) => {
     editor.dispatchCommand(INSERT_YOUTUBE_COMMAND, result.id);
@@ -66,7 +67,7 @@ export const YoutubeEmbedConfig: PlaygroundEmbedConfig = {
       url,
     );
 
-    const id = match ? (match?.[2].length === 11 ? match[2] : null) : null;
+    const id = match ? (match?.[2]?.length === 11 ? match[2] : null) : null;
 
     if (id != null) {
       return {
@@ -88,7 +89,7 @@ export const TwitterEmbedConfig: PlaygroundEmbedConfig = {
   exampleUrl: "https://twitter.com/jack/status/20",
 
   // Icon for display.
-  icon: <i className="icon tweet" />,
+  icon: <Twitter className="mr-1 h-5 w-5" />,
 
   // Create the Lexical embed node from the url data.
   insertNode: (editor: LexicalEditor, result: EmbedMatchResult) => {
@@ -122,7 +123,7 @@ export const FigmaEmbedConfig: PlaygroundEmbedConfig = {
 
   exampleUrl: "https://www.figma.com/file/LKQ4FJ4bTnCSjedbRpk931/Sample-File",
 
-  icon: <i className="icon figma" />,
+  icon: <FigmaIcon className="mr-1 h-5 w-5" />,
 
   insertNode: (editor: LexicalEditor, result: EmbedMatchResult) => {
     editor.dispatchCommand(INSERT_FIGMA_COMMAND, result.id);

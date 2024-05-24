@@ -109,18 +109,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   AlignCenter,
   AlignJustify,
   AlignLeft,
   AlignRight,
   Bold,
+  ChevronDown,
   Code2,
+  Columns3,
+  FlipVertical,
   Heading1,
   Heading2,
   Heading3,
   Heading4,
   Heading5,
   Heading6,
+  ImageIcon,
+  ImagePlay,
   Indent,
   Italic,
   Link2,
@@ -129,8 +142,15 @@ import {
   ListOrdered,
   MessageSquareQuote,
   Outdent,
+  PencilLine,
+  Play,
+  Plus,
+  Radical,
   Redo,
+  Scissors,
+  StickyNote,
   Strikethrough,
+  Table,
   Text,
   Type,
   Underline,
@@ -139,6 +159,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { ImagePayload } from "../../nodes/ImageNode";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -366,12 +387,7 @@ function BlockFormatDropDown({
   }
 
   return (
-    <Select
-      disabled={disabled}
-      defaultValue="paragraph"
-      value={blockType}
-      onValueChange={handleSelect}
-    >
+    <Select disabled={disabled} value={blockType} onValueChange={handleSelect}>
       <SelectTrigger className="h-7 w-fit truncate">
         {/* <SelectValue placeholder="Select a format" /> */}
         <div className="flex items-center truncate">
@@ -484,12 +500,7 @@ function FontDropDown({
       : "Formatting options for font size";
 
   return (
-    <Select
-      disabled={disabled}
-      defaultValue="paragraph"
-      value={value}
-      onValueChange={handleClick}
-    >
+    <Select disabled={disabled} value={value} onValueChange={handleClick}>
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
           <Type className="mr-1 h-5 w-5" />
@@ -506,14 +517,7 @@ function FontDropDown({
         <SelectGroup>
           {(style === "font-family" ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
             ([option, text]) => (
-              <SelectItem
-                value={option}
-                className={`item ${dropDownActiveClass(value === option)} ${
-                  style === "font-size" ? "fontsize-item" : ""
-                }`}
-                onClick={() => handleClick(option)}
-                key={option}
-              >
+              <SelectItem value={option} onClick={() => handleClick(option)} key={option}>
                 <span className="font-medium">{text}</span>
               </SelectItem>
             ),
@@ -558,12 +562,7 @@ function ElementFormatDropdown({
   }
 
   return (
-    <Select
-      disabled={disabled}
-      defaultValue="left"
-      value={value}
-      onValueChange={handleSelect}
-    >
+    <Select disabled={disabled} value={value.toString()} onValueChange={handleSelect}>
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
           {isRTL ? formatOption.iconRTL : formatOption.icon}
@@ -654,6 +653,161 @@ function ElementFormatDropdown({
         </SelectGroup>
       </SelectContent>
     </Select>
+  );
+}
+
+function InsertDropDown({
+  activeEditor,
+  editor,
+  insertGifOnClick,
+  isEditable,
+  showModal,
+}: {
+  activeEditor: LexicalEditor;
+  editor: LexicalEditor;
+  insertGifOnClick: (payload: Readonly<ImagePayload>) => void;
+  isEditable: boolean;
+  showModal: (title: string, showModal: (onClose: () => void) => JSX.Element) => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="h-7 rounded-md border border-input px-3 hover:bg-accent">
+        <div className="flex items-center">
+          <Plus className="mr-1 h-4 w-4" />
+          <p className="hidden text-sm font-semibold lg:block">Insert</p>
+          <ChevronDown className="ml-1 h-4 w-4" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() => {
+            activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
+          }}
+        >
+          <FlipVertical className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Horizontal Rule</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
+          }}
+        >
+          <Scissors className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Page Break</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Image", (onClose) => (
+              <InsertImageDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <ImageIcon className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Image</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Inline Image", (onClose) => (
+              <InsertInlineImageDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <ImageIcon className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Inline Image</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            insertGifOnClick({
+              altText: "Cat typing on a laptop",
+              src: catTypingGif,
+            })
+          }
+        >
+          <ImagePlay className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">GIF</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
+          }}
+        >
+          <PencilLine className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Excalidraw</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Table", (onClose) => (
+              <InsertTableDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <Table className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Table</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Poll", (onClose) => (
+              <InsertPollDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <ListChecks className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Poll</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Columns Layout", (onClose) => (
+              <InsertLayoutDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <Columns3 className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Columns Layout</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            showModal("Insert Equation", (onClose) => (
+              <InsertEquationDialog activeEditor={activeEditor} onClose={onClose} />
+            ));
+          }}
+        >
+          <Radical className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Equation</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            editor.update(() => {
+              const root = $getRoot();
+              const stickyNode = $createStickyNode(0, 0);
+              root.append(stickyNode);
+            });
+          }}
+        >
+          <StickyNote className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Sticky Note</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
+          }}
+        >
+          <Play className="mr-1 h-4 w-4" />
+          <span className="text-sm font-semibold">Collapsible Container</span>
+        </DropdownMenuItem>
+        {EmbedConfigs.map((embedConfig) => (
+          <DropdownMenuItem
+            key={embedConfig.type}
+            onClick={() => {
+              activeEditor.dispatchCommand(INSERT_EMBED_COMMAND, embedConfig.type);
+            }}
+            className="item"
+          >
+            {embedConfig.icon}
+            <span className="text">{embedConfig.contentName}</span>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -1191,157 +1345,14 @@ export default function ToolbarPlugin({
             </DropDownItem>
           </DropDown>
           <Separator orientation="vertical" />
-          <DropDown
-            disabled={!isEditable}
-            buttonClassName="toolbar-item spaced"
-            buttonLabel="Insert"
-            buttonAriaLabel="Insert specialized editor node"
-            buttonIconClassName="icon plus"
-          >
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
-              }}
-              className="item"
-            >
-              <i className="icon horizontal-rule" />
-              <span className="text">Horizontal Rule</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
-              }}
-              className="item"
-            >
-              <i className="icon page-break" />
-              <span className="text">Page Break</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Image", (onClose) => (
-                  <InsertImageDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon image" />
-              <span className="text">Image</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Inline Image", (onClose) => (
-                  <InsertInlineImageDialog
-                    activeEditor={activeEditor}
-                    onClose={onClose}
-                  />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon image" />
-              <span className="text">Inline Image</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() =>
-                insertGifOnClick({
-                  altText: "Cat typing on a laptop",
-                  src: catTypingGif,
-                })
-              }
-              className="item"
-            >
-              <i className="icon gif" />
-              <span className="text">GIF</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
-              }}
-              className="item"
-            >
-              <i className="icon diagram-2" />
-              <span className="text">Excalidraw</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Table", (onClose) => (
-                  <InsertTableDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon table" />
-              <span className="text">Table</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Poll", (onClose) => (
-                  <InsertPollDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon poll" />
-              <span className="text">Poll</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Columns Layout", (onClose) => (
-                  <InsertLayoutDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon columns" />
-              <span className="text">Columns Layout</span>
-            </DropDownItem>
 
-            <DropDownItem
-              onClick={() => {
-                showModal("Insert Equation", (onClose) => (
-                  <InsertEquationDialog activeEditor={activeEditor} onClose={onClose} />
-                ));
-              }}
-              className="item"
-            >
-              <i className="icon equation" />
-              <span className="text">Equation</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                editor.update(() => {
-                  const root = $getRoot();
-                  const stickyNode = $createStickyNode(0, 0);
-                  root.append(stickyNode);
-                });
-              }}
-              className="item"
-            >
-              <i className="icon sticky" />
-              <span className="text">Sticky Note</span>
-            </DropDownItem>
-            <DropDownItem
-              onClick={() => {
-                editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
-              }}
-              className="item"
-            >
-              <i className="icon caret-right" />
-              <span className="text">Collapsible container</span>
-            </DropDownItem>
-            {EmbedConfigs.map((embedConfig) => (
-              <DropDownItem
-                key={embedConfig.type}
-                onClick={() => {
-                  activeEditor.dispatchCommand(INSERT_EMBED_COMMAND, embedConfig.type);
-                }}
-                className="item"
-              >
-                {embedConfig.icon}
-                <span className="text">{embedConfig.contentName}</span>
-              </DropDownItem>
-            ))}
-          </DropDown>
+          <InsertDropDown
+            activeEditor={activeEditor}
+            editor={editor}
+            insertGifOnClick={insertGifOnClick}
+            isEditable={isEditable}
+            showModal={showModal}
+          />
         </>
       )}
       <Separator orientation="vertical" />
