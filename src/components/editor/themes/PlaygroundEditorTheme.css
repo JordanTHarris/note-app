@@ -16,6 +16,7 @@
   margin: 0;
   position: relative;
 }
+
 .PlaygroundEditorTheme__quote {
   margin: 0;
   margin-left: 20px;
@@ -90,7 +91,7 @@
   cursor: pointer;
 }
 .PlaygroundEditorTheme__code {
-  background-color: rgb(240, 242, 245);
+  background-color: theme("colors.secondary.DEFAULT");
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
@@ -106,10 +107,11 @@
 .PlaygroundEditorTheme__code:before {
   content: attr(data-gutter);
   position: absolute;
-  background-color: #eee;
+  background-color: theme("colors.accent.DEFAULT");
   left: 0;
   top: 0;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid;
+  border-color: theme("colors.muted.foreground");
   padding: 8px;
   color: #777;
   white-space: pre-wrap;
