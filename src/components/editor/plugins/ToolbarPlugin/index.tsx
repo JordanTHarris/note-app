@@ -117,6 +117,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  ALargeSmall,
   AlignCenter,
   AlignJustify,
   AlignLeft,
@@ -142,6 +143,7 @@ import {
   ListOrdered,
   MessageSquareQuote,
   Outdent,
+  PaintBucket,
   PencilLine,
   Play,
   Plus,
@@ -671,7 +673,10 @@ function InsertDropDown({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="h-7 rounded-md border border-input px-3 hover:bg-accent">
+      <DropdownMenuTrigger
+        className="h-7 rounded-md border border-input px-3 hover:bg-accent"
+        disabled={!isEditable}
+      >
         <div className="flex items-center">
           <Plus className="mr-2 h-4 w-4" />
           <p className="hidden text-sm font-semibold lg:block">Insert</p>
@@ -803,7 +808,7 @@ function InsertDropDown({
             className="item"
           >
             {embedConfig.icon}
-            <span className="text">{embedConfig.contentName}</span>
+            <span className="text-sm font-semibold">{embedConfig.contentName}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -1291,22 +1296,20 @@ export default function ToolbarPlugin({
           </Button>
           <DropdownColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar-item color-picker"
-            buttonAriaLabel="Formatting text color"
-            buttonIconClassName="icon font-color"
             color={fontColor}
+            editor={activeEditor}
             onChange={onFontColorSelect}
-            title="text color"
-          />
+          >
+            <ALargeSmall className="mr-2 h-5 w-5" />
+          </DropdownColorPicker>
           <DropdownColorPicker
             disabled={!isEditable}
-            buttonClassName="toolbar-item color-picker"
-            buttonAriaLabel="Formatting background color"
-            buttonIconClassName="icon bg-color"
             color={bgColor}
+            editor={activeEditor}
             onChange={onBgColorSelect}
-            title="bg color"
-          />
+          >
+            <PaintBucket className="mr-2 h-5 w-5" />
+          </DropdownColorPicker>
           <DropDown
             disabled={!isEditable}
             buttonClassName="toolbar-item spaced"

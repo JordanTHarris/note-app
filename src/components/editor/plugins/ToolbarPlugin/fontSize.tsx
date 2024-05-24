@@ -180,7 +180,7 @@ export default function FontSize({
   }, [selectionFontSize]);
 
   return (
-    <div className="flex h-7 items-center">
+    <div className="flex h-7 items-center gap-1">
       <Button
         variant="ghost"
         size="icon"

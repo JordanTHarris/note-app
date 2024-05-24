@@ -272,13 +272,13 @@ function hex2rgb(hex: string): RGB {
         (m, r, g, b) => "#" + r + r + g + g + b + b,
       )
       .substring(1)
-      .match(/.{2}/g) || []
+      .match(/.{2}/g) ?? []
   ).map((x) => parseInt(x, 16));
 
   return {
-    b: rbgArr[2],
-    g: rbgArr[1],
-    r: rbgArr[0],
+    b: rbgArr[2]!,
+    g: rbgArr[1]!,
+    r: rbgArr[0]!,
   };
 }
 
@@ -314,9 +314,9 @@ function hsv2rgb({ h, s, v }: HSV): RGB {
   const t = v * (1 - s * (1 - f));
   const index = i % 6;
 
-  const r = Math.round([v, q, p, p, t, v][index] * 255);
-  const g = Math.round([t, v, v, q, p, p][index] * 255);
-  const b = Math.round([p, p, t, v, v, q][index] * 255);
+  const r = Math.round([v, q, p, p, t, v][index]! * 255);
+  const g = Math.round([t, v, v, q, p, p][index]! * 255);
+  const b = Math.round([p, p, t, v, v, q][index]! * 255);
 
   return { b, g, r };
 }
