@@ -61,10 +61,7 @@ export function DataTable<TData, TValue>({
   });
 
   async function handleCreateNew() {
-    const emptyEditor =
-      '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
-
-    const note = await createNote(userId, "Untitled", emptyEditor);
+    const note = await createNote(userId, "Untitled", "");
     router.push(`/notes/${note?.id}`);
   }
 

@@ -40,16 +40,15 @@ export async function createNote(userId: string, title: string, content: string)
 }
 
 export async function deleteNote(id: number) {
-  const note = await db.note.delete({
+  await db.note.delete({
     where: {
       id: id,
     },
   });
-  return note;
 }
 
 export async function updateTitle(id: number, title: string) {
-  const note = await db.note.update({
+  await db.note.update({
     where: {
       id: id,
     },
@@ -57,7 +56,6 @@ export async function updateTitle(id: number, title: string) {
       title: title,
     },
   });
-  return note;
 }
 
 export async function updateContent(id: number, content: string) {

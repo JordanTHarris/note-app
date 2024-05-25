@@ -27,16 +27,16 @@ export default function DropdownColorPicker({
   return (
     <Popover modal>
       <PopoverTrigger
-        className="h-7 rounded-md border border-input px-3 hover:bg-accent"
+        className="h-7 rounded-md border border-none px-2 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
         disabled={disabled}
       >
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <div
-            className="mr-1 hidden h-4 w-4 rounded-sm border border-input xl:block"
+            className="h-4 w-4 rounded-sm border border-input"
             style={{ backgroundColor: color }}
           ></div>
           {children}
-          <ChevronDown className="h-4 w-4 opacity-50" />
+          <ChevronDown className="hidden h-4 w-4 opacity-50 xl:block" />
         </div>
       </PopoverTrigger>
       <PopoverContent

@@ -142,6 +142,7 @@ import {
   ListChecks,
   ListIcon,
   ListOrdered,
+  Loader2,
   MessageSquareQuote,
   Outdent,
   PaintBucket,
@@ -170,6 +171,7 @@ import { useTheme } from "next-themes";
 import { set } from "zod";
 import { updateContent } from "@/server/notes";
 import { Note } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -282,14 +284,6 @@ const ELEMENT_FORMAT_OPTIONS: {
   },
 };
 
-function dropDownActiveClass(active: boolean) {
-  if (active) {
-    return "active dropdown-item-active";
-  } else {
-    return "";
-  }
-}
-
 function BlockFormatDropDown({
   editor,
   blockType,
@@ -398,7 +392,7 @@ function BlockFormatDropDown({
 
   return (
     <Select disabled={disabled} value={blockType} onValueChange={handleSelect}>
-      <SelectTrigger className="h-7 w-fit truncate">
+      <SelectTrigger className="h-7 w-fit truncate border-none">
         {/* <SelectValue placeholder="Select a format" /> */}
         <div className="flex items-center truncate">
           {blockTypeToIcon[blockType]}
@@ -475,10 +469,6 @@ function BlockFormatDropDown({
   );
 }
 
-function Divider(): JSX.Element {
-  return <div className="divider" />;
-}
-
 function FontDropDown({
   editor,
   value,
@@ -504,14 +494,9 @@ function FontDropDown({
     [editor, style],
   );
 
-  const buttonAriaLabel =
-    style === "font-family"
-      ? "Formatting options for font family"
-      : "Formatting options for font size";
-
   return (
     <Select disabled={disabled} value={value} onValueChange={handleClick}>
-      <SelectTrigger className="h-7 w-fit truncate">
+      <SelectTrigger className="h-7 w-fit truncate border-none">
         <div className="flex items-center truncate">
           <Type className="mr-1 h-5 w-5" />
           <span className="hidden font-medium xl:block">{value}</span>
@@ -573,7 +558,7 @@ function ElementFormatDropdown({
 
   return (
     <Select disabled={disabled} value={value.toString()} onValueChange={handleSelect}>
-      <SelectTrigger className="h-7 w-fit truncate">
+      <SelectTrigger className="h-7 w-fit truncate border-none">
         <div className="flex items-center truncate">
           {isRTL ? formatOption.iconRTL : formatOption.icon}
           <span className="hidden font-medium xl:block">{formatOption.name}</span>
@@ -628,7 +613,7 @@ function ElementFormatDropdown({
             </div>
           </SelectItem>
         </SelectGroup>
-        <Separator />
+        <DropdownMenuSeparator />
         <SelectGroup>
           <SelectItem
             value="outdent"
@@ -682,7 +667,7 @@ function InsertDropDown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="h-7 rounded-md border border-input px-3 hover:bg-accent"
+        className="h-7 rounded-md border border-none border-input px-2 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
         disabled={!isEditable}
       >
         <div className="flex items-center">
@@ -807,6 +792,7 @@ function InsertDropDown({
           <Play className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Collapsible Container</span>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
         {EmbedConfigs.map((embedConfig) => (
           <DropdownMenuItem
             key={embedConfig.type}
@@ -842,7 +828,7 @@ function AdditionalStylesDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="h-7 rounded-md border border-input px-3 hover:bg-accent"
+        className="h-7 rounded-md border border-none px-2 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
         disabled={!isEditable}
       >
         <div className="flex items-center">
@@ -878,6 +864,7 @@ function AdditionalStylesDropdown({
           <Superscript className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Superscript</span>
         </DropdownMenuCheckboxItem>
+        <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked={false} onClick={clearFormatting}>
           <Strikethrough className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Clear Formatting</span>
@@ -919,7 +906,9 @@ export default function ToolbarPlugin({
   const [isRTL, setIsRTL] = useState(false);
   const [codeLanguage, setCodeLanguage] = useState<string>("");
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
+  const [isSaving, setIsSaving] = useState(false);
 
+  const router = useRouter();
   const { resolvedTheme } = useTheme();
 
   const $updateToolbar = useCallback(() => {
@@ -1024,7 +1013,7 @@ export default function ToolbarPlugin({
     if ($isRangeSelection(selection) || $isTableSelection(selection)) {
       setFontSize($getSelectionStyleValueForProperty(selection, "font-size", "15px"));
     }
-  }, [activeEditor]);
+  }, [activeEditor, resolvedTheme]);
 
   useEffect(() => {
     return editor.registerCommand(
@@ -1207,7 +1196,10 @@ export default function ToolbarPlugin({
   async function saveToDb() {
     const content = JSON.stringify(editor.getEditorState());
     try {
+      setIsSaving(true);
       await updateContent(note.id, content);
+      setIsSaving(false);
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -1395,7 +1387,7 @@ export default function ToolbarPlugin({
               editor={activeEditor}
               onChange={onFontColorSelect}
             >
-              <FontColor className="mr-1 h-5 w-5" />
+              <FontColor className="h-5 w-5" />
             </DropdownColorPicker>
             <DropdownColorPicker
               disabled={!isEditable}
@@ -1403,7 +1395,7 @@ export default function ToolbarPlugin({
               editor={activeEditor}
               onChange={onBgColorSelect}
             >
-              <PaintBucket className="mr-1 h-5 w-5 scale-90" />
+              <PaintBucket className="h-5 w-5 scale-90" />
             </DropdownColorPicker>
 
             <AdditionalStylesDropdown
@@ -1436,8 +1428,12 @@ export default function ToolbarPlugin({
 
         {modal}
       </div>
-      <Button className="h-7 self-start" onClick={saveToDb}>
-        Save
+      <Button className="h-7 w-12 self-start" disabled={!isEditable} onClick={saveToDb}>
+        {isSaving ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <span className="text-sm">Save</span>
+        )}
       </Button>
     </div>
   );
