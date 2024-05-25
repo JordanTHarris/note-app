@@ -165,12 +165,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { ImagePayload } from "../../nodes/ImageNode";
+import { type ImagePayload } from "../../nodes/ImageNode";
 import { FontColor } from "@/components/shared/icons";
 import { useTheme } from "next-themes";
 import { set } from "zod";
 import { updateContent } from "@/server/notes";
-import { Note } from "@prisma/client";
+import { type Note } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
 const catTypingGif = "/images/cat-typing.gif";

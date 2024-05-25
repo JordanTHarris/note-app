@@ -15,9 +15,10 @@ import {
   editorStateFromSerializedDocument,
   exportFile,
   importFile,
-  SerializedDocument,
+  type SerializedDocument,
   serializedDocumentFromEditorState,
 } from "@lexical/file";
+
 import { $convertFromMarkdownString, $convertToMarkdownString } from "@lexical/markdown";
 import { useCollaborationContext } from "@lexical/react/LexicalCollaborationContext";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
@@ -260,7 +261,7 @@ export default function ActionsPlugin({
         onClick={() => {
           // Send latest editor state to commenting validation server
           if (isEditable) {
-            sendEditorState(editor);
+            void sendEditorState(editor);
           }
           editor.setEditable(!editor.isEditable());
         }}

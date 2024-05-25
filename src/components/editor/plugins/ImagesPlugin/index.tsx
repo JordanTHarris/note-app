@@ -263,10 +263,11 @@ export default function ImagesPlugin({
 
 const TRANSPARENT_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const img = document.createElement("img");
-img.src = TRANSPARENT_IMAGE;
 
 function $onDragStart(event: DragEvent): boolean {
+  const img = document.createElement("img");
+  img.src = TRANSPARENT_IMAGE;
+
   const node = $getImageNodeInSelection();
   if (!node) {
     return false;
@@ -346,7 +347,10 @@ function getDragImageData(event: DragEvent): null | InsertImagePayload {
   if (!dragData) {
     return null;
   }
-  const { type, data } = JSON.parse(dragData);
+  const { type, data } = JSON.parse(dragData) as {
+    type: string;
+    data: InsertImagePayload;
+  };
   if (type !== "image") {
     return null;
   }

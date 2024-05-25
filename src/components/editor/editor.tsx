@@ -86,9 +86,11 @@ import { cn } from "@/lib/utils";
 import { isDevPlayground } from "./appSettings";
 import { ScrollArea } from "../ui/scroll-area";
 
-const skipCollaborationInit =
-  // @ts-expect-error as in playground
-  window.parent != null && window.parent.frames.right === window;
+if (typeof window !== "undefined") {
+  const skipCollaborationInit =
+    // @ts-expect-error as in playground
+    window.parent != null && window.parent.frames.right === window;
+}
 
 export function Editor({ note }: { note: Note }): JSX.Element {
   const { historyState } = useSharedHistoryContext();
@@ -362,7 +364,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
 
   const initialConfig = {
     // editorState: isCollab ? null : emptyEditor ? undefined : $prepopulatedRichText,
-    editorState: note.content || emptyEditorData,
+    editorState: note?.content || emptyEditorData,
     namespace: "Playground",
     nodes: [...PlaygroundNodes],
     onError: (error: Error) => {

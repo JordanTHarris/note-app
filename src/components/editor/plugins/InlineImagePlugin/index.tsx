@@ -50,7 +50,7 @@ import TextInput from "../../ui/TextInput";
 export type InsertInlineImagePayload = Readonly<InlineImagePayload>;
 
 const getDOMSelection = (targetWindow: Window | null): Selection | null =>
-  CAN_USE_DOM ? (targetWindow || window).getSelection() : null;
+  CAN_USE_DOM ? (targetWindow ?? window).getSelection() : null;
 
 export const INSERT_INLINE_IMAGE_COMMAND: LexicalCommand<InlineImagePayload> =
   createCommand("INSERT_INLINE_IMAGE_COMMAND");
@@ -88,7 +88,7 @@ export function InsertInlineImageDialog({
       return "";
     };
     if (files !== null) {
-      reader.readAsDataURL(files[0]);
+      reader.readAsDataURL(files[0]!);
     }
   };
 
@@ -216,10 +216,10 @@ export default function InlineImagePlugin(): JSX.Element | null {
 
 const TRANSPARENT_IMAGE =
   "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-const img = document.createElement("img");
-img.src = TRANSPARENT_IMAGE;
 
 function $onDragStart(event: DragEvent): boolean {
+  const img = document.createElement("img");
+  img.src = TRANSPARENT_IMAGE;
   const node = $getImageNodeInSelection();
   if (!node) {
     return false;
@@ -298,7 +298,10 @@ function getDragImageData(event: DragEvent): null | InsertInlineImagePayload {
   if (!dragData) {
     return null;
   }
-  const { type, data } = JSON.parse(dragData);
+  const { type, data } = JSON.parse(dragData) as {
+    type: string;
+    data: InsertInlineImagePayload;
+  };
   if (type !== "image") {
     return null;
   }
@@ -319,8 +322,7 @@ function canDropImage(event: DragEvent): boolean {
     target &&
     target instanceof HTMLElement &&
     !target.closest("code, span.editor-image") &&
-    target.parentElement &&
-    target.parentElement.closest("div.ContentEditable__root")
+    target.parentElement?.closest("div.ContentEditable__root")
   );
 }
 
@@ -337,7 +339,7 @@ function getDragSelection(event: DragEvent): Range | null | undefined {
   if (document.caretRangeFromPoint) {
     range = document.caretRangeFromPoint(event.clientX, event.clientY);
   } else if (event.rangeParent && domSelection !== null) {
-    domSelection.collapse(event.rangeParent, event.rangeOffset || 0);
+    domSelection.collapse(event.rangeParent, event.rangeOffset ?? 0);
     range = domSelection.getRangeAt(0);
   } else {
     throw Error("Cannot get the selection when dragging");
