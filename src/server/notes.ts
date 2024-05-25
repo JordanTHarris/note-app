@@ -61,7 +61,7 @@ export async function updateTitle(id: number, title: string) {
 }
 
 export async function updateContent(id: number, content: string) {
-  const note = await db.note.update({
+  await db.note.update({
     where: {
       id: id,
     },
@@ -69,5 +69,4 @@ export async function updateContent(id: number, content: string) {
       content: content,
     },
   });
-  return note;
 }

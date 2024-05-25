@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   type ColumnDef,
-  ColumnFiltersState,
+  type ColumnFiltersState,
   type SortingState,
   flexRender,
   getCoreRowModel,

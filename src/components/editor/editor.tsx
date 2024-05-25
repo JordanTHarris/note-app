@@ -357,10 +357,12 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
     settings: { isCollab, emptyEditor, measureTypingPerf },
   } = useSettings();
 
+  const emptyEditorData =
+    '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
+
   const initialConfig = {
     // editorState: isCollab ? null : emptyEditor ? undefined : $prepopulatedRichText,
-    // editorState: (JSON.parse(note.content) as EditorState) || null,
-    editorState: note.content ?? null,
+    editorState: note.content || emptyEditorData,
     namespace: "Playground",
     nodes: [...PlaygroundNodes],
     onError: (error: Error) => {
