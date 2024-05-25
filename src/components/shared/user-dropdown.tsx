@@ -31,14 +31,14 @@ export function UserDropdown({ session }: { session: Session }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem onClick={() => router.push("/profile")}>
-          <User className="mr-2 h-4 w-4" />
+          <User className="mr-1 h-4 w-4" />
           <div className="flex flex-col">
             {name && <p>{name}</p>}
             {/* <p className="truncate text-sm text-muted-foreground">{email}</p> */}
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut()}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="mr-1 h-4 w-4" />
           <p className="text-sm">Logout</p>
         </DropdownMenuItem>
       </DropdownMenuContent>

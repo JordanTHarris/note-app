@@ -112,7 +112,7 @@ export const columns: ColumnDef<Note>[] = [
                 router.refresh();
               }}
             >
-              <Trash2 className="mr-2 h-4 w-4 text-destructive group-hover:text-destructive-foreground" />
+              <Trash2 className="mr-1 h-4 w-4 text-destructive group-hover:text-destructive-foreground" />
               <span className="text-destructive group-hover:text-destructive-foreground">
                 Delete
               </span>

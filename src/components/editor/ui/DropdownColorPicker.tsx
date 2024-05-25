@@ -32,7 +32,7 @@ export default function DropdownColorPicker({
       >
         <div className="flex items-center">
           {children}
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="h-4 w-4 opacity-50" />
         </div>
       </PopoverTrigger>
       <PopoverContent

@@ -165,6 +165,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { ImagePayload } from "../../nodes/ImageNode";
+import { FontColor } from "@/components/shared/icons";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -184,18 +185,18 @@ const blockTypeToBlockName = {
 };
 
 const blockTypeToIcon = {
-  bullet: <ListIcon className="mr-2 h-5 w-5" />,
-  check: <ListChecks className="mr-2 h-5 w-5" />,
-  code: <Code2 className="mr-2 h-5 w-5" />,
-  h1: <Heading1 className="mr-2 h-5 w-5" />,
-  h2: <Heading2 className="mr-2 h-5 w-5" />,
-  h3: <Heading3 className="mr-2 h-5 w-5" />,
-  h4: <Heading4 className="mr-2 h-5 w-5" />,
-  h5: <Heading5 className="mr-2 h-5 w-5" />,
-  h6: <Heading6 className="mr-2 h-5 w-5" />,
-  number: <ListOrdered className="mr-2 h-5 w-5" />,
-  paragraph: <Text className="mr-2 h-5 w-5" />,
-  quote: <MessageSquareQuote className="mr-2 h-5 w-5" />,
+  bullet: <ListIcon className="mr-1 h-5 w-5" />,
+  check: <ListChecks className="mr-1 h-5 w-5" />,
+  code: <Code2 className="mr-1 h-5 w-5" />,
+  h1: <Heading1 className="mr-1 h-5 w-5" />,
+  h2: <Heading2 className="mr-1 h-5 w-5" />,
+  h3: <Heading3 className="mr-1 h-5 w-5" />,
+  h4: <Heading4 className="mr-1 h-5 w-5" />,
+  h5: <Heading5 className="mr-1 h-5 w-5" />,
+  h6: <Heading6 className="mr-1 h-5 w-5" />,
+  number: <ListOrdered className="mr-1 h-5 w-5" />,
+  paragraph: <Text className="mr-1 h-5 w-5" />,
+  quote: <MessageSquareQuote className="mr-1 h-5 w-5" />,
 };
 
 const rootTypeToRootName = {
@@ -246,33 +247,33 @@ const ELEMENT_FORMAT_OPTIONS: {
   };
 } = {
   center: {
-    icon: <AlignCenter className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignCenter className="mr-2 h-5 w-5" />,
+    icon: <AlignCenter className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignCenter className="mr-1 h-5 w-5" />,
     name: "Center Align",
   },
   end: {
-    icon: <AlignRight className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignLeft className="mr-2 h-5 w-5" />,
+    icon: <AlignRight className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
     name: "End Align",
   },
   justify: {
-    icon: <AlignJustify className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignJustify className="mr-2 h-5 w-5" />,
+    icon: <AlignJustify className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignJustify className="mr-1 h-5 w-5" />,
     name: "Justify Align",
   },
   left: {
-    icon: <AlignLeft className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignLeft className="mr-2 h-5 w-5" />,
+    icon: <AlignLeft className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignLeft className="mr-1 h-5 w-5" />,
     name: "Left Align",
   },
   right: {
-    icon: <AlignRight className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignRight className="mr-2 h-5 w-5" />,
+    icon: <AlignRight className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
     name: "Right Align",
   },
   start: {
-    icon: <AlignLeft className="mr-2 h-5 w-5" />,
-    iconRTL: <AlignRight className="mr-2 h-5 w-5" />,
+    icon: <AlignLeft className="mr-1 h-5 w-5" />,
+    iconRTL: <AlignRight className="mr-1 h-5 w-5" />,
     name: "Start Align",
   },
 };
@@ -508,7 +509,7 @@ function FontDropDown({
     <Select disabled={disabled} value={value} onValueChange={handleClick}>
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
-          <Type className="mr-2 h-5 w-5" />
+          <Type className="mr-1 h-5 w-5" />
           <span className="hidden font-medium lg:block">{value}</span>
         </div>
       </SelectTrigger>
@@ -633,9 +634,9 @@ function ElementFormatDropdown({
           >
             <div className="flex items-center">
               {isRTL ? (
-                <Indent className="mr-2 h-5 w-5" />
+                <Indent className="mr-1 h-5 w-5" />
               ) : (
-                <Outdent className="mr-2 h-5 w-5" />
+                <Outdent className="mr-1 h-5 w-5" />
               )}
               <span className="font-medium">Outdent</span>
             </div>
@@ -648,9 +649,9 @@ function ElementFormatDropdown({
           >
             <div className="flex items-center">
               {isRTL ? (
-                <Outdent className="mr-2 h-5 w-5" />
+                <Outdent className="mr-1 h-5 w-5" />
               ) : (
-                <Indent className="mr-2 h-5 w-5" />
+                <Indent className="mr-1 h-5 w-5" />
               )}
               <span className="font-medium">Indent</span>
             </div>
@@ -681,9 +682,9 @@ function InsertDropDown({
         disabled={!isEditable}
       >
         <div className="flex items-center">
-          <Plus className="mr-2 h-4 w-4" />
+          <Plus className="mr-1 h-4 w-4" />
           <p className="hidden text-sm font-semibold lg:block">Insert</p>
-          <ChevronDown className="ml-2 h-4 w-4" />
+          <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -692,7 +693,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
           }}
         >
-          <FlipVertical className="mr-2 h-4 w-4" />
+          <FlipVertical className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Horizontal Rule</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -700,7 +701,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
           }}
         >
-          <Scissors className="mr-2 h-4 w-4" />
+          <Scissors className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Page Break</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -710,7 +711,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-2 h-4 w-4" />
+          <ImageIcon className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -720,7 +721,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-2 h-4 w-4" />
+          <ImageIcon className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Inline Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -731,7 +732,7 @@ function InsertDropDown({
             })
           }
         >
-          <ImagePlay className="mr-2 h-4 w-4" />
+          <ImagePlay className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">GIF</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -739,7 +740,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
           }}
         >
-          <PencilLine className="mr-2 h-4 w-4" />
+          <PencilLine className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Excalidraw</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -749,7 +750,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Table className="mr-2 h-4 w-4" />
+          <Table className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Table</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -759,7 +760,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ListChecks className="mr-2 h-4 w-4" />
+          <ListChecks className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Poll</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -769,7 +770,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Columns3 className="mr-2 h-4 w-4" />
+          <Columns3 className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Columns Layout</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -779,7 +780,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Radical className="mr-2 h-4 w-4" />
+          <Radical className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Equation</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -791,7 +792,7 @@ function InsertDropDown({
             });
           }}
         >
-          <StickyNote className="mr-2 h-4 w-4" />
+          <StickyNote className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Sticky Note</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -799,7 +800,7 @@ function InsertDropDown({
             editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
           }}
         >
-          <Play className="mr-2 h-4 w-4" />
+          <Play className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Collapsible Container</span>
         </DropdownMenuItem>
         {EmbedConfigs.map((embedConfig) => (
@@ -841,8 +842,8 @@ function AdditionalStylesDropdown({
         disabled={!isEditable}
       >
         <div className="flex items-center">
-          <ALargeSmall className="mr-2 h-5 w-5" />
-          <ChevronDown className="ml-2 h-4 w-4" />
+          <ALargeSmall className="mr-1 h-5 w-5" />
+          <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -852,7 +853,7 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
           }}
         >
-          <Strikethrough className="mr-2 h-4 w-4" />
+          <Strikethrough className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Strikethrough</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
@@ -861,7 +862,7 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
           }}
         >
-          <Subscript className="mr-2 h-4 w-4" />
+          <Subscript className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Subscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
@@ -870,11 +871,11 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
           }}
         >
-          <Superscript className="mr-2 h-4 w-4" />
+          <Superscript className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Superscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem checked={false} onClick={clearFormatting}>
-          <Strikethrough className="mr-2 h-4 w-4" />
+          <Strikethrough className="mr-1 h-4 w-4" />
           <span className="text-sm font-semibold">Clear Formatting</span>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
@@ -1188,7 +1189,7 @@ export default function ToolbarPlugin({
   return (
     // <div className="toolbar items-center">
     <div className="sticky top-0 z-10 flex w-full items-center gap-1 p-1">
-      <div className="flex flex-wrap items-center gap-1">
+      <div className="flex flex-1 flex-wrap items-center gap-1">
         <Button
           variant="ghost"
           size="icon"
@@ -1217,7 +1218,7 @@ export default function ToolbarPlugin({
         >
           <Redo />
         </Button>
-        <Separator orientation="vertical" />
+        <Separator className="h-7" orientation="vertical" />
         {blockType in blockTypeToBlockName && activeEditor === editor && (
           <>
             <BlockFormatDropDown
@@ -1226,7 +1227,7 @@ export default function ToolbarPlugin({
               rootType={rootType}
               editor={editor}
             />
-            <Separator orientation="vertical" />
+            <Separator className="h-7" orientation="vertical" />
           </>
         )}
         {blockType === "code" ? (
@@ -1269,13 +1270,13 @@ export default function ToolbarPlugin({
               value={fontFamily}
               editor={editor}
             />
-            <Separator orientation="vertical" />
+            <Separator className="h-7" orientation="vertical" />
             <FontSize
               selectionFontSize={fontSize.slice(0, -2)}
               editor={editor}
               disabled={!isEditable}
             />
-            <Separator orientation="vertical" />
+            <Separator className="h-7" orientation="vertical" />
             <Button
               variant="ghost"
               size="icon"
@@ -1367,7 +1368,7 @@ export default function ToolbarPlugin({
               editor={activeEditor}
               onChange={onFontColorSelect}
             >
-              <ALargeSmall className="mr-2 h-5 w-5" />
+              <FontColor className="mr-1 h-5 w-5" />
             </DropdownColorPicker>
             <DropdownColorPicker
               disabled={!isEditable}
@@ -1375,7 +1376,7 @@ export default function ToolbarPlugin({
               editor={activeEditor}
               onChange={onBgColorSelect}
             >
-              <PaintBucket className="mr-2 h-5 w-5" />
+              <PaintBucket className="mr-1 h-5 w-5" />
             </DropdownColorPicker>
 
             <AdditionalStylesDropdown
@@ -1387,7 +1388,7 @@ export default function ToolbarPlugin({
               isSuperscript={isSuperscript}
             />
 
-            <Separator orientation="vertical" />
+            <Separator className="h-7" orientation="vertical" />
 
             <InsertDropDown
               activeEditor={activeEditor}
@@ -1398,7 +1399,7 @@ export default function ToolbarPlugin({
             />
           </>
         )}
-        <Separator orientation="vertical" />
+        <Separator className="h-7" orientation="vertical" />
         <ElementFormatDropdown
           disabled={!isEditable}
           value={elementFormat}
