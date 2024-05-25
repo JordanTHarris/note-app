@@ -110,6 +110,7 @@ import {
 } from "@/components/ui/select";
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -152,6 +153,8 @@ import {
   Scissors,
   StickyNote,
   Strikethrough,
+  Subscript,
+  Superscript,
   Table,
   Text,
   Type,
@@ -816,6 +819,69 @@ function InsertDropDown({
   );
 }
 
+function AdditionalStylesDropdown({
+  activeEditor,
+  clearFormatting,
+  isEditable,
+  isStrikethrough,
+  isSubscript,
+  isSuperscript,
+}: {
+  activeEditor: LexicalEditor;
+  clearFormatting: () => void;
+  isEditable: boolean;
+  isStrikethrough: boolean;
+  isSubscript: boolean;
+  isSuperscript: boolean;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        className="h-7 rounded-md border border-input px-3 hover:bg-accent"
+        disabled={!isEditable}
+      >
+        <div className="flex items-center">
+          <ALargeSmall className="mr-2 h-5 w-5" />
+          <ChevronDown className="ml-2 h-4 w-4" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuCheckboxItem
+          checked={isStrikethrough}
+          onCheckedChange={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+          }}
+        >
+          <Strikethrough className="mr-2 h-4 w-4" />
+          <span className="text-sm font-semibold">Strikethrough</span>
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={isSubscript}
+          onCheckedChange={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
+          }}
+        >
+          <Subscript className="mr-2 h-4 w-4" />
+          <span className="text-sm font-semibold">Subscript</span>
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={isSuperscript}
+          onCheckedChange={() => {
+            activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
+          }}
+        >
+          <Superscript className="mr-2 h-4 w-4" />
+          <span className="text-sm font-semibold">Superscript</span>
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem checked={false} onClick={clearFormatting}>
+          <Strikethrough className="mr-2 h-4 w-4" />
+          <span className="text-sm font-semibold">Clear Formatting</span>
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export default function ToolbarPlugin({
   setIsLinkEditMode,
 }: {
@@ -1311,56 +1377,16 @@ export default function ToolbarPlugin({
             >
               <PaintBucket className="mr-2 h-5 w-5" />
             </DropdownColorPicker>
-            <DropDown
-              disabled={!isEditable}
-              buttonClassName="toolbar-item spaced"
-              buttonLabel=""
-              buttonAriaLabel="Formatting options for additional text styles"
-              buttonIconClassName="icon dropdown-more"
-            >
-              <DropDownItem
-                onClick={() => {
-                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
-                }}
-                className={"item " + dropDownActiveClass(isStrikethrough)}
-                title="Strikethrough"
-                aria-label="Format text with a strikethrough"
-              >
-                <i className="icon strikethrough" />
-                <span className="text">Strikethrough</span>
-              </DropDownItem>
-              <DropDownItem
-                onClick={() => {
-                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
-                }}
-                className={"item " + dropDownActiveClass(isSubscript)}
-                title="Subscript"
-                aria-label="Format text with a subscript"
-              >
-                <i className="icon subscript" />
-                <span className="text">Subscript</span>
-              </DropDownItem>
-              <DropDownItem
-                onClick={() => {
-                  activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
-                }}
-                className={"item " + dropDownActiveClass(isSuperscript)}
-                title="Superscript"
-                aria-label="Format text with a superscript"
-              >
-                <i className="icon superscript" />
-                <span className="text">Superscript</span>
-              </DropDownItem>
-              <DropDownItem
-                onClick={clearFormatting}
-                className="item"
-                title="Clear text formatting"
-                aria-label="Clear all text formatting"
-              >
-                <i className="icon clear" />
-                <span className="text">Clear Formatting</span>
-              </DropDownItem>
-            </DropDown>
+
+            <AdditionalStylesDropdown
+              activeEditor={activeEditor}
+              clearFormatting={clearFormatting}
+              isEditable={isEditable}
+              isStrikethrough={isStrikethrough}
+              isSubscript={isSubscript}
+              isSuperscript={isSuperscript}
+            />
+
             <Separator orientation="vertical" />
 
             <InsertDropDown
