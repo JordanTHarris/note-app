@@ -32,7 +32,7 @@ export default function DropdownColorPicker({
       >
         <div className="flex items-center">
           <div
-            className="mr-1 hidden h-4 w-4 rounded-sm border border-input lg:block"
+            className="mr-1 hidden h-4 w-4 rounded-sm border border-input xl:block"
             style={{ backgroundColor: color }}
           ></div>
           {children}

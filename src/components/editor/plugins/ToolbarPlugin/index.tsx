@@ -402,7 +402,7 @@ function BlockFormatDropDown({
         {/* <SelectValue placeholder="Select a format" /> */}
         <div className="flex items-center truncate">
           {blockTypeToIcon[blockType]}
-          <span className="hidden font-medium lg:block">
+          <span className="hidden font-medium xl:block">
             {blockTypeToBlockName[blockType]}
           </span>
         </div>
@@ -514,7 +514,7 @@ function FontDropDown({
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
           <Type className="mr-1 h-5 w-5" />
-          <span className="hidden font-medium lg:block">{value}</span>
+          <span className="hidden font-medium xl:block">{value}</span>
         </div>
       </SelectTrigger>
       <SelectContent
@@ -576,7 +576,7 @@ function ElementFormatDropdown({
       <SelectTrigger className="h-7 w-fit truncate">
         <div className="flex items-center truncate">
           {isRTL ? formatOption.iconRTL : formatOption.icon}
-          <span className="hidden font-medium lg:block">{formatOption.name}</span>
+          <span className="hidden font-medium xl:block">{formatOption.name}</span>
         </div>
       </SelectTrigger>
       <SelectContent
@@ -687,7 +687,7 @@ function InsertDropDown({
       >
         <div className="flex items-center">
           <Plus className="mr-1 h-4 w-4" />
-          <p className="mr-1 hidden text-sm font-semibold lg:block">Insert</p>
+          <p className="mr-1 hidden text-sm font-semibold xl:block">Insert</p>
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
@@ -1215,7 +1215,7 @@ export default function ToolbarPlugin({
 
   return (
     // <div className="toolbar items-center">
-    <div className="sticky top-0 z-10 flex w-full items-center gap-1 p-1">
+    <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 border-b p-2">
       <div className="flex flex-1 flex-wrap items-center gap-1">
         <Button
           variant="ghost"
@@ -1265,7 +1265,7 @@ export default function ToolbarPlugin({
           >
             <SelectTrigger className="h-7 w-fit truncate">
               <div className="flex items-center truncate">
-                <span className="hidden font-medium lg:block">
+                <span className="hidden font-medium xl:block">
                   {getLanguageFriendlyName(codeLanguage)}
                 </span>
               </div>

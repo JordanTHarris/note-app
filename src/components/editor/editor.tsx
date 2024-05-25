@@ -370,7 +370,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
   };
 
   return (
-    <div className={cn("flex flex-1", className)}>
+    <div className={cn("flex flex-1 rounded-md border", className)}>
       <LexicalComposer initialConfig={initialConfig}>
         <SharedHistoryContext>
           <TableContext>
