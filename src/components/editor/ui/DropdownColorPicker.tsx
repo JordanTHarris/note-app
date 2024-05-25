@@ -31,6 +31,10 @@ export default function DropdownColorPicker({
         disabled={disabled}
       >
         <div className="flex items-center">
+          <div
+            className="mr-1 hidden h-4 w-4 rounded-sm border border-input lg:block"
+            style={{ backgroundColor: color }}
+          ></div>
           {children}
           <ChevronDown className="h-4 w-4 opacity-50" />
         </div>

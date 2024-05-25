@@ -166,6 +166,8 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { ImagePayload } from "../../nodes/ImageNode";
 import { FontColor } from "@/components/shared/icons";
+import { useTheme } from "next-themes";
+import { set } from "zod";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -683,7 +685,7 @@ function InsertDropDown({
       >
         <div className="flex items-center">
           <Plus className="mr-1 h-4 w-4" />
-          <p className="hidden text-sm font-semibold lg:block">Insert</p>
+          <p className="mr-1 hidden text-sm font-semibold lg:block">Insert</p>
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
@@ -914,6 +916,8 @@ export default function ToolbarPlugin({
   const [codeLanguage, setCodeLanguage] = useState<string>("");
   const [isEditable, setIsEditable] = useState(() => editor.isEditable());
 
+  const { resolvedTheme } = useTheme();
+
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
@@ -978,9 +982,19 @@ export default function ToolbarPlugin({
         }
       }
       // Handle buttons
-      setFontColor($getSelectionStyleValueForProperty(selection, "color", "#000"));
+      setFontColor(
+        $getSelectionStyleValueForProperty(
+          selection,
+          "color",
+          resolvedTheme === "dark" ? "#fff" : "#000",
+        ),
+      );
       setBgColor(
-        $getSelectionStyleValueForProperty(selection, "background-color", "#fff"),
+        $getSelectionStyleValueForProperty(
+          selection,
+          "background-color",
+          resolvedTheme === "dark" ? "#000" : "#fff",
+        ),
       );
       setFontFamily(
         $getSelectionStyleValueForProperty(selection, "font-family", "Arial"),
@@ -1376,7 +1390,7 @@ export default function ToolbarPlugin({
               editor={activeEditor}
               onChange={onBgColorSelect}
             >
-              <PaintBucket className="mr-1 h-5 w-5" />
+              <PaintBucket className="mr-1 h-5 w-5 scale-90" />
             </DropdownColorPicker>
 
             <AdditionalStylesDropdown

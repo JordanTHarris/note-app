@@ -461,3 +461,43 @@
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
+
+.dracula-current-line {
+  color: #44475a;
+}
+
+.dracula-comment {
+  color: #6272a4;
+}
+
+.draucla-foreground {
+  color: #f8f8f2;
+}
+
+.dracula-cyan {
+  color: #8be9fd;
+}
+
+.dracula-green {
+  color: #50fa7b;
+}
+
+.dracula-orange {
+  color: #ffb86c;
+}
+
+.dracula-pink {
+  color: #ff79c6;
+}
+
+.dracula-purple {
+  color: #bd93f9;
+}
+
+.dracula-red {
+  color: #ff5555;
+}
+
+.dracula-yellow {
+  color: #f1fa8c;
+}
