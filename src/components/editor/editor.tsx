@@ -75,7 +75,7 @@ import DocsPlugin from "./plugins/DocsPlugin";
 import PasteLogPlugin from "./plugins/PasteLogPlugin";
 import TestRecorderPlugin from "./plugins/TestRecorderPlugin";
 import TypingPerfPlugin from "./plugins/TypingPerfPlugin";
-import { $createParagraphNode, $createTextNode, $getRoot } from "lexical";
+import { $createParagraphNode, $createTextNode, $getRoot, EditorState } from "lexical";
 import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
 import { $createListItemNode, $createListNode } from "@lexical/list";
 import { $createLinkNode } from "@lexical/link";
@@ -90,7 +90,7 @@ const skipCollaborationInit =
   // @ts-expect-error as in playground
   window.parent != null && window.parent.frames.right === window;
 
-export function Editor(): JSX.Element {
+export function Editor({ note }: { note: Note }): JSX.Element {
   const { historyState } = useSharedHistoryContext();
   const {
     settings: {
@@ -146,7 +146,7 @@ export function Editor(): JSX.Element {
 
   return (
     <>
-      {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} />}
+      {isRichText && <ToolbarPlugin setIsLinkEditMode={setIsLinkEditMode} note={note} />}
       <div
         className={cn(
           // "editor-container",
@@ -358,7 +358,9 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
   } = useSettings();
 
   const initialConfig = {
-    editorState: isCollab ? null : emptyEditor ? undefined : $prepopulatedRichText,
+    // editorState: isCollab ? null : emptyEditor ? undefined : $prepopulatedRichText,
+    // editorState: (JSON.parse(note.content) as EditorState) || null,
+    editorState: note.content ?? null,
     namespace: "Playground",
     nodes: [...PlaygroundNodes],
     onError: (error: Error) => {
@@ -375,7 +377,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
             <SharedAutocompleteContext>
               {/* <div className="editor-shell"> */}
               <div className="flex h-full max-h-full flex-1 flex-col">
-                <Editor />
+                <Editor note={note} />
               </div>
               <Settings />
               {isDevPlayground ? <DocsPlugin /> : null}

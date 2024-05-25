@@ -59,3 +59,15 @@ export async function updateTitle(id: number, title: string) {
   });
   return note;
 }
+
+export async function updateContent(id: number, content: string) {
+  const note = await db.note.update({
+    where: {
+      id: id,
+    },
+    data: {
+      content: content,
+    },
+  });
+  return note;
+}

@@ -168,6 +168,8 @@ import { ImagePayload } from "../../nodes/ImageNode";
 import { FontColor } from "@/components/shared/icons";
 import { useTheme } from "next-themes";
 import { set } from "zod";
+import { updateContent } from "@/server/notes";
+import { Note } from "@prisma/client";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -887,8 +889,10 @@ function AdditionalStylesDropdown({
 
 export default function ToolbarPlugin({
   setIsLinkEditMode,
+  note,
 }: {
   setIsLinkEditMode: Dispatch<boolean>;
+  note: Note;
 }): JSX.Element {
   const [editor] = useLexicalComposerContext();
   const [activeEditor, setActiveEditor] = useState(editor);
@@ -1200,6 +1204,15 @@ export default function ToolbarPlugin({
     activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload);
   };
 
+  async function saveToDb() {
+    const content = JSON.stringify(editor.getEditorState());
+    try {
+      await updateContent(note.id, content);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     // <div className="toolbar items-center">
     <div className="sticky top-0 z-10 flex w-full items-center gap-1 p-1">
@@ -1423,6 +1436,9 @@ export default function ToolbarPlugin({
 
         {modal}
       </div>
+      <Button className="h-7 self-start" onClick={saveToDb}>
+        Save
+      </Button>
     </div>
   );
 }
