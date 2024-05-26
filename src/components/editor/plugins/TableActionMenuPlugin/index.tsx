@@ -25,11 +25,11 @@ import {
   $isTableSelection,
   $unmergeCell,
   getTableObserverFromTableElement,
-  HTMLTableElementWithWithTableSelectionState,
+  type HTMLTableElementWithWithTableSelectionState,
   TableCellHeaderStates,
   TableCellNode,
-  TableRowNode,
-  TableSelection,
+  type TableRowNode,
+  type TableSelection,
 } from "@lexical/table";
 import {
   $createParagraphNode,
@@ -41,7 +41,7 @@ import {
   $isTextNode,
 } from "lexical";
 import * as React from "react";
-import { ReactPortal, useCallback, useEffect, useRef, useState } from "react";
+import { type ReactPortal, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import invariant from "@/components/editor/shared/invariant";
 
@@ -67,8 +67,7 @@ function isTableSelectionRectangular(selection: TableSelection): boolean {
   let currentRow = null;
   let expectedColumns = null;
   let currentColumns = 0;
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i];
+  for (const node of nodes) {
     if ($isTableCellNode(node)) {
       const row = node.getParentOrThrow();
       invariant($isTableRowNode(row), "Expected CellNode to have a RowNode parent");
@@ -176,7 +175,7 @@ function TableActionMenu({
   const [canMergeCells, setCanMergeCells] = useState(false);
   const [canUnmergeCell, setCanUnmergeCell] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState(
-    () => currentCellBackgroundColor(editor) || "",
+    () => currentCellBackgroundColor(editor) ?? "",
   );
 
   useEffect(() => {
@@ -187,7 +186,7 @@ function TableActionMenu({
         editor.getEditorState().read(() => {
           updateTableCellNode(tableCellNode.getLatest());
         });
-        setBackgroundColor(currentCellBackgroundColor(editor) || "");
+        setBackgroundColor(currentCellBackgroundColor(editor) ?? "");
       }
     });
   }, [editor, tableCellNode]);
@@ -289,8 +288,7 @@ function TableActionMenu({
         const { columns, rows } = computeSelectionCount(selection);
         const nodes = selection.getNodes();
         let firstCell: null | TableCellNode = null;
-        for (let i = 0; i < nodes.length; i++) {
-          const node = nodes[i];
+        for (const node of nodes) {
           if ($isTableCellNode(node)) {
             if (firstCell === null) {
               node.setColSpan(columns).setRowSpan(rows);
@@ -416,9 +414,7 @@ function TableActionMenu({
         throw new Error("Expected table cell to be inside of table row.");
       }
 
-      for (let r = 0; r < tableRows.length; r++) {
-        const tableRow = tableRows[r];
-
+      for (const tableRow of tableRows) {
         if (!$isTableRowNode(tableRow)) {
           throw new Error("Expected table row");
         }
@@ -456,8 +452,7 @@ function TableActionMenu({
           if ($isTableSelection(selection)) {
             const nodes = selection.getNodes();
 
-            for (let i = 0; i < nodes.length; i++) {
-              const node = nodes[i];
+            for (const node of nodes) {
               if ($isTableCellNode(node)) {
                 node.setBackgroundColor(value);
               }
