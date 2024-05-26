@@ -15,16 +15,12 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
         className={cn(
-          "flex h-dvh w-screen flex-col font-sans antialiased",
+          "flex h-dvh max-h-dvh w-screen flex-col font-sans antialiased",
           inter.variable,
         )}
       >
