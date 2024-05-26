@@ -80,7 +80,7 @@ import { $createHeadingNode, $createQuoteNode } from "@lexical/rich-text";
 import { $createListItemNode, $createListNode } from "@lexical/list";
 import { $createLinkNode } from "@lexical/link";
 import PlaygroundNodes from "./nodes/PlaygroundNodes";
-import PlaygroundEditorTheme from "./themes/PlaygroundEditorTheme";
+import PlaygroundEditorTheme from "./themes/NoteTheme";
 import { Note } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { isDevPlayground } from "./appSettings";

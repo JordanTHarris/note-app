@@ -1773,13 +1773,13 @@ button.item.dropdown-item-active i {
   z-index: 3;
 }
 
-.PlaygroundEditorTheme__blockCursor {
+.NoteTheme__blockCursor {
   display: block;
   pointer-events: none;
   position: absolute;
 }
 
-.PlaygroundEditorTheme__blockCursor:after {
+.NoteTheme__blockCursor:after {
   content: "";
   display: block;
   position: absolute;

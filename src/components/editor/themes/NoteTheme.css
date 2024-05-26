@@ -6,18 +6,18 @@
  *
  *
  */
-.PlaygroundEditorTheme__ltr {
+.NoteTheme__ltr {
   text-align: left;
 }
-.PlaygroundEditorTheme__rtl {
+.NoteTheme__rtl {
   text-align: right;
 }
-.PlaygroundEditorTheme__paragraph {
+.NoteTheme__paragraph {
   margin: 0;
   position: relative;
 }
 
-.PlaygroundEditorTheme__quote {
+.NoteTheme__quote {
   margin: 0;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -28,69 +28,69 @@
   border-left-style: solid;
   padding-left: 16px;
 }
-.PlaygroundEditorTheme__h1 {
+.NoteTheme__h1 {
   font-size: 24px;
   color: rgb(5, 5, 5);
   font-weight: 400;
   margin: 0;
 }
-.PlaygroundEditorTheme__h2 {
+.NoteTheme__h2 {
   font-size: 15px;
   color: rgb(101, 103, 107);
   font-weight: 700;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__h3 {
+.NoteTheme__h3 {
   font-size: 12px;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__indent {
+.NoteTheme__indent {
   --lexical-indent-base-value: 40px;
 }
-.PlaygroundEditorTheme__textBold {
+.NoteTheme__textBold {
   font-weight: bold;
 }
-.PlaygroundEditorTheme__textItalic {
+.NoteTheme__textItalic {
   font-style: italic;
 }
-.PlaygroundEditorTheme__textUnderline {
+.NoteTheme__textUnderline {
   text-decoration: underline;
 }
-.PlaygroundEditorTheme__textStrikethrough {
+.NoteTheme__textStrikethrough {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__textUnderlineStrikethrough {
+.NoteTheme__textUnderlineStrikethrough {
   text-decoration: underline line-through;
 }
-.PlaygroundEditorTheme__textSubscript {
+.NoteTheme__textSubscript {
   font-size: 0.8em;
   vertical-align: sub !important;
 }
-.PlaygroundEditorTheme__textSuperscript {
+.NoteTheme__textSuperscript {
   font-size: 0.8em;
   vertical-align: super;
 }
-.PlaygroundEditorTheme__textCode {
+.NoteTheme__textCode {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
-.PlaygroundEditorTheme__hashtag {
+.NoteTheme__hashtag {
   background-color: rgba(88, 144, 255, 0.15);
   border-bottom: 1px solid rgba(88, 144, 255, 0.3);
 }
-.PlaygroundEditorTheme__link {
+.NoteTheme__link {
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
-.PlaygroundEditorTheme__link:hover {
+.NoteTheme__link:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__code {
+.NoteTheme__code {
   background-color: theme("colors.secondary.DEFAULT");
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -104,7 +104,7 @@
   position: relative;
   tab-size: 2;
 }
-.PlaygroundEditorTheme__code:before {
+.NoteTheme__code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: theme("colors.accent.DEFAULT");
@@ -118,7 +118,7 @@
   text-align: right;
   min-width: 25px;
 }
-.PlaygroundEditorTheme__table {
+.NoteTheme__table {
   border-collapse: collapse;
   border-spacing: 0;
   overflow-y: scroll;
@@ -127,13 +127,13 @@
   width: max-content;
   margin: 30px 0;
 }
-.PlaygroundEditorTheme__tableSelection *::selection {
+.NoteTheme__tableSelection *::selection {
   background-color: transparent;
 }
-.PlaygroundEditorTheme__tableSelected {
+.NoteTheme__tableSelected {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__tableCell {
+.NoteTheme__tableCell {
   border: 1px solid #bbb;
   width: 75px;
   min-width: 75px;
@@ -143,7 +143,7 @@
   position: relative;
   outline: none;
 }
-.PlaygroundEditorTheme__tableCellSortedIndicator {
+.NoteTheme__tableCellSortedIndicator {
   display: block;
   opacity: 0.5;
   position: absolute;
@@ -153,7 +153,7 @@
   height: 4px;
   background-color: #999;
 }
-.PlaygroundEditorTheme__tableCellResizer {
+.NoteTheme__tableCellResizer {
   position: absolute;
   right: -4px;
   height: 100%;
@@ -162,14 +162,14 @@
   z-index: 10;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellHeader {
+.NoteTheme__tableCellHeader {
   background-color: #f2f3f5;
   text-align: start;
 }
-.PlaygroundEditorTheme__tableCellSelected {
+.NoteTheme__tableCellSelected {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableCellPrimarySelected {
+.NoteTheme__tableCellPrimarySelected {
   border: 2px solid rgb(60, 132, 244);
   display: block;
   height: calc(100% - 2px);
@@ -179,11 +179,11 @@
   top: -1px;
   z-index: 2;
 }
-.PlaygroundEditorTheme__tableCellEditing {
+.NoteTheme__tableCellEditing {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   border-radius: 3px;
 }
-.PlaygroundEditorTheme__tableAddColumns {
+.NoteTheme__tableAddColumns {
   position: absolute;
   top: 0;
   width: 20px;
@@ -194,7 +194,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddColumns:after {
+.NoteTheme__tableAddColumns:after {
   background-image: url(/images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -208,10 +208,10 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddColumns:hover {
+.NoteTheme__tableAddColumns:hover {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableAddRows {
+.NoteTheme__tableAddRows {
   position: absolute;
   bottom: -25px;
   width: calc(100% - 25px);
@@ -222,7 +222,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddRows:after {
+.NoteTheme__tableAddRows:after {
   background-image: url(/images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -236,7 +236,7 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddRows:hover {
+.NoteTheme__tableAddRows:hover {
   background-color: #c9dbf0;
 }
 @keyframes table-controls {
@@ -247,7 +247,7 @@
     opacity: 1;
   }
 }
-.PlaygroundEditorTheme__tableCellResizeRuler {
+.NoteTheme__tableCellResizeRuler {
   display: block;
   position: absolute;
   width: 1px;
@@ -255,7 +255,7 @@
   height: 100%;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellActionButtonContainer {
+.NoteTheme__tableCellActionButtonContainer {
   display: block;
   right: 5px;
   top: 6px;
@@ -264,7 +264,7 @@
   width: 20px;
   height: 20px;
 }
-.PlaygroundEditorTheme__tableCellActionButton {
+.NoteTheme__tableCellActionButton {
   background-color: #eee;
   display: block;
   border: 0;
@@ -274,52 +274,52 @@
   color: #222;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableCellActionButton:hover {
+.NoteTheme__tableCellActionButton:hover {
   background-color: #ddd;
 }
-.PlaygroundEditorTheme__characterLimit {
+.NoteTheme__characterLimit {
   display: inline;
   background-color: #ffbbbb !important;
 }
-.PlaygroundEditorTheme__ol1 {
+.NoteTheme__ol1 {
   padding: 0;
   margin: 0;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__ol2 {
+.NoteTheme__ol2 {
   padding: 0;
   margin: 0;
   list-style-type: upper-alpha;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__ol3 {
+.NoteTheme__ol3 {
   padding: 0;
   margin: 0;
   list-style-type: lower-alpha;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__ol4 {
+.NoteTheme__ol4 {
   padding: 0;
   margin: 0;
   list-style-type: upper-roman;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__ol5 {
+.NoteTheme__ol5 {
   padding: 0;
   margin: 0;
   list-style-type: lower-roman;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__ul {
+.NoteTheme__ul {
   padding: 0;
   margin: 0;
   list-style-position: outside;
 }
-.PlaygroundEditorTheme__listItem {
+.NoteTheme__listItem {
   margin: 0 32px;
 }
-.PlaygroundEditorTheme__listItemChecked,
-.PlaygroundEditorTheme__listItemUnchecked {
+.NoteTheme__listItemChecked,
+.NoteTheme__listItemUnchecked {
   position: relative;
   margin-left: 8px;
   margin-right: 8px;
@@ -328,11 +328,11 @@
   list-style-type: none;
   outline: none;
 }
-.PlaygroundEditorTheme__listItemChecked {
+.NoteTheme__listItemChecked {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before,
-.PlaygroundEditorTheme__listItemChecked:before {
+.NoteTheme__listItemUnchecked:before,
+.NoteTheme__listItemChecked:before {
   content: "";
   width: 16px;
   height: 16px;
@@ -343,27 +343,27 @@
   background-size: cover;
   position: absolute;
 }
-.PlaygroundEditorTheme__listItemUnchecked[dir="rtl"]:before,
-.PlaygroundEditorTheme__listItemChecked[dir="rtl"]:before {
+.NoteTheme__listItemUnchecked[dir="rtl"]:before,
+.NoteTheme__listItemChecked[dir="rtl"]:before {
   left: auto;
   right: 0;
 }
-.PlaygroundEditorTheme__listItemUnchecked:focus:before,
-.PlaygroundEditorTheme__listItemChecked:focus:before {
+.NoteTheme__listItemUnchecked:focus:before,
+.NoteTheme__listItemChecked:focus:before {
   box-shadow: 0 0 0 2px #a6cdfe;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before {
+.NoteTheme__listItemUnchecked:before {
   border: 1px solid #999;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemChecked:before {
+.NoteTheme__listItemChecked:before {
   border: 1px solid theme("colors.border");
   border-radius: 2px;
   background-color: theme("colors.primary.DEFAULT");
   background-repeat: no-repeat;
 }
-.PlaygroundEditorTheme__listItemChecked:after {
+.NoteTheme__listItemChecked:after {
   content: "";
   cursor: pointer;
   border-color: theme("colors.primary.foreground");
@@ -378,86 +378,86 @@
   transform: rotate(45deg);
   border-width: 0 2px 2px 0;
 }
-.PlaygroundEditorTheme__nestedListItem {
+.NoteTheme__nestedListItem {
   list-style-type: none;
 }
-.PlaygroundEditorTheme__nestedListItem:before,
-.PlaygroundEditorTheme__nestedListItem:after {
+.NoteTheme__nestedListItem:before,
+.NoteTheme__nestedListItem:after {
   display: none;
 }
-.PlaygroundEditorTheme__tokenComment {
+.NoteTheme__tokenComment {
   color: slategray;
 }
-.PlaygroundEditorTheme__tokenPunctuation {
+.NoteTheme__tokenPunctuation {
   color: #999;
 }
-.PlaygroundEditorTheme__tokenProperty {
+.NoteTheme__tokenProperty {
   color: #905;
 }
-.PlaygroundEditorTheme__tokenSelector {
+.NoteTheme__tokenSelector {
   color: #690;
 }
-.PlaygroundEditorTheme__tokenOperator {
+.NoteTheme__tokenOperator {
   color: #9a6e3a;
 }
-.PlaygroundEditorTheme__tokenAttr {
+.NoteTheme__tokenAttr {
   color: #07a;
 }
-.PlaygroundEditorTheme__tokenVariable {
+.NoteTheme__tokenVariable {
   color: #e90;
 }
-.PlaygroundEditorTheme__tokenFunction {
+.NoteTheme__tokenFunction {
   color: #dd4a68;
 }
-.PlaygroundEditorTheme__mark {
+.NoteTheme__mark {
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgba(255, 212, 0, 0.3);
   padding-bottom: 2px;
 }
-.PlaygroundEditorTheme__markOverlap {
+.NoteTheme__markOverlap {
   background: rgba(255, 212, 0, 0.3);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__mark.selected {
+.NoteTheme__mark.selected {
   background: rgba(255, 212, 0, 0.5);
   border-bottom: 2px solid rgba(255, 212, 0, 1);
 }
-.PlaygroundEditorTheme__markOverlap.selected {
+.NoteTheme__markOverlap.selected {
   background: rgba(255, 212, 0, 0.7);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__embedBlock {
+.NoteTheme__embedBlock {
   user-select: none;
 }
-.PlaygroundEditorTheme__embedBlockFocus {
+.NoteTheme__embedBlockFocus {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__layoutContainer {
+.NoteTheme__layoutContainer {
   display: grid;
   gap: 10px;
   margin: 10px 0;
 }
-.PlaygroundEditorTheme__layoutItem {
+.NoteTheme__layoutItem {
   border: 1px dashed #ddd;
   padding: 8px 16px;
 }
-.PlaygroundEditorTheme__autocomplete {
+.NoteTheme__autocomplete {
   color: #ccc;
 }
-.PlaygroundEditorTheme__hr {
+.NoteTheme__hr {
   padding: 2px 2px;
   border: none;
   margin: 1em 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__hr:after {
+.NoteTheme__hr:after {
   content: "";
   display: block;
   height: 2px;
   background-color: #ccc;
   line-height: 2px;
 }
-.PlaygroundEditorTheme__hr.selected {
+.NoteTheme__hr.selected {
   outline: 2px solid rgb(60, 132, 244);
   user-select: none;
 }
