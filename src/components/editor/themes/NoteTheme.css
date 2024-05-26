@@ -22,8 +22,8 @@
   margin-left: 20px;
   margin-bottom: 10px;
   font-size: 15px;
-  color: rgb(101, 103, 107);
-  border-left-color: rgb(206, 208, 212);
+  color: theme("colors.muted.foreground");
+  border-left-color: theme("colors.secondary.DEFAULT");
   border-left-width: 4px;
   border-left-style: solid;
   padding-left: 16px;

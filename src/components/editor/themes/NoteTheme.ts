@@ -98,24 +98,7 @@ const theme: EditorThemeClasses = {
   inlineImage: "inline-editor-image",
   layoutContainer: "NoteTheme__layoutContainer",
   layoutItem: "NoteTheme__layoutItem",
-  link: "NoteTheme__link",
-  // list: {
-  //   checklist: "NoteTheme__checklist",
-  //   listitem: "NoteTheme__listItem",
-  //   listitemChecked: "NoteTheme__listItemChecked",
-  //   listitemUnchecked: "NoteTheme__listItemUnchecked",
-  //   nested: {
-  //     listitem: "NoteTheme__nestedListItem",
-  //   },
-  //   olDepth: [
-  //     "NoteTheme__ol1",
-  //     "NoteTheme__ol2",
-  //     "NoteTheme__ol3",
-  //     "NoteTheme__ol4",
-  //     "NoteTheme__ol5",
-  //   ],
-  //   ul: "NoteTheme__ul",
-  // },
+  link: "text-blue-600 dark:text-blue-500 hover:underline hover:cursor-pointer",
   list: {
     checklist: "",
     listitemChecked: "NoteTheme__listItemChecked",
