@@ -358,15 +358,15 @@
   border-radius: 2px;
 }
 .PlaygroundEditorTheme__listItemChecked:before {
-  border: 1px solid rgb(61, 135, 245);
+  border: 1px solid theme("colors.border");
   border-radius: 2px;
-  background-color: #3d87f5;
+  background-color: theme("colors.primary.DEFAULT");
   background-repeat: no-repeat;
 }
 .PlaygroundEditorTheme__listItemChecked:after {
   content: "";
   cursor: pointer;
-  border-color: #fff;
+  border-color: theme("colors.primary.foreground");
   border-style: solid;
   position: absolute;
   display: block;

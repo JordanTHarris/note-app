@@ -380,7 +380,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
           <TableContext>
             <SharedAutocompleteContext>
               {/* <div className="editor-shell"> */}
-              <div className="flex h-full max-h-full flex-1 flex-col">
+              <div className="flex h-full max-h-full flex-1 flex-col leading-relaxed">
                 <Editor note={note} />
               </div>
               <Settings />
