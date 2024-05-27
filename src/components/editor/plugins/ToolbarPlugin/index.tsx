@@ -79,7 +79,6 @@ import { IS_APPLE } from "@/components/editor/shared/environment";
 import useModal from "../../hooks/useModal";
 import { $createStickyNode } from "../../nodes/StickyNode";
 // import catTypingGif from "/images/cat-typing.gif";
-import DropDown, { DropDownItem } from "../../ui/DropDown";
 import DropdownColorPicker from "../../ui/DropdownColorPicker";
 import { getSelectedNode } from "../../utils/getSelectedNode";
 import { sanitizeUrl } from "../../utils/url";
@@ -104,16 +103,13 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -168,7 +164,7 @@ import { Separator } from "@/components/ui/separator";
 import { type ImagePayload } from "../../nodes/ImageNode";
 import { FontColor } from "@/components/shared/icons";
 import { useTheme } from "next-themes";
-import { set } from "zod";
+// import { set } from "zod";
 import { updateContent } from "@/server/notes";
 import { type Note } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -1217,7 +1213,7 @@ export default function ToolbarPlugin({
 
   return (
     // <div className="toolbar items-center">
-    <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 border-b p-2">
+    <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 border-b bg-background p-2">
       <div className="flex flex-1 flex-wrap items-center gap-1">
         <Button
           variant="ghost"

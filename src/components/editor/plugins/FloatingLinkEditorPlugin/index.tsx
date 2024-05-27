@@ -37,8 +37,7 @@ import { setFloatingElemPositionForLinkEditor } from "../../utils/setFloatingEle
 import { sanitizeUrl } from "../../utils/url";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Check, Edit, Edit2, Trash2, X } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { Check, Edit2, Trash2, X } from "lucide-react";
 
 function FloatingLinkEditor({
   editor,
@@ -102,7 +101,7 @@ function FloatingLinkEditor({
         setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElem);
       }
       setLastSelection(selection);
-    } else if (!activeElement || activeElement.className !== "link-input") {
+    } else if (!activeElement || activeElement.id !== "link-input") {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElem);
       }
@@ -225,7 +224,7 @@ function FloatingLinkEditor({
             <div className="flex items-center justify-between">
               <Input
                 ref={inputRef}
-                // className="link-input"
+                id="link-input"
                 className="h-7 w-80"
                 value={editedLinkUrl}
                 onChange={(event) => {
