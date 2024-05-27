@@ -30,8 +30,8 @@ import {
   $getSelection,
   $isRangeSelection,
   FORMAT_ELEMENT_COMMAND,
-  LexicalEditor,
-  TextNode,
+  type LexicalEditor,
+  type TextNode,
 } from "lexical";
 import { useCallback, useMemo, useState } from "react";
 import * as React from "react";
@@ -74,7 +74,7 @@ class ComponentPickerOption extends MenuOption {
   ) {
     super(title);
     this.title = title;
-    this.keywords = options.keywords || [];
+    this.keywords = options.keywords ?? [];
     this.icon = options.icon;
     this.keyboardShortcut = options.keyboardShortcut;
     this.onSelect = options.onSelect.bind(this);
@@ -103,6 +103,7 @@ function ComponentPickerMenuItem({
       key={option.key}
       tabIndex={-1}
       className={className}
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}

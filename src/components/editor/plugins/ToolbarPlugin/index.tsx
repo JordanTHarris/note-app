@@ -676,7 +676,12 @@ function InsertDropDown({
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          editor.focus();
+        }}
+      >
         <DropdownMenuItem
           onClick={() => {
             activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
@@ -836,7 +841,12 @@ function AdditionalStylesDropdown({
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+          activeEditor.focus();
+        }}
+      >
         <DropdownMenuCheckboxItem
           checked={isStrikethrough}
           onCheckedChange={() => {

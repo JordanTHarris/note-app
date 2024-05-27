@@ -5,36 +5,40 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import './index.css';
+import "./index.css";
 
 import {
   $createLinkNode,
   $isAutoLinkNode,
   $isLinkNode,
   TOGGLE_LINK_COMMAND,
-} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import {$findMatchingParent, mergeRegister} from '@lexical/utils';
+} from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $findMatchingParent, mergeRegister } from "@lexical/utils";
 import {
   $getSelection,
   $isLineBreakNode,
   $isRangeSelection,
-  BaseSelection,
+  type BaseSelection,
   CLICK_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
   COMMAND_PRIORITY_HIGH,
   COMMAND_PRIORITY_LOW,
   KEY_ESCAPE_COMMAND,
-  LexicalEditor,
+  type LexicalEditor,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import {Dispatch, useCallback, useEffect, useRef, useState} from 'react';
-import * as React from 'react';
-import {createPortal} from 'react-dom';
+} from "lexical";
+import { type Dispatch, useCallback, useEffect, useRef, useState } from "react";
+import * as React from "react";
+import { createPortal } from "react-dom";
 
-import {getSelectedNode} from '../../utils/getSelectedNode';
-import {setFloatingElemPositionForLinkEditor} from '../../utils/setFloatingElemPositionForLinkEditor';
-import {sanitizeUrl} from '../../utils/url';
+import { getSelectedNode } from "../../utils/getSelectedNode";
+import { setFloatingElemPositionForLinkEditor } from "../../utils/setFloatingElemPositionForLinkEditor";
+import { sanitizeUrl } from "../../utils/url";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Check, Edit, Edit2, Trash2, X } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 function FloatingLinkEditor({
   editor,
@@ -53,11 +57,9 @@ function FloatingLinkEditor({
 }): JSX.Element {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [linkUrl, setLinkUrl] = useState('');
-  const [editedLinkUrl, setEditedLinkUrl] = useState('https://');
-  const [lastSelection, setLastSelection] = useState<BaseSelection | null>(
-    null,
-  );
+  const [linkUrl, setLinkUrl] = useState("");
+  const [editedLinkUrl, setEditedLinkUrl] = useState("https://");
+  const [lastSelection, setLastSelection] = useState<BaseSelection | null>(null);
 
   const $updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -70,7 +72,7 @@ function FloatingLinkEditor({
       } else if ($isLinkNode(node)) {
         setLinkUrl(node.getURL());
       } else {
-        setLinkUrl('');
+        setLinkUrl("");
       }
       if (isLinkEditMode) {
         setEditedLinkUrl(linkUrl);
@@ -100,13 +102,13 @@ function FloatingLinkEditor({
         setFloatingElemPositionForLinkEditor(domRect, editorElem, anchorElem);
       }
       setLastSelection(selection);
-    } else if (!activeElement || activeElement.className !== 'link-input') {
+    } else if (!activeElement || activeElement.className !== "link-input") {
       if (rootElement !== null) {
         setFloatingElemPositionForLinkEditor(null, editorElem, anchorElem);
       }
       setLastSelection(null);
       setIsLinkEditMode(false);
-      setLinkUrl('');
+      setLinkUrl("");
     }
 
     return true;
@@ -121,24 +123,24 @@ function FloatingLinkEditor({
       });
     };
 
-    window.addEventListener('resize', update);
+    window.addEventListener("resize", update);
 
     if (scrollerElem) {
-      scrollerElem.addEventListener('scroll', update);
+      scrollerElem.addEventListener("scroll", update);
     }
 
     return () => {
-      window.removeEventListener('resize', update);
+      window.removeEventListener("resize", update);
 
       if (scrollerElem) {
-        scrollerElem.removeEventListener('scroll', update);
+        scrollerElem.removeEventListener("scroll", update);
       }
     };
   }, [anchorElem.parentElement, editor, $updateLinkEditor]);
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateLinkEditor();
         });
@@ -178,13 +180,11 @@ function FloatingLinkEditor({
     }
   }, [isLinkEditMode, isLink]);
 
-  const monitorInputInteraction = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    if (event.key === 'Enter') {
+  const monitorInputInteraction = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
       event.preventDefault();
       handleLinkSubmission();
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       event.preventDefault();
       setIsLinkEditMode(false);
     }
@@ -192,7 +192,7 @@ function FloatingLinkEditor({
 
   const handleLinkSubmission = () => {
     if (lastSelection !== null) {
-      if (linkUrl !== '') {
+      if (linkUrl !== "") {
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, sanitizeUrl(editedLinkUrl));
         editor.update(() => {
           const selection = $getSelection();
@@ -209,76 +209,97 @@ function FloatingLinkEditor({
           }
         });
       }
-      setEditedLinkUrl('https://');
+      setEditedLinkUrl("https://");
       setIsLinkEditMode(false);
     }
   };
 
   return (
-    <div ref={editorRef} className="link-editor">
-      {!isLink ? null : isLinkEditMode ? (
-        <>
-          <input
-            ref={inputRef}
-            className="link-input"
-            value={editedLinkUrl}
-            onChange={(event) => {
-              setEditedLinkUrl(event.target.value);
-            }}
-            onKeyDown={(event) => {
-              monitorInputInteraction(event);
-            }}
-          />
-          <div>
-            <div
-              className="link-cancel"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => {
-                setIsLinkEditMode(false);
-              }}
-            />
+    <>
+      {isLink && (
+        <div
+          ref={editorRef}
+          className="absolute left-0 top-0 z-10 flex max-w-[400px] items-center rounded-md border bg-popover p-2 opacity-0 shadow-lg transition-opacity duration-300"
+        >
+          {!isLink ? null : isLinkEditMode ? (
+            <div className="flex items-center justify-between">
+              <Input
+                ref={inputRef}
+                // className="link-input"
+                className="h-7 w-80"
+                value={editedLinkUrl}
+                onChange={(event) => {
+                  setEditedLinkUrl(event.target.value);
+                }}
+                onKeyDown={(event) => {
+                  monitorInputInteraction(event);
+                }}
+              />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ml-2 h-6 w-6"
+                tabIndex={0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                  setIsLinkEditMode(false);
+                }}
+              >
+                <X className="h-4 w-4 text-destructive" />
+              </Button>
 
-            <div
-              className="link-confirm"
-              role="button"
-              tabIndex={0}
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={handleLinkSubmission}
-            />
-          </div>
-        </>
-      ) : (
-        <div className="link-view">
-          <a
-            href={sanitizeUrl(linkUrl)}
-            target="_blank"
-            rel="noopener noreferrer">
-            {linkUrl}
-          </a>
-          <div
-            className="link-edit"
-            role="button"
-            tabIndex={0}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => {
-              setEditedLinkUrl(linkUrl);
-              setIsLinkEditMode(true);
-            }}
-          />
-          <div
-            className="link-trash"
-            role="button"
-            tabIndex={0}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => {
-              editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-            }}
-          />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6"
+                tabIndex={0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={handleLinkSubmission}
+              >
+                <Check className="h-4 w-4 text-green-500" />
+              </Button>
+            </div>
+          ) : (
+            // <div className="link-view">
+            <div className="flex items-center justify-between">
+              <a
+                href={sanitizeUrl(linkUrl)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="max-w-80 break-all text-sm text-blue-600 hover:cursor-pointer hover:underline dark:text-blue-500"
+              >
+                {linkUrl}
+              </a>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ml-2 h-6 w-6"
+                tabIndex={0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                  setEditedLinkUrl(linkUrl);
+                  setIsLinkEditMode(true);
+                }}
+              >
+                <Edit2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6"
+                tabIndex={0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                  editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
+                }}
+              >
+                <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }
 
@@ -297,11 +318,8 @@ function useFloatingLinkEditorToolbar(
       if ($isRangeSelection(selection)) {
         const focusNode = getSelectedNode(selection);
         const focusLinkNode = $findMatchingParent(focusNode, $isLinkNode);
-        const focusAutoLinkNode = $findMatchingParent(
-          focusNode,
-          $isAutoLinkNode,
-        );
-        if (!(focusLinkNode || focusAutoLinkNode)) {
+        const focusAutoLinkNode = $findMatchingParent(focusNode, $isAutoLinkNode);
+        if (!(focusLinkNode ?? focusAutoLinkNode)) {
           setIsLink(false);
           return;
         }
@@ -312,9 +330,9 @@ function useFloatingLinkEditorToolbar(
             const linkNode = $findMatchingParent(node, $isLinkNode);
             const autoLinkNode = $findMatchingParent(node, $isAutoLinkNode);
             return (
-              (focusLinkNode && !focusLinkNode.is(linkNode)) ||
-              (linkNode && !linkNode.is(focusLinkNode)) ||
-              (focusAutoLinkNode && !focusAutoLinkNode.is(autoLinkNode)) ||
+              (focusLinkNode && !focusLinkNode.is(linkNode)) ??
+              (linkNode && !linkNode.is(focusLinkNode)) ??
+              (focusAutoLinkNode && !focusAutoLinkNode.is(autoLinkNode)) ??
               (autoLinkNode && !autoLinkNode.is(focusAutoLinkNode))
             );
           });
@@ -326,7 +344,7 @@ function useFloatingLinkEditorToolbar(
       }
     }
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar();
         });
@@ -348,7 +366,7 @@ function useFloatingLinkEditorToolbar(
             const node = getSelectedNode(selection);
             const linkNode = $findMatchingParent(node, $isLinkNode);
             if ($isLinkNode(linkNode) && (payload.metaKey || payload.ctrlKey)) {
-              window.open(linkNode.getURL(), '_blank');
+              window.open(linkNode.getURL(), "_blank");
               return true;
             }
           }
