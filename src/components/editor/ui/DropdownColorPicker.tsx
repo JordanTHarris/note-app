@@ -3,11 +3,10 @@
 import * as React from "react";
 
 import ColorPicker from "./ColorPicker";
-import DropDown from "./DropDown";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ChevronDown } from "lucide-react";
-import { LexicalEditor } from "lexical";
+// import { ChevronDown } from "lucide-react";
+import { type LexicalEditor } from "lexical";
 
 type Props = {
   children?: React.ReactNode;

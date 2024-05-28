@@ -1260,11 +1260,9 @@ export default function ToolbarPlugin({
             value={codeLanguage}
             onValueChange={(value) => onCodeLanguageSelect(value)}
           >
-            <SelectTrigger className="h-7 w-fit truncate">
+            <SelectTrigger className="h-7 w-fit truncate border-none">
               <div className="flex items-center truncate">
-                <span className="hidden text-sm xl:block">
-                  {getLanguageFriendlyName(codeLanguage)}
-                </span>
+                <span className="text-sm">{getLanguageFriendlyName(codeLanguage)}</span>
               </div>
             </SelectTrigger>
             <SelectContent
