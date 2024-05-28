@@ -419,27 +419,31 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         onSelectOption={onSelectOption}
         triggerFn={checkForTriggerMatch}
         options={options}
-        menuRenderFn={(anchorElementRef, { selectedIndex, selectOptionAndCleanUp }) =>
+        menuRenderFn={(
+          anchorElementRef,
+          { selectedIndex, setHighlightedIndex, selectOptionAndCleanUp },
+        ) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
-                // <div className="typeahead-popover component-picker-menu">
-                <div className="fixed rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
-                  <ScrollArea className="max-h-52 overflow-y-auto">
-                    <ul className="list-none">
-                      {options.map((option, i: number) => (
-                        <ComponentPickerMenuItem
-                          index={i}
-                          isSelected={selectedIndex === i}
-                          onClick={() => {
-                            selectOptionAndCleanUp(option);
-                          }}
-                          key={option.key}
-                          option={option}
-                        />
-                      ))}
-                    </ul>
-                  </ScrollArea>
-                </div>,
+                <ScrollArea className="no-scrollbar !fixed max-h-52 overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+                  <ul className="list-none">
+                    {options.map((option, i: number) => (
+                      <ComponentPickerMenuItem
+                        index={i}
+                        isSelected={selectedIndex === i}
+                        onClick={() => {
+                          setHighlightedIndex(i);
+                          selectOptionAndCleanUp(option);
+                        }}
+                        onMouseEnter={() => {
+                          setHighlightedIndex(i);
+                        }}
+                        key={option.key}
+                        option={option}
+                      />
+                    ))}
+                  </ul>
+                </ScrollArea>,
                 anchorElementRef.current,
               )
             : null

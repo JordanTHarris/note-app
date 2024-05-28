@@ -1212,7 +1212,6 @@ export default function ToolbarPlugin({
   }
 
   return (
-    // <div className="toolbar items-center">
     <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 border-b bg-background p-2">
       <div className="flex flex-1 flex-wrap items-center gap-1">
         <Button
@@ -1387,6 +1386,7 @@ export default function ToolbarPlugin({
             >
               <Link2 className="h-5 w-5" />
             </Button>
+            <Separator className="h-7" orientation="vertical" />
             <DropdownColorPicker
               disabled={!isEditable}
               color={fontColor}
@@ -1403,7 +1403,7 @@ export default function ToolbarPlugin({
             >
               <PaintBucket className="h-5 w-5 scale-90" />
             </DropdownColorPicker>
-
+            <Separator className="h-7" orientation="vertical" />
             <AdditionalStylesDropdown
               activeEditor={activeEditor}
               clearFormatting={clearFormatting}
@@ -1412,9 +1412,7 @@ export default function ToolbarPlugin({
               isSubscript={isSubscript}
               isSuperscript={isSuperscript}
             />
-
             <Separator className="h-7" orientation="vertical" />
-
             <InsertDropDown
               activeEditor={activeEditor}
               editor={editor}

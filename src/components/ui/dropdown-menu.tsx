@@ -60,7 +60,7 @@ const DropdownMenuContent = React.forwardRef<
     container?: HTMLElement;
   }
 >(({ className, sideOffset = 4, container, ...props }, ref) => (
-  <DropdownMenuPrimitive.Portal container={container}>
+  <DropdownMenuPrimitive.Portal>
     <DropdownMenuPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}

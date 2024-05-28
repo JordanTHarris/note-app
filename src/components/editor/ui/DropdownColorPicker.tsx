@@ -36,7 +36,7 @@ export default function DropdownColorPicker({
             style={{ backgroundColor: color }}
           ></div>
           {children}
-          <ChevronDown className="hidden h-4 w-4 opacity-50 xl:block" />
+          {/* <ChevronDown className="hidden h-4 w-4 opacity-50 xl:block" /> */}
         </div>
       </PopoverTrigger>
       <PopoverContent

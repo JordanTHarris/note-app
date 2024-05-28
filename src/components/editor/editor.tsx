@@ -76,7 +76,7 @@ import PasteLogPlugin from "./plugins/PasteLogPlugin";
 import TestRecorderPlugin from "./plugins/TestRecorderPlugin";
 import TypingPerfPlugin from "./plugins/TypingPerfPlugin";
 import PlaygroundNodes from "./nodes/PlaygroundNodes";
-import PlaygroundEditorTheme from "./themes/NoteTheme";
+import NoteTheme from "./themes/NoteTheme";
 import { type Note } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import { isDevPlayground } from "./appSettings";
@@ -101,12 +101,14 @@ export function Editor({ note }: { note: Note }): JSX.Element {
       isRichText,
       showTreeView,
       showTableOfContents,
-      shouldUseLexicalContextMenu,
       shouldPreserveNewLinesInMarkdown,
       tableCellMerge,
       tableCellBackgroundColor,
     },
   } = useSettings();
+
+  const shouldUseLexicalContextMenu = true;
+
   const isEditable = useLexicalEditable();
   const text = isCollab
     ? "Enter some collaborative rich text..."
@@ -285,7 +287,7 @@ export function NoteEditor({ className, note }: { className?: string; note: Note
     onError: (error: Error) => {
       throw error;
     },
-    theme: PlaygroundEditorTheme,
+    theme: NoteTheme,
   };
 
   return (

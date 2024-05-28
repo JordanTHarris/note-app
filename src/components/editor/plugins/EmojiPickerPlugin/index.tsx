@@ -166,27 +166,25 @@ export default function EmojiPickerPlugin() {
 
         return anchorElementRef.current && options.length
           ? ReactDOM.createPortal(
-              <div className="fixed rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
-                <ScrollArea className="max-h-52 overflow-y-auto">
-                  <ul className="list-none">
-                    {options.map((option: EmojiOption, index) => (
-                      <EmojiMenuItem
-                        key={option.key}
-                        index={index}
-                        isSelected={selectedIndex === index}
-                        onClick={() => {
-                          setHighlightedIndex(index);
-                          selectOptionAndCleanUp(option);
-                        }}
-                        onMouseEnter={() => {
-                          setHighlightedIndex(index);
-                        }}
-                        option={option}
-                      />
-                    ))}
-                  </ul>
-                </ScrollArea>
-              </div>,
+              <ScrollArea className="no-scrollbar !fixed max-h-52 overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+                <ul className="list-none">
+                  {options.map((option: EmojiOption, index) => (
+                    <EmojiMenuItem
+                      key={option.key}
+                      index={index}
+                      isSelected={selectedIndex === index}
+                      onClick={() => {
+                        setHighlightedIndex(index);
+                        selectOptionAndCleanUp(option);
+                      }}
+                      onMouseEnter={() => {
+                        setHighlightedIndex(index);
+                      }}
+                      option={option}
+                    />
+                  ))}
+                </ul>
+              </ScrollArea>,
               anchorElementRef.current,
             )
           : null;
