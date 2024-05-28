@@ -6,21 +6,18 @@
  *
  */
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   LexicalTypeaheadMenuPlugin,
   MenuOption,
   useBasicTypeaheadTriggerMatch,
-} from '@lexical/react/LexicalTypeaheadMenuPlugin';
-import {
-  $createTextNode,
-  $getSelection,
-  $isRangeSelection,
-  TextNode,
-} from 'lexical';
-import * as React from 'react';
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import * as ReactDOM from 'react-dom';
+} from "@lexical/react/LexicalTypeaheadMenuPlugin";
+import { $createTextNode, $getSelection, $isRangeSelection, TextNode } from "lexical";
+import * as React from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import * as ReactDOM from "react-dom";
 
 class EmojiOption extends MenuOption {
   title: string;
@@ -37,7 +34,7 @@ class EmojiOption extends MenuOption {
     super(title);
     this.title = title;
     this.emoji = emoji;
-    this.keywords = options.keywords || [];
+    this.keywords = options.keywords ?? [];
   }
 }
 function EmojiMenuItem({
@@ -53,24 +50,24 @@ function EmojiMenuItem({
   onMouseEnter: () => void;
   option: EmojiOption;
 }) {
-  let className = 'item';
-  if (isSelected) {
-    className += ' selected';
-  }
   return (
     <li
       key={option.key}
       tabIndex={-1}
-      className={className}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+        isSelected && "bg-accent text-accent-foreground",
+      )}
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
-      id={'typeahead-item-' + index}
+      id={"typeahead-item-" + index}
       onMouseEnter={onMouseEnter}
-      onClick={onClick}>
-      <span className="text">
-        {option.emoji} {option.title}
-      </span>
+      onClick={onClick}
+    >
+      <span className="mr-1 text-lg">{option.emoji}</span>
+      <span className="text-sm">{option.title}</span>
     </li>
   );
 }
@@ -94,15 +91,15 @@ export default function EmojiPickerPlugin() {
   const [emojis, setEmojis] = useState<Array<Emoji>>([]);
 
   useEffect(() => {
-    import('../../utils/emoji-list').then((file) => setEmojis(file.default));
+    void import("../../utils/emoji-list").then((file) => setEmojis(file.default));
   }, []);
 
   const emojiOptions = useMemo(
     () =>
       emojis != null
         ? emojis.map(
-            ({emoji, aliases, tags}) =>
-              new EmojiOption(aliases[0], emoji, {
+            ({ emoji, aliases, tags }) =>
+              new EmojiOption(aliases[0]!, emoji, {
                 keywords: [...aliases, ...tags],
               }),
           )
@@ -110,7 +107,7 @@ export default function EmojiPickerPlugin() {
     [emojis],
   );
 
-  const checkForTriggerMatch = useBasicTypeaheadTriggerMatch(':', {
+  const checkForTriggerMatch = useBasicTypeaheadTriggerMatch(":", {
     minLength: 0,
   });
 
@@ -118,10 +115,9 @@ export default function EmojiPickerPlugin() {
     return emojiOptions
       .filter((option: EmojiOption) => {
         return queryString != null
-          ? new RegExp(queryString, 'gi').exec(option.title) ||
-            option.keywords != null
+          ? new RegExp(queryString, "gi").exec(option.title) ?? option.keywords != null
             ? option.keywords.some((keyword: string) =>
-                new RegExp(queryString, 'gi').exec(keyword),
+                new RegExp(queryString, "gi").exec(keyword),
               )
             : false
           : emojiOptions;
@@ -162,7 +158,7 @@ export default function EmojiPickerPlugin() {
       options={options}
       menuRenderFn={(
         anchorElementRef,
-        {selectedIndex, selectOptionAndCleanUp, setHighlightedIndex},
+        { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
       ) => {
         if (anchorElementRef.current == null || options.length === 0) {
           return null;
@@ -170,24 +166,26 @@ export default function EmojiPickerPlugin() {
 
         return anchorElementRef.current && options.length
           ? ReactDOM.createPortal(
-              <div className="typeahead-popover emoji-menu">
-                <ul>
-                  {options.map((option: EmojiOption, index) => (
-                    <EmojiMenuItem
-                      key={option.key}
-                      index={index}
-                      isSelected={selectedIndex === index}
-                      onClick={() => {
-                        setHighlightedIndex(index);
-                        selectOptionAndCleanUp(option);
-                      }}
-                      onMouseEnter={() => {
-                        setHighlightedIndex(index);
-                      }}
-                      option={option}
-                    />
-                  ))}
-                </ul>
+              <div className="fixed rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+                <ScrollArea className="max-h-52 overflow-y-auto">
+                  <ul className="list-none">
+                    {options.map((option: EmojiOption, index) => (
+                      <EmojiMenuItem
+                        key={option.key}
+                        index={index}
+                        isSelected={selectedIndex === index}
+                        onClick={() => {
+                          setHighlightedIndex(index);
+                          selectOptionAndCleanUp(option);
+                        }}
+                        onMouseEnter={() => {
+                          setHighlightedIndex(index);
+                        }}
+                        option={option}
+                      />
+                    ))}
+                  </ul>
+                </ScrollArea>
               </div>,
               anchorElementRef.current,
             )

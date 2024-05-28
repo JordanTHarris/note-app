@@ -125,7 +125,7 @@ function ComponentPickerMenuItem({
       key={option.key}
       tabIndex={-1}
       className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground",
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
         isSelected && "bg-accent text-accent-foreground",
       )}
       // eslint-disable-next-line @typescript-eslint/unbound-method
