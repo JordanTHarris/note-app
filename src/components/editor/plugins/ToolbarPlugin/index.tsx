@@ -392,7 +392,7 @@ function BlockFormatDropDown({
         {/* <SelectValue placeholder="Select a format" /> */}
         <div className="flex items-center truncate">
           {blockTypeToIcon[blockType]}
-          <span className="hidden font-medium xl:block">
+          <span className="hidden text-sm xl:block">
             {blockTypeToBlockName[blockType]}
           </span>
         </div>
@@ -408,55 +408,55 @@ function BlockFormatDropDown({
           <SelectItem value="paragraph">
             <div className="flex items-center">
               {blockTypeToIcon.paragraph}
-              <span className="font-medium">Normal</span>
+              <span className="text-sm">Normal</span>
             </div>
           </SelectItem>
           <SelectItem value="h1">
             <div className="flex items-center">
               {blockTypeToIcon.h1}
-              <span className="font-medium">Heading 1</span>
+              <span className="text-sm">Heading 1</span>
             </div>
           </SelectItem>
           <SelectItem value="h2">
             <div className="flex items-center">
               {blockTypeToIcon.h2}
-              <span className="font-medium">Heading 2</span>
+              <span className="text-sm">Heading 2</span>
             </div>
           </SelectItem>
           <SelectItem value="h3">
             <div className="flex items-center">
               {blockTypeToIcon.h3}
-              <span className="font-medium">Heading 3</span>
+              <span className="text-sm">Heading 3</span>
             </div>
           </SelectItem>
           <SelectItem value="bullet">
             <div className="flex items-center">
               {blockTypeToIcon.bullet}
-              <span className="font-medium">Bullet List</span>
+              <span className="text-sm">Bullet List</span>
             </div>
           </SelectItem>
           <SelectItem value="number">
             <div className="flex items-center">
               {blockTypeToIcon.number}
-              <span className="font-medium">Number List</span>
+              <span className="text-sm">Number List</span>
             </div>
           </SelectItem>
           <SelectItem value="check">
             <div className="flex items-center">
               {blockTypeToIcon.check}
-              <span className="font-medium">Check List</span>
+              <span className="text-sm">Check List</span>
             </div>
           </SelectItem>
           <SelectItem value="quote">
             <div className="flex items-center">
               {blockTypeToIcon.quote}
-              <span className="font-medium">Quote</span>
+              <span className="text-sm">Quote</span>
             </div>
           </SelectItem>
           <SelectItem value="code">
             <div className="flex items-center">
               {blockTypeToIcon.code}
-              <span className="font-medium">Code Block</span>
+              <span className="text-sm">Code Block</span>
             </div>
           </SelectItem>
         </SelectGroup>
@@ -495,7 +495,7 @@ function FontDropDown({
       <SelectTrigger className="h-7 w-fit truncate border-none">
         <div className="flex items-center truncate">
           <Type className="mr-1 h-5 w-5" />
-          <span className="hidden font-medium xl:block">{value}</span>
+          <span className="hidden xl:block">{value}</span>
         </div>
       </SelectTrigger>
       <SelectContent
@@ -509,7 +509,7 @@ function FontDropDown({
           {(style === "font-family" ? FONT_FAMILY_OPTIONS : FONT_SIZE_OPTIONS).map(
             ([option, text]) => (
               <SelectItem value={option} onClick={() => handleClick(option)} key={option}>
-                <span className="font-medium">{text}</span>
+                <span className="text-sm">{text}</span>
               </SelectItem>
             ),
           )}
@@ -557,7 +557,7 @@ function ElementFormatDropdown({
       <SelectTrigger className="h-7 w-fit truncate border-none">
         <div className="flex items-center truncate">
           {isRTL ? formatOption.iconRTL : formatOption.icon}
-          <span className="hidden font-medium xl:block">{formatOption.name}</span>
+          <span className="hidden text-sm xl:block">{formatOption.name}</span>
         </div>
       </SelectTrigger>
       <SelectContent
@@ -571,25 +571,25 @@ function ElementFormatDropdown({
           <SelectItem value="left">
             <div className="flex items-center">
               {ELEMENT_FORMAT_OPTIONS.left.icon}
-              <span className="font-medium">Left Align</span>
+              <span className="text-sm">Left Align</span>
             </div>
           </SelectItem>
           <SelectItem value="center">
             <div className="flex items-center">
               {ELEMENT_FORMAT_OPTIONS.center.icon}
-              <span className="font-medium">Center Align</span>
+              <span className="text-sm">Center Align</span>
             </div>
           </SelectItem>
           <SelectItem value="right">
             <div className="flex items-center">
               {ELEMENT_FORMAT_OPTIONS.right.icon}
-              <span className="font-medium">Right Align</span>
+              <span className="text-sm">Right Align</span>
             </div>
           </SelectItem>
           <SelectItem value="justify">
             <div className="flex items-center">
               {ELEMENT_FORMAT_OPTIONS.justify.icon}
-              <span className="font-medium">Justify Align</span>
+              <span className="text-sm">Justify Align</span>
             </div>
           </SelectItem>
           <SelectItem value="start">
@@ -597,7 +597,7 @@ function ElementFormatDropdown({
               {isRTL
                 ? ELEMENT_FORMAT_OPTIONS.start.iconRTL
                 : ELEMENT_FORMAT_OPTIONS.start.icon}
-              <span className="font-medium">Start Align</span>
+              <span className="text-sm">Start Align</span>
             </div>
           </SelectItem>
           <SelectItem value="end">
@@ -605,7 +605,7 @@ function ElementFormatDropdown({
               {isRTL
                 ? ELEMENT_FORMAT_OPTIONS.end.iconRTL
                 : ELEMENT_FORMAT_OPTIONS.end.icon}
-              <span className="font-medium">End Align</span>
+              <span className="text-sm">End Align</span>
             </div>
           </SelectItem>
         </SelectGroup>
@@ -623,7 +623,7 @@ function ElementFormatDropdown({
               ) : (
                 <Outdent className="mr-1 h-5 w-5" />
               )}
-              <span className="font-medium">Outdent</span>
+              <span className="text-sm">Outdent</span>
             </div>
           </SelectItem>
           <SelectItem
@@ -638,7 +638,7 @@ function ElementFormatDropdown({
               ) : (
                 <Indent className="mr-1 h-5 w-5" />
               )}
-              <span className="font-medium">Indent</span>
+              <span className="text-sm">Indent</span>
             </div>
           </SelectItem>
         </SelectGroup>
@@ -668,7 +668,7 @@ function InsertDropDown({
       >
         <div className="flex items-center">
           <Plus className="mr-1 h-4 w-4" />
-          <p className="mr-1 hidden text-sm font-semibold xl:block">Insert</p>
+          <span className="mr-1 hidden text-sm xl:block">Insert</span>
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
       </DropdownMenuTrigger>
@@ -684,7 +684,7 @@ function InsertDropDown({
           }}
         >
           <FlipVertical className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Horizontal Rule</span>
+          <span className="text-sm">Horizontal Rule</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -692,7 +692,7 @@ function InsertDropDown({
           }}
         >
           <Scissors className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Page Break</span>
+          <span className="text-sm">Page Break</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -702,7 +702,7 @@ function InsertDropDown({
           }}
         >
           <ImageIcon className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Image</span>
+          <span className="text-sm">Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -712,7 +712,7 @@ function InsertDropDown({
           }}
         >
           <ImageIcon className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Inline Image</span>
+          <span className="text-sm">Inline Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() =>
@@ -723,7 +723,7 @@ function InsertDropDown({
           }
         >
           <ImagePlay className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">GIF</span>
+          <span className="text-sm">GIF</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -731,7 +731,7 @@ function InsertDropDown({
           }}
         >
           <PencilLine className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Excalidraw</span>
+          <span className="text-sm">Excalidraw</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -741,7 +741,7 @@ function InsertDropDown({
           }}
         >
           <Table className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Table</span>
+          <span className="text-sm">Table</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -751,7 +751,7 @@ function InsertDropDown({
           }}
         >
           <ListChecks className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Poll</span>
+          <span className="text-sm">Poll</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -761,7 +761,7 @@ function InsertDropDown({
           }}
         >
           <Columns3 className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Columns Layout</span>
+          <span className="text-sm">Columns Layout</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -771,7 +771,7 @@ function InsertDropDown({
           }}
         >
           <Radical className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Equation</span>
+          <span className="text-sm">Equation</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -783,7 +783,7 @@ function InsertDropDown({
           }}
         >
           <StickyNote className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Sticky Note</span>
+          <span className="text-sm">Sticky Note</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
@@ -791,7 +791,7 @@ function InsertDropDown({
           }}
         >
           <Play className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Collapsible Container</span>
+          <span className="text-sm">Collapsible Container</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         {EmbedConfigs.map((embedConfig) => (
@@ -803,7 +803,7 @@ function InsertDropDown({
             className="item"
           >
             {embedConfig.icon}
-            <span className="text-sm font-semibold">{embedConfig.contentName}</span>
+            <span className="text-sm">{embedConfig.contentName}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
@@ -850,7 +850,7 @@ function AdditionalStylesDropdown({
           }}
         >
           <Strikethrough className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Strikethrough</span>
+          <span className="text-sm">Strikethrough</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={isSubscript}
@@ -859,7 +859,7 @@ function AdditionalStylesDropdown({
           }}
         >
           <Subscript className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Subscript</span>
+          <span className="text-sm">Subscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={isSuperscript}
@@ -868,12 +868,12 @@ function AdditionalStylesDropdown({
           }}
         >
           <Superscript className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Superscript</span>
+          <span className="text-sm">Superscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked={false} onClick={clearFormatting}>
           <Strikethrough className="mr-1 h-4 w-4" />
-          <span className="text-sm font-semibold">Clear Formatting</span>
+          <span className="text-sm">Clear Formatting</span>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -1263,7 +1263,7 @@ export default function ToolbarPlugin({
           >
             <SelectTrigger className="h-7 w-fit truncate">
               <div className="flex items-center truncate">
-                <span className="hidden font-medium xl:block">
+                <span className="hidden text-sm xl:block">
                   {getLanguageFriendlyName(codeLanguage)}
                 </span>
               </div>
@@ -1280,7 +1280,7 @@ export default function ToolbarPlugin({
                 {CODE_LANGUAGE_OPTIONS.map(([value, name]) => {
                   return (
                     <SelectItem value={value} key={value}>
-                      <span className="font-medium">{name}</span>
+                      <span className="text-sm">{name}</span>
                     </SelectItem>
                   );
                 })}

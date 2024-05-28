@@ -117,7 +117,7 @@ function ComponentPickerMenuItem({
   index: number;
   isSelected: boolean;
   onClick: () => void;
-  onMouseEnter: () => void;
+  onMouseEnter?: () => void;
   option: ComponentPickerOption;
 }) {
   return (
@@ -419,14 +419,11 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         onSelectOption={onSelectOption}
         triggerFn={checkForTriggerMatch}
         options={options}
-        menuRenderFn={(
-          anchorElementRef,
-          { selectedIndex, selectOptionAndCleanUp, setHighlightedIndex },
-        ) =>
+        menuRenderFn={(anchorElementRef, { selectedIndex, selectOptionAndCleanUp }) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
                 // <div className="typeahead-popover component-picker-menu">
-                <div className="fixed rounded-md border bg-popover text-popover-foreground shadow-md animate-in">
+                <div className="fixed rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
                   <ScrollArea className="max-h-52 overflow-y-auto">
                     <ul className="list-none">
                       {options.map((option, i: number) => (
@@ -434,11 +431,7 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
                           index={i}
                           isSelected={selectedIndex === i}
                           onClick={() => {
-                            setHighlightedIndex(i);
                             selectOptionAndCleanUp(option);
-                          }}
-                          onMouseEnter={() => {
-                            setHighlightedIndex(i);
                           }}
                           key={option.key}
                           option={option}
