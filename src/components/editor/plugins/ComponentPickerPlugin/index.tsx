@@ -48,6 +48,32 @@ import InsertLayoutDialog from "../LayoutPlugin/InsertLayoutDialog";
 import { INSERT_PAGE_BREAK } from "../PageBreakPlugin";
 import { InsertPollDialog } from "../PollPlugin";
 import { InsertTableDialog } from "../TablePlugin";
+import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  Code2,
+  Columns3,
+  FlipVertical,
+  Heading1,
+  Heading2,
+  Heading3,
+  ImageIcon,
+  ImagePlay,
+  ListChecks,
+  ListIcon,
+  ListOrdered,
+  MessageSquareQuote,
+  PencilLine,
+  Play,
+  Radical,
+  Scissors,
+  Table,
+  Text,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const catTypingGif = "/images/cat-typing.gif";
 
@@ -94,15 +120,14 @@ function ComponentPickerMenuItem({
   onMouseEnter: () => void;
   option: ComponentPickerOption;
 }) {
-  let className = "item";
-  if (isSelected) {
-    className += " selected";
-  }
   return (
     <li
       key={option.key}
       tabIndex={-1}
-      className={className}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground",
+        isSelected && "bg-accent text-accent-foreground",
+      )}
       // eslint-disable-next-line @typescript-eslint/unbound-method
       ref={option.setRefElement}
       role="option"
@@ -112,7 +137,7 @@ function ComponentPickerMenuItem({
       onClick={onClick}
     >
       {option.icon}
-      <span className="text">{option.title}</span>
+      <span className="text-sm">{option.title}</span>
     </li>
   );
 }
@@ -136,7 +161,7 @@ function getDynamicOptions(editor: LexicalEditor, queryString: string) {
       ...colOptions.map(
         (columns) =>
           new ComponentPickerOption(`${rows}x${columns} Table`, {
-            icon: <i className="icon table" />,
+            icon: <Table className="mr-1 h-5 w-5" />,
             keywords: ["table"],
             onSelect: () =>
               editor.dispatchCommand(INSERT_TABLE_COMMAND, { columns, rows }),
@@ -153,7 +178,7 @@ type ShowModal = ReturnType<typeof useModal>[1];
 function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
   return [
     new ComponentPickerOption("Paragraph", {
-      icon: <i className="icon paragraph" />,
+      icon: <Text className="mr-1 h-5 w-5" />,
       keywords: ["normal", "paragraph", "p", "text"],
       onSelect: () =>
         editor.update(() => {
@@ -163,22 +188,41 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
           }
         }),
     }),
-    ...([1, 2, 3] as const).map(
-      (n) =>
-        new ComponentPickerOption(`Heading ${n}`, {
-          icon: <i className={`icon h${n}`} />,
-          keywords: ["heading", "header", `h${n}`],
-          onSelect: () =>
-            editor.update(() => {
-              const selection = $getSelection();
-              if ($isRangeSelection(selection)) {
-                $setBlocksType(selection, () => $createHeadingNode(`h${n}`));
-              }
-            }),
+    new ComponentPickerOption(`Heading 1`, {
+      icon: <Heading1 className="mr-1 h-5 w-5" />,
+      keywords: ["heading", "header", `h1`],
+      onSelect: () =>
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $setBlocksType(selection, () => $createHeadingNode("h1"));
+          }
         }),
-    ),
+    }),
+    new ComponentPickerOption(`Heading 2`, {
+      icon: <Heading2 className="mr-1 h-5 w-5" />,
+      keywords: ["heading", "header", `h2`],
+      onSelect: () =>
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $setBlocksType(selection, () => $createHeadingNode("h2"));
+          }
+        }),
+    }),
+    new ComponentPickerOption(`Heading 3`, {
+      icon: <Heading3 className="mr-1 h-5 w-5" />,
+      keywords: ["heading", "header", `h3`],
+      onSelect: () =>
+        editor.update(() => {
+          const selection = $getSelection();
+          if ($isRangeSelection(selection)) {
+            $setBlocksType(selection, () => $createHeadingNode("h3"));
+          }
+        }),
+    }),
     new ComponentPickerOption("Table", {
-      icon: <i className="icon table" />,
+      icon: <Table className="mr-1 h-5 w-5" />,
       keywords: ["table", "grid", "spreadsheet", "rows", "columns"],
       onSelect: () =>
         showModal("Insert Table", (onClose) => (
@@ -186,22 +230,22 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         )),
     }),
     new ComponentPickerOption("Numbered List", {
-      icon: <i className="icon number" />,
+      icon: <ListOrdered className="mr-1 h-5 w-5" />,
       keywords: ["numbered list", "ordered list", "ol"],
       onSelect: () => editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined),
     }),
     new ComponentPickerOption("Bulleted List", {
-      icon: <i className="icon bullet" />,
+      icon: <ListIcon className="mr-1 h-5 w-5" />,
       keywords: ["bulleted list", "unordered list", "ul"],
       onSelect: () => editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined),
     }),
     new ComponentPickerOption("Check List", {
-      icon: <i className="icon check" />,
+      icon: <ListChecks className="mr-1 h-5 w-5" />,
       keywords: ["check list", "todo list"],
       onSelect: () => editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined),
     }),
     new ComponentPickerOption("Quote", {
-      icon: <i className="icon quote" />,
+      icon: <MessageSquareQuote className="mr-1 h-5 w-5" />,
       keywords: ["block quote"],
       onSelect: () =>
         editor.update(() => {
@@ -212,7 +256,7 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         }),
     }),
     new ComponentPickerOption("Code", {
-      icon: <i className="icon code" />,
+      icon: <Code2 className="mr-1 h-5 w-5" />,
       keywords: ["javascript", "python", "js", "codeblock"],
       onSelect: () =>
         editor.update(() => {
@@ -232,22 +276,22 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         }),
     }),
     new ComponentPickerOption("Divider", {
-      icon: <i className="icon horizontal-rule" />,
+      icon: <FlipVertical className="mr-1 h-5 w-5" />,
       keywords: ["horizontal rule", "divider", "hr"],
       onSelect: () => editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined),
     }),
     new ComponentPickerOption("Page Break", {
-      icon: <i className="icon page-break" />,
+      icon: <Scissors className="mr-1 h-5 w-5" />,
       keywords: ["page break", "divider"],
       onSelect: () => editor.dispatchCommand(INSERT_PAGE_BREAK, undefined),
     }),
     new ComponentPickerOption("Excalidraw", {
-      icon: <i className="icon diagram-2" />,
+      icon: <PencilLine className="mr-1 h-5 w-5" />,
       keywords: ["excalidraw", "diagram", "drawing"],
       onSelect: () => editor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined),
     }),
     new ComponentPickerOption("Poll", {
-      icon: <i className="icon poll" />,
+      icon: <ListChecks className="mr-1 h-5 w-5" />,
       keywords: ["poll", "vote"],
       onSelect: () =>
         showModal("Insert Poll", (onClose) => (
@@ -263,7 +307,7 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         }),
     ),
     new ComponentPickerOption("Equation", {
-      icon: <i className="icon equation" />,
+      icon: <Radical className="mr-1 h-5 w-5" />,
       keywords: ["equation", "latex", "math"],
       onSelect: () =>
         showModal("Insert Equation", (onClose) => (
@@ -271,7 +315,7 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         )),
     }),
     new ComponentPickerOption("GIF", {
-      icon: <i className="icon gif" />,
+      icon: <ImagePlay className="mr-1 h-5 w-5" />,
       keywords: ["gif", "animate", "image", "file"],
       onSelect: () =>
         editor.dispatchCommand(INSERT_IMAGE_COMMAND, {
@@ -280,7 +324,7 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         }),
     }),
     new ComponentPickerOption("Image", {
-      icon: <i className="icon image" />,
+      icon: <ImageIcon className="mr-1 h-5 w-5" />,
       keywords: ["image", "photo", "picture", "file"],
       onSelect: () =>
         showModal("Insert Image", (onClose) => (
@@ -288,26 +332,38 @@ function getBaseOptions(editor: LexicalEditor, showModal: ShowModal) {
         )),
     }),
     new ComponentPickerOption("Collapsible", {
-      icon: <i className="icon caret-right" />,
+      icon: <Play className="mr-1 h-5 w-5" />,
       keywords: ["collapse", "collapsible", "toggle"],
       onSelect: () => editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined),
     }),
     new ComponentPickerOption("Columns Layout", {
-      icon: <i className="icon columns" />,
+      icon: <Columns3 className="mr-1 h-5 w-5" />,
       keywords: ["columns", "layout", "grid"],
       onSelect: () =>
         showModal("Insert Columns Layout", (onClose) => (
           <InsertLayoutDialog activeEditor={editor} onClose={onClose} />
         )),
     }),
-    ...(["left", "center", "right", "justify"] as const).map(
-      (alignment) =>
-        new ComponentPickerOption(`Align ${alignment}`, {
-          icon: <i className={`icon ${alignment}-align`} />,
-          keywords: ["align", "justify", alignment],
-          onSelect: () => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment),
-        }),
-    ),
+    new ComponentPickerOption("Align Left", {
+      icon: <AlignLeft className="mr-1 h-5 w-5" />,
+      keywords: ["align", "justify", "left"],
+      onSelect: () => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left"),
+    }),
+    new ComponentPickerOption("Align Center", {
+      icon: <AlignCenter className="mr-1 h-5 w-5" />,
+      keywords: ["align", "justify", "center"],
+      onSelect: () => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center"),
+    }),
+    new ComponentPickerOption("Align Right", {
+      icon: <AlignRight className="mr-1 h-5 w-5" />,
+      keywords: ["align", "justify", "right"],
+      onSelect: () => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right"),
+    }),
+    new ComponentPickerOption("Align Justify", {
+      icon: <AlignJustify className="mr-1 h-5 w-5" />,
+      keywords: ["align", "justify"],
+      onSelect: () => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify"),
+    }),
   ];
 }
 
@@ -369,24 +425,27 @@ export default function ComponentPickerMenuPlugin(): JSX.Element {
         ) =>
           anchorElementRef.current && options.length
             ? ReactDOM.createPortal(
-                <div className="typeahead-popover component-picker-menu">
-                  <ul>
-                    {options.map((option, i: number) => (
-                      <ComponentPickerMenuItem
-                        index={i}
-                        isSelected={selectedIndex === i}
-                        onClick={() => {
-                          setHighlightedIndex(i);
-                          selectOptionAndCleanUp(option);
-                        }}
-                        onMouseEnter={() => {
-                          setHighlightedIndex(i);
-                        }}
-                        key={option.key}
-                        option={option}
-                      />
-                    ))}
-                  </ul>
+                // <div className="typeahead-popover component-picker-menu">
+                <div className="fixed rounded-md border bg-popover text-popover-foreground shadow-md animate-in">
+                  <ScrollArea className="max-h-52 overflow-y-auto">
+                    <ul className="list-none">
+                      {options.map((option, i: number) => (
+                        <ComponentPickerMenuItem
+                          index={i}
+                          isSelected={selectedIndex === i}
+                          onClick={() => {
+                            setHighlightedIndex(i);
+                            selectOptionAndCleanUp(option);
+                          }}
+                          onMouseEnter={() => {
+                            setHighlightedIndex(i);
+                          }}
+                          key={option.key}
+                          option={option}
+                        />
+                      ))}
+                    </ul>
+                  </ScrollArea>
                 </div>,
                 anchorElementRef.current,
               )
