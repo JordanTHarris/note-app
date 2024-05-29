@@ -42,7 +42,12 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue> & { className?: string; userId: string }) {
   const router = useRouter();
 
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    {
+      id: "updatedAt",
+      desc: true,
+    },
+  ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({

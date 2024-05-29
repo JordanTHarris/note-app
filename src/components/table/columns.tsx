@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, MoreHorizontal, Trash2 } from "lucide-react";
 import { ArrowUpDown } from "lucide-react";
 import { deleteNote } from "@/server/notes";
 import { useRouter } from "next/navigation";
@@ -22,15 +22,22 @@ import { useRouter } from "next/navigation";
 export const columns: ColumnDef<Note>[] = [
   {
     accessorKey: "title",
+    sortingFn: "alphanumeric",
     header: ({ column }) => {
+      const isSorted = column.getIsSorted();
       return (
         <Button
           className="group w-full justify-start"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(isSorted === "asc")}
         >
           Title
-          <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+          <div className="ml-2 h-4 w-4">
+            {isSorted === "asc" && (
+              <ArrowDown className="h-4 w-4 text-muted-foreground" />
+            )}
+            {isSorted === "desc" && <ArrowUp className="h-4 w-4 text-muted-foreground" />}
+          </div>
         </Button>
       );
     },
@@ -41,15 +48,22 @@ export const columns: ColumnDef<Note>[] = [
   },
   {
     accessorKey: "createdAt",
+    sortingFn: "datetime",
     header: ({ column }) => {
+      const isSorted = column.getIsSorted();
       return (
         <Button
           className="group w-full justify-start"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(isSorted === "asc")}
         >
           Created at
-          <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+          <div className="ml-2 h-4 w-4">
+            {isSorted === "asc" && (
+              <ArrowDown className="h-4 w-4 text-muted-foreground" />
+            )}
+            {isSorted === "desc" && <ArrowUp className="h-4 w-4 text-muted-foreground" />}
+          </div>
         </Button>
       );
     },
@@ -65,15 +79,22 @@ export const columns: ColumnDef<Note>[] = [
   },
   {
     accessorKey: "updatedAt",
+    sortingFn: "datetime",
     header: ({ column }) => {
+      const isSorted = column.getIsSorted();
       return (
         <Button
           className="group w-full justify-start"
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(isSorted === "asc")}
         >
           Updated at
-          <ArrowUpDown className="ml-2 h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+          <div className="ml-2 h-4 w-4">
+            {isSorted === "asc" && (
+              <ArrowDown className="h-4 w-4 text-muted-foreground" />
+            )}
+            {isSorted === "desc" && <ArrowUp className="h-4 w-4 text-muted-foreground" />}
+          </div>
         </Button>
       );
     },
