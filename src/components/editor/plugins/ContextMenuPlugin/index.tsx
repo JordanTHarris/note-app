@@ -6,12 +6,13 @@
  *
  */
 
-import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { cn } from "@/lib/utils";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   LexicalContextMenuPlugin,
   MenuOption,
-} from '@lexical/react/LexicalContextMenuPlugin';
+} from "@lexical/react/LexicalContextMenuPlugin";
 import {
   $getNearestNodeFromDOMNode,
   $getSelection,
@@ -20,10 +21,10 @@ import {
   CUT_COMMAND,
   type LexicalNode,
   PASTE_COMMAND,
-} from 'lexical';
-import {useCallback, useMemo} from 'react';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+} from "lexical";
+import { useCallback, useMemo } from "react";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
 function ContextMenuItem({
   index,
@@ -38,22 +39,27 @@ function ContextMenuItem({
   onMouseEnter: () => void;
   option: ContextMenuOption;
 }) {
-  let className = 'item';
+  let className = "item";
   if (isSelected) {
-    className += ' selected';
+    className += " selected";
   }
   return (
     <li
       key={option.key}
       tabIndex={-1}
-      className={className}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+        isSelected && "bg-accent text-accent-foreground",
+      )}
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       ref={option.setRefElement}
       role="option"
       aria-selected={isSelected}
-      id={'typeahead-item-' + index}
+      id={"typeahead-item-" + index}
       onMouseEnter={onMouseEnter}
-      onClick={onClick}>
-      <span className="text">{option.title}</span>
+      onClick={onClick}
+    >
+      <span className="text-sm">{option.title}</span>
     </li>
   );
 }
@@ -70,7 +76,7 @@ function ContextMenu({
   options: Array<ContextMenuOption>;
 }) {
   return (
-    <div className="typeahead-popover">
+    <div className="no-scrollbar !fixed max-h-52 w-48 overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
       <ul>
         {options.map((option: ContextMenuOption, i: number) => (
           <ContextMenuItem
@@ -119,18 +125,18 @@ export default function ContextMenuPlugin(): JSX.Element {
       }),
       new ContextMenuOption(`Paste`, {
         onSelect: (_node) => {
-          navigator.clipboard.read().then(async function (...args) {
+          void navigator.clipboard.read().then(async function (...args) {
             const data = new DataTransfer();
 
             const items = await navigator.clipboard.read();
-            const item = items[0];
+            const item = items[0]!;
 
             const permission = await navigator.permissions.query({
               // @ts-expect-error These types are incorrect.
-              name: 'clipboard-read',
+              name: "clipboard-read",
             });
-            if (permission.state === 'denied') {
-              alert('Not allowed to paste from clipboard.');
+            if (permission.state === "denied") {
+              alert("Not allowed to paste from clipboard.");
               return;
             }
 
@@ -139,7 +145,7 @@ export default function ContextMenuPlugin(): JSX.Element {
               data.setData(type, dataString);
             }
 
-            const event = new ClipboardEvent('paste', {
+            const event = new ClipboardEvent("paste", {
               clipboardData: data,
             });
 
@@ -149,22 +155,22 @@ export default function ContextMenuPlugin(): JSX.Element {
       }),
       new ContextMenuOption(`Paste as Plain Text`, {
         onSelect: (_node) => {
-          navigator.clipboard.read().then(async function (...args) {
+          void navigator.clipboard.read().then(async function (...args) {
             const permission = await navigator.permissions.query({
               // @ts-expect-error These types are incorrect.
-              name: 'clipboard-read',
+              name: "clipboard-read",
             });
 
-            if (permission.state === 'denied') {
-              alert('Not allowed to paste from clipboard.');
+            if (permission.state === "denied") {
+              alert("Not allowed to paste from clipboard.");
               return;
             }
 
             const data = new DataTransfer();
             const items = await navigator.clipboard.readText();
-            data.setData('text/plain', items);
+            data.setData("text/plain", items);
 
-            const event = new ClipboardEvent('paste', {
+            const event = new ClipboardEvent("paste", {
               clipboardData: data,
             });
             editor.dispatchCommand(PASTE_COMMAND, event);
@@ -176,9 +182,7 @@ export default function ContextMenuPlugin(): JSX.Element {
           const selection = $getSelection();
           if ($isRangeSelection(selection)) {
             const currentNode = selection.anchor.getNode();
-            const ancestorNodeWithRootAsParent = currentNode
-              .getParents()
-              .at(-2);
+            const ancestorNodeWithRootAsParent = currentNode.getParents().at(-2);
 
             ancestorNodeWithRootAsParent?.remove();
           }
@@ -231,24 +235,19 @@ export default function ContextMenuPlugin(): JSX.Element {
       onWillOpen={onWillOpen}
       menuRenderFn={(
         anchorElementRef,
-        {
-          selectedIndex,
-          options: _options,
-          selectOptionAndCleanUp,
-          setHighlightedIndex,
-        },
-        {setMenuRef},
+        { selectedIndex, options: _options, selectOptionAndCleanUp, setHighlightedIndex },
+        { setMenuRef },
       ) =>
         anchorElementRef.current
           ? ReactDOM.createPortal(
               <div
-                className="typeahead-popover auto-embed-menu"
                 style={{
                   marginLeft: anchorElementRef.current.style.width,
-                  userSelect: 'none',
+                  userSelect: "none",
                   width: 200,
                 }}
-                ref={setMenuRef}>
+                ref={setMenuRef}
+              >
                 <ContextMenu
                   options={options}
                   selectedItemIndex={selectedIndex}
