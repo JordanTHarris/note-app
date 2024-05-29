@@ -85,7 +85,7 @@ const theme: EditorThemeClasses = {
   },
   hashtag: "NoteTheme__hashtag",
   heading: {
-    h1: "text-3xl font-extrabold",
+    h1: "text-3xl font-bold",
     h2: "text-2xl font-bold",
     h3: "text-xl font-bold",
     h4: "text-lg font-bold",
@@ -120,7 +120,7 @@ const theme: EditorThemeClasses = {
   mark: "NoteTheme__mark",
   markOverlap: "NoteTheme__markOverlap",
   paragraph: "NoteTheme__paragraph",
-  quote: "NoteTheme__quote",
+  quote: "border-l-4 py-1 pl-6 text-muted-foreground",
   rtl: "text-right",
   table: "NoteTheme__table",
   tableAddColumns: "NoteTheme__tableAddColumns",
