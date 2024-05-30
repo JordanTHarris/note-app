@@ -31,11 +31,11 @@ export default function DropdownColorPicker({
       >
         <div className="flex items-center gap-1">
           <div
-            className="h-4 w-4 rounded-sm border border-input"
+            className="h-4 w-4 rounded-sm border"
             style={{ backgroundColor: color }}
           ></div>
           {children}
-          {/* <ChevronDown className="hidden h-4 w-4 opacity-50 xl:block" /> */}
+          {/* <ChevronDown className="hidden h-5 w-5 opacity-50 xl:block" /> */}
         </div>
       </PopoverTrigger>
       <PopoverContent

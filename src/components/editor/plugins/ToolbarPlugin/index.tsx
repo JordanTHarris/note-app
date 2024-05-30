@@ -667,7 +667,7 @@ function InsertDropDown({
         disabled={!isEditable}
       >
         <div className="flex items-center">
-          <Plus className="mr-1 h-4 w-4" />
+          <Plus className="mr-1 h-5 w-5" />
           <span className="mr-1 hidden text-sm xl:block">Insert</span>
           <ChevronDown className="m1-1 h-4 w-4 opacity-50" />
         </div>
@@ -683,7 +683,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined);
           }}
         >
-          <FlipVertical className="mr-1 h-4 w-4" />
+          <FlipVertical className="mr-1 h-5 w-5" />
           <span className="text-sm">Horizontal Rule</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -691,7 +691,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_PAGE_BREAK, undefined);
           }}
         >
-          <Scissors className="mr-1 h-4 w-4" />
+          <Scissors className="mr-1 h-5 w-5" />
           <span className="text-sm">Page Break</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -701,7 +701,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-1 h-4 w-4" />
+          <ImageIcon className="mr-1 h-5 w-5" />
           <span className="text-sm">Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -711,7 +711,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ImageIcon className="mr-1 h-4 w-4" />
+          <ImageIcon className="mr-1 h-5 w-5" />
           <span className="text-sm">Inline Image</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -722,7 +722,7 @@ function InsertDropDown({
             })
           }
         >
-          <ImagePlay className="mr-1 h-4 w-4" />
+          <ImagePlay className="mr-1 h-5 w-5" />
           <span className="text-sm">GIF</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -730,7 +730,7 @@ function InsertDropDown({
             activeEditor.dispatchCommand(INSERT_EXCALIDRAW_COMMAND, undefined);
           }}
         >
-          <PencilLine className="mr-1 h-4 w-4" />
+          <PencilLine className="mr-1 h-5 w-5" />
           <span className="text-sm">Excalidraw</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -740,7 +740,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Table className="mr-1 h-4 w-4" />
+          <Table className="mr-1 h-5 w-5" />
           <span className="text-sm">Table</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -750,7 +750,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <ListChecks className="mr-1 h-4 w-4" />
+          <ListChecks className="mr-1 h-5 w-5" />
           <span className="text-sm">Poll</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -760,7 +760,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Columns3 className="mr-1 h-4 w-4" />
+          <Columns3 className="mr-1 h-5 w-5" />
           <span className="text-sm">Columns Layout</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -770,7 +770,7 @@ function InsertDropDown({
             ));
           }}
         >
-          <Radical className="mr-1 h-4 w-4" />
+          <Radical className="mr-1 h-5 w-5" />
           <span className="text-sm">Equation</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -782,7 +782,7 @@ function InsertDropDown({
             });
           }}
         >
-          <StickyNote className="mr-1 h-4 w-4" />
+          <StickyNote className="mr-1 h-5 w-5" />
           <span className="text-sm">Sticky Note</span>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -790,7 +790,7 @@ function InsertDropDown({
             editor.dispatchCommand(INSERT_COLLAPSIBLE_COMMAND, undefined);
           }}
         >
-          <Play className="mr-1 h-4 w-4" />
+          <Play className="mr-1 h-5 w-5" />
           <span className="text-sm">Collapsible Container</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -849,7 +849,7 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
           }}
         >
-          <Strikethrough className="mr-1 h-4 w-4" />
+          <Strikethrough className="mr-1 h-5 w-5" />
           <span className="text-sm">Strikethrough</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
@@ -858,7 +858,7 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript");
           }}
         >
-          <Subscript className="mr-1 h-4 w-4" />
+          <Subscript className="mr-1 h-5 w-5" />
           <span className="text-sm">Subscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
@@ -867,12 +867,12 @@ function AdditionalStylesDropdown({
             activeEditor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript");
           }}
         >
-          <Superscript className="mr-1 h-4 w-4" />
+          <Superscript className="mr-1 h-5 w-5" />
           <span className="text-sm">Superscript</span>
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked={false} onClick={clearFormatting}>
-          <Strikethrough className="mr-1 h-4 w-4" />
+          <Strikethrough className="mr-1 h-5 w-5" />
           <span className="text-sm">Clear Formatting</span>
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
@@ -1432,7 +1432,7 @@ export default function ToolbarPlugin({
       </div>
       <Button className="h-7 w-12 self-start" disabled={!isEditable} onClick={saveToDb}>
         {isSaving ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="h-5 w-5 animate-spin" />
         ) : (
           <span className="text-sm">Save</span>
         )}

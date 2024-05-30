@@ -22,7 +22,7 @@ export function CreateNewButton({
 
   return (
     <Button className={className} variant="secondary" size={"sm"} onClick={handleClick}>
-      Create new <Plus className="h-4 w-4" />
+      Create new <Plus className="h-5 w-5" />
     </Button>
   );
 }
