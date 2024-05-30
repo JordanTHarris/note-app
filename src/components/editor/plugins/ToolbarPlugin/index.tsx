@@ -165,7 +165,7 @@ import { type ImagePayload } from "../../nodes/ImageNode";
 import { FontColor } from "@/components/shared/icons";
 import { useTheme } from "next-themes";
 // import { set } from "zod";
-import { updateContent } from "@/server/notes";
+import { updateContent, updateTitle } from "@/server/notes";
 import { type Note } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
@@ -1200,9 +1200,16 @@ export default function ToolbarPlugin({
   };
 
   async function saveToDb() {
-    const content = JSON.stringify(editor.getEditorState());
+    const state = editor.getEditorState();
+    const content = JSON.stringify(state);
+    const lines =
+      state?.read(() => $getRoot()?.getChildAtIndex(0)?.getTextContent()?.split("\n")) ??
+      [];
+    const title = lines[0]?.trim() || "Untitled";
+
     try {
       setIsSaving(true);
+      await updateTitle(note.id, title);
       await updateContent(note.id, content);
       setIsSaving(false);
       router.refresh();

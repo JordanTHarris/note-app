@@ -12,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ArrowDown, ArrowUp, MoreHorizontal, Trash2 } from "lucide-react";
-import { ArrowUpDown } from "lucide-react";
 import { deleteNote } from "@/server/notes";
 import { useRouter } from "next/navigation";
 
