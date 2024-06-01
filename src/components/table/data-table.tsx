@@ -6,13 +6,13 @@ import {
   type ColumnDef,
   type ColumnFiltersState,
   type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import { createNote } from "@/server/notes";
 import { type Note } from "@prisma/client";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import useMediaQuery from "@/lib/hooks/use-media-query";
 

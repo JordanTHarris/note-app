@@ -1219,7 +1219,7 @@ export default function ToolbarPlugin({
   }
 
   return (
-    <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 border-b bg-background p-2">
+    <div className="sticky top-0 z-10 flex w-full items-center justify-between gap-1 rounded-t-md border-b bg-background p-2">
       <div className="flex flex-1 flex-wrap items-center gap-1">
         <Button
           variant="ghost"
