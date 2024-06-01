@@ -16,7 +16,7 @@ export default async function NotesPage() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center gap-2 p-2">
       <DataTable
-        className="h-48 min-h-full w-full max-w-md lg:max-w-lg"
+        className="h-48 min-h-full w-full max-w-sm sm:max-w-lg"
         columns={columns}
         data={notes}
         userId={user.id}

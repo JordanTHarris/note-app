@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   type ColumnDef,
@@ -12,6 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -28,6 +29,7 @@ import { createNote } from "@/server/notes";
 import { type Note } from "@prisma/client";
 import { ScrollArea } from "../ui/scroll-area";
 import { cn } from "@/lib/utils";
+import useMediaQuery from "@/lib/hooks/use-media-query";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,6 +43,7 @@ export function DataTable<TData, TValue>({
   userId,
 }: DataTableProps<TData, TValue> & { className?: string; userId: string }) {
   const router = useRouter();
+  const { device } = useMediaQuery();
 
   const [sorting, setSorting] = useState<SortingState>([
     {
@@ -49,6 +52,7 @@ export function DataTable<TData, TValue>({
     },
   ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -59,11 +63,19 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       columnFilters,
+      columnVisibility,
     },
   });
+
+  // Hide columns based on screen size (sm tailwind breakpoint)
+  useEffect(() => {
+    const isMobile = device === "mobile";
+    table.getColumn("createdAt")?.toggleVisibility(!isMobile);
+  }, [device, table]);
 
   async function handleCreateNew() {
     const note = await createNote(userId, "Untitled", "");

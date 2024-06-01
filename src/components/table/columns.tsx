@@ -110,7 +110,7 @@ export const columns: ColumnDef<Note>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const note = row.original;
+      const noteId = row.original.id;
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const router = useRouter();
 
@@ -128,7 +128,7 @@ export const columns: ColumnDef<Note>[] = [
               className="group hover:!bg-destructive"
               onClick={(e) => {
                 e.stopPropagation();
-                void deleteNote(note.id);
+                void deleteNote(noteId);
                 router.refresh();
               }}
             >
