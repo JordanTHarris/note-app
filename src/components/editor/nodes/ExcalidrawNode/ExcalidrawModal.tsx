@@ -234,11 +234,39 @@ export default function ExcalidrawModal({
     setFiles(fls);
   };
 
-  // return createPortal(
-  //   <div className="ExcalidrawModal__overlay" role="dialog">
-  //     <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
-  //       <div className="ExcalidrawModal__row">
-  //         {discardModalOpen && <ShowDiscardDialog />}
+  return createPortal(
+    <div className="ExcalidrawModal__overlay" role="dialog">
+      <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
+        <div className="ExcalidrawModal__row">
+          {discardModalOpen && <ShowDiscardDialog />}
+          <Excalidraw
+            onChange={onChange}
+            excalidrawAPI={excalidrawAPIRefCallback}
+            initialData={{
+              appState: initialAppState || { isLoading: false },
+              elements: initialElements,
+              files: initialFiles,
+            }}
+          />
+          <div className="ExcalidrawModal__actions">
+            <Button size="sm" variant="destructive" onClick={discard}>
+              Discard
+            </Button>
+            <Button size="sm" variant="secondary" onClick={save}>
+              Save
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+
+  // return (
+  //   <Dialog open={isShown} modal={false}>
+  //     <DialogContent className="max-w-fit" hideClose ref={excaliDrawModelRef}>
+  //       <div className="h-[80vh] w-[95vw] lg:w-[80vw]">
+  //         {/* {discardModalOpen && <ShowDiscardDialog />} */}
   //         <Excalidraw
   //           onChange={onChange}
   //           excalidrawAPI={excalidrawAPIRefCallback}
@@ -248,46 +276,16 @@ export default function ExcalidrawModal({
   //             files: initialFiles,
   //           }}
   //         />
-  //         <div className="ExcalidrawModal__actions">
-  //           <button className="action-button" onClick={discard}>
-  //             Discard
-  //           </button>
-  //           <button className="action-button" onClick={save}>
-  //             Save
-  //           </button>
-  //         </div>
   //       </div>
-  //     </div>
-  //   </div>,
-  //   document.body,
+  //       <DialogFooter>
+  //         <Button variant="destructive" onClick={discard}>
+  //           Discard
+  //         </Button>
+  //         <Button variant="default" onClick={save}>
+  //           Save
+  //         </Button>
+  //       </DialogFooter>
+  //     </DialogContent>
+  //   </Dialog>
   // );
-
-  return (
-    <Dialog open={isShown}>
-      <DialogContent className="max-w-fit" hideClose>
-        <DialogHeader>
-          <div className="relative h-[80vh] w-[80vw]">
-            {discardModalOpen && <ShowDiscardDialog />}
-            <Excalidraw
-              onChange={onChange}
-              excalidrawAPI={excalidrawAPIRefCallback}
-              initialData={{
-                appState: initialAppState || { isLoading: false },
-                elements: initialElements,
-                files: initialFiles,
-              }}
-            />
-          </div>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={discard}>
-            Discard
-          </Button>
-          <Button variant="outline" onClick={save}>
-            Save
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
 }
