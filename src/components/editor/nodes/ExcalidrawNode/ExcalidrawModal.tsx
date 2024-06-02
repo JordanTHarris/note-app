@@ -10,7 +10,14 @@
 
 import "./ExcalidrawModal.css";
 
-import { Excalidraw } from "@excalidraw/excalidraw";
+import dynamic from "next/dynamic";
+const Excalidraw = dynamic(
+  async () => (await import("@excalidraw/excalidraw")).Excalidraw,
+  {
+    ssr: false,
+  },
+);
+// import { Excalidraw } from "@excalidraw/excalidraw";
 import {
   AppState,
   BinaryFiles,
@@ -38,7 +45,6 @@ import { Button } from "@/components/ui/button";
 export type ExcalidrawInitialElements = ExcalidrawInitialDataState["elements"];
 
 type Props = {
-  closeOnClickOutside?: boolean;
   /**
    * The initial set of elements to draw into the scene
    */
@@ -88,7 +94,6 @@ export const useCallbackRefState = () => {
  * which can be used to export an editable image
  */
 export default function ExcalidrawModal({
-  closeOnClickOutside = false,
   onSave,
   initialElements,
   initialAppState,
@@ -106,61 +111,7 @@ export default function ExcalidrawModal({
   const { resolvedTheme } = useTheme();
   initialAppState.theme = resolvedTheme === "dark" ? "dark" : "light";
 
-  useEffect(() => {
-    if (excaliDrawModelRef.current !== null) {
-      excaliDrawModelRef.current.focus();
-    }
-  }, []);
-
-  useEffect(() => {
-    let modalOverlayElement: HTMLElement | null = null;
-
-    const clickOutsideHandler = (event: MouseEvent) => {
-      const target = event.target;
-      if (
-        excaliDrawModelRef.current !== null &&
-        !excaliDrawModelRef.current.contains(target as Node) &&
-        closeOnClickOutside
-      ) {
-        onDelete();
-      }
-    };
-
-    if (excaliDrawModelRef.current !== null) {
-      modalOverlayElement = excaliDrawModelRef.current?.parentElement;
-      if (modalOverlayElement !== null) {
-        modalOverlayElement?.addEventListener("click", clickOutsideHandler);
-      }
-    }
-
-    return () => {
-      if (modalOverlayElement !== null) {
-        modalOverlayElement?.removeEventListener("click", clickOutsideHandler);
-      }
-    };
-  }, [closeOnClickOutside, onDelete]);
-
-  useLayoutEffect(() => {
-    const currentModalRef = excaliDrawModelRef.current;
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onDelete();
-      }
-    };
-
-    if (currentModalRef !== null) {
-      currentModalRef.addEventListener("keydown", onKeyDown);
-    }
-
-    return () => {
-      if (currentModalRef !== null) {
-        currentModalRef.removeEventListener("keydown", onKeyDown);
-      }
-    };
-  }, [elements, files, onDelete]);
-
-  const save = () => {
+  function save() {
     if (elements && elements.filter((el) => !el.isDeleted).length > 0) {
       const appState = excalidrawAPI?.getAppState();
       // We only need a subset of the state
@@ -182,9 +133,9 @@ export default function ExcalidrawModal({
       // delete node if the scene is clear
       onDelete();
     }
-  };
+  }
 
-  const discard = () => {
+  function discard() {
     if (elements && elements.filter((el) => !el.isDeleted).length === 0) {
       // delete node if the scene is clear
       onDelete();
@@ -192,36 +143,39 @@ export default function ExcalidrawModal({
       //Otherwise, show confirmation dialog before closing
       setDiscardModalOpen(true);
     }
-  };
-
+  }
   function ShowDiscardDialog(): JSX.Element {
     return (
-      <Modal
-        title="Discard"
-        onClose={() => {
-          setDiscardModalOpen(false);
-        }}
-        closeOnClickOutside={false}
-      >
-        Are you sure you want to discard the changes?
-        <div className="ExcalidrawModal__discardModal">
-          <Button
-            onClick={() => {
-              setDiscardModalOpen(false);
-              onClose();
-            }}
-          >
-            Discard
-          </Button>{" "}
-          <Button
-            onClick={() => {
-              setDiscardModalOpen(false);
-            }}
-          >
-            Cancel
-          </Button>
-        </div>
-      </Modal>
+      <Dialog open={discardModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you abolutely sure?</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to discard the changes?
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setDiscardModalOpen(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                setDiscardModalOpen(false);
+                onClose();
+              }}
+            >
+              Discard
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
   }
 
@@ -234,10 +188,21 @@ export default function ExcalidrawModal({
     setFiles(fls);
   };
 
-  return createPortal(
-    <div className="ExcalidrawModal__overlay" role="dialog">
-      <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
-        <div className="ExcalidrawModal__row">
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") {
+      onDelete();
+    }
+  }
+
+  return (
+    <Dialog open={isShown} modal={true}>
+      <DialogContent
+        className="flex h-[80vh] w-full max-w-screen-xl flex-col"
+        ref={excaliDrawModelRef}
+        onKeyDown={handleKeyDown}
+        hideClose
+      >
+        <DialogHeader className="h-full w-full">
           {discardModalOpen && <ShowDiscardDialog />}
           <Excalidraw
             onChange={onChange}
@@ -247,45 +212,18 @@ export default function ExcalidrawModal({
               elements: initialElements,
               files: initialFiles,
             }}
+            autoFocus
           />
-          <div className="ExcalidrawModal__actions">
-            <Button size="sm" variant="destructive" onClick={discard}>
-              Discard
-            </Button>
-            <Button size="sm" variant="secondary" onClick={save}>
-              Save
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>,
-    document.body,
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="destructive" onClick={discard}>
+            Discard
+          </Button>
+          <Button variant="default" onClick={save}>
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
-
-  // return (
-  //   <Dialog open={isShown} modal={false}>
-  //     <DialogContent className="max-w-fit" hideClose ref={excaliDrawModelRef}>
-  //       <div className="h-[80vh] w-[95vw] lg:w-[80vw]">
-  //         {/* {discardModalOpen && <ShowDiscardDialog />} */}
-  //         <Excalidraw
-  //           onChange={onChange}
-  //           excalidrawAPI={excalidrawAPIRefCallback}
-  //           initialData={{
-  //             appState: initialAppState || { isLoading: false },
-  //             elements: initialElements,
-  //             files: initialFiles,
-  //           }}
-  //         />
-  //       </div>
-  //       <DialogFooter>
-  //         <Button variant="destructive" onClick={discard}>
-  //           Discard
-  //         </Button>
-  //         <Button variant="default" onClick={save}>
-  //           Save
-  //         </Button>
-  //       </DialogFooter>
-  //     </DialogContent>
-  //   </Dialog>
-  // );
 }
