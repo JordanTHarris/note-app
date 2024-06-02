@@ -21,8 +21,19 @@ import * as React from "react";
 import { ReactPortal, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import Button from "../../ui/Button";
 import Modal from "../../ui/Modal";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 
 export type ExcalidrawInitialElements = ExcalidrawInitialDataState["elements"];
 
@@ -85,12 +96,15 @@ export default function ExcalidrawModal({
   isShown = false,
   onDelete,
   onClose,
-}: Props): ReactPortal | null {
+}: Props) {
   const excaliDrawModelRef = useRef<HTMLDivElement | null>(null);
   const [excalidrawAPI, excalidrawAPIRefCallback] = useCallbackRefState();
   const [discardModalOpen, setDiscardModalOpen] = useState(false);
   const [elements, setElements] = useState<ExcalidrawInitialElements>(initialElements);
   const [files, setFiles] = useState<BinaryFiles>(initialFiles);
+
+  const { resolvedTheme } = useTheme();
+  initialAppState.theme = resolvedTheme === "dark" ? "dark" : "light";
 
   useEffect(() => {
     if (excaliDrawModelRef.current !== null) {
@@ -220,31 +234,60 @@ export default function ExcalidrawModal({
     setFiles(fls);
   };
 
-  return createPortal(
-    <div className="ExcalidrawModal__overlay" role="dialog">
-      <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
-        <div className="ExcalidrawModal__row">
-          {discardModalOpen && <ShowDiscardDialog />}
-          <Excalidraw
-            onChange={onChange}
-            excalidrawAPI={excalidrawAPIRefCallback}
-            initialData={{
-              appState: initialAppState || { isLoading: false },
-              elements: initialElements,
-              files: initialFiles,
-            }}
-          />
-          <div className="ExcalidrawModal__actions">
-            <button className="action-button" onClick={discard}>
-              Discard
-            </button>
-            <button className="action-button" onClick={save}>
-              Save
-            </button>
+  // return createPortal(
+  //   <div className="ExcalidrawModal__overlay" role="dialog">
+  //     <div className="ExcalidrawModal__modal" ref={excaliDrawModelRef} tabIndex={-1}>
+  //       <div className="ExcalidrawModal__row">
+  //         {discardModalOpen && <ShowDiscardDialog />}
+  //         <Excalidraw
+  //           onChange={onChange}
+  //           excalidrawAPI={excalidrawAPIRefCallback}
+  //           initialData={{
+  //             appState: initialAppState || { isLoading: false },
+  //             elements: initialElements,
+  //             files: initialFiles,
+  //           }}
+  //         />
+  //         <div className="ExcalidrawModal__actions">
+  //           <button className="action-button" onClick={discard}>
+  //             Discard
+  //           </button>
+  //           <button className="action-button" onClick={save}>
+  //             Save
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>,
+  //   document.body,
+  // );
+
+  return (
+    <Dialog open={isShown}>
+      <DialogContent className="max-w-fit" hideClose>
+        <DialogHeader>
+          <div className="relative h-[80vh] w-[80vw]">
+            {discardModalOpen && <ShowDiscardDialog />}
+            <Excalidraw
+              onChange={onChange}
+              excalidrawAPI={excalidrawAPIRefCallback}
+              initialData={{
+                appState: initialAppState || { isLoading: false },
+                elements: initialElements,
+                files: initialFiles,
+              }}
+            />
           </div>
-        </div>
-      </div>
-    </div>,
-    document.body,
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={discard}>
+            Discard
+          </Button>
+          <Button variant="outline" onClick={save}>
+            Save
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
