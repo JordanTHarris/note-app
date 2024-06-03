@@ -41,11 +41,12 @@ import {
 } from "lexical";
 import * as React from "react";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 import { createWebsocketProvider } from "../collaboration";
 import { useSettings } from "../context/SettingsContext";
 import { useSharedHistoryContext } from "../context/SharedHistoryContext";
-// import brokenImage from "images/image-broken.svg";
+import brokenImage from "/public/images/image-broken.svg";
 import EmojisPlugin from "../plugins/EmojisPlugin";
 import KeywordsPlugin from "../plugins/KeywordsPlugin";
 import LinkPlugin from "../plugins/LinkPlugin";
@@ -56,29 +57,27 @@ import ImageResizer from "../ui/ImageResizer";
 import Placeholder from "../ui/Placeholder";
 import { $isImageNode } from "./ImageNode";
 
-const brokenImage = "/images/image-broken.svg";
-
 const imageCache = new Set();
 
 export const RIGHT_CLICK_IMAGE_COMMAND: LexicalCommand<MouseEvent> = createCommand(
   "RIGHT_CLICK_IMAGE_COMMAND",
 );
 
-function useSuspenseImage(src: string) {
-  if (!imageCache.has(src)) {
-    throw new Promise((resolve) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        imageCache.add(src);
-        resolve(null);
-      };
-      img.onerror = () => {
-        imageCache.add(src);
-      };
-    });
-  }
-}
+// function useSuspenseImage(src: string) {
+//   if (!imageCache.has(src)) {
+//     throw new Promise((resolve) => {
+//       const img = new Image();
+//       img.src = src;
+//       img.onload = () => {
+//         imageCache.add(src);
+//         resolve(null);
+//       };
+//       img.onerror = () => {
+//         imageCache.add(src);
+//       };
+//     });
+//   }
+// }
 
 function LazyImage({
   altText,
@@ -99,9 +98,9 @@ function LazyImage({
   width: "inherit" | number;
   onError: () => void;
 }): JSX.Element {
-  useSuspenseImage(src);
+  // useSuspenseImage(src);
   return (
-    <img
+    <Image
       className={className || undefined}
       src={src}
       alt={altText}
@@ -111,6 +110,8 @@ function LazyImage({
         maxWidth,
         width,
       }}
+      width={width === "inherit" ? 400 : width}
+      height={height === "inherit" ? 400 : height}
       onError={onError}
       draggable="false"
     />
@@ -119,13 +120,16 @@ function LazyImage({
 
 function BrokenImage(): JSX.Element {
   return (
-    <img
-      src={brokenImage}
+    <Image
+      src={brokenImage as string}
+      alt="broken image"
       style={{
         height: 200,
         opacity: 0.2,
         width: 200,
       }}
+      height={200}
+      width={200}
       draggable="false"
     />
   );
@@ -256,7 +260,7 @@ export default function ImageComponent({
           $isRangeSelection(latestSelection) &&
           latestSelection.getNodes().length === 1
         ) {
-          editor.dispatchCommand(RIGHT_CLICK_IMAGE_COMMAND, event as MouseEvent);
+          editor.dispatchCommand(RIGHT_CLICK_IMAGE_COMMAND, event);
         }
       });
     },

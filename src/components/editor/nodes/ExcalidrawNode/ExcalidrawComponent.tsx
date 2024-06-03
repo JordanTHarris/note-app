@@ -168,23 +168,17 @@ export default function ExcalidrawComponent({
     setModalOpen(true);
   }, []);
 
-  // interface ExcalidrawData {
-  //   elements: ExcalidrawElement[];
-  //   files: BinaryFiles;
-  //   appState: AppState;
-  // }
-
-  // const {
-  //   elements = [],
-  //   files = {},
-  //   appState = {},
-  // }: ExcalidrawData = useMemo(() => JSON.parse(data) as ExcalidrawData, [data]);
+  interface ExcalidrawData {
+    elements: ExcalidrawElement[];
+    files: BinaryFiles;
+    appState: AppState;
+  }
 
   const {
     elements = [],
     files = {},
     appState = {},
-  } = useMemo(() => JSON.parse(data), [data]);
+  }: ExcalidrawData = useMemo(() => JSON.parse(data) as ExcalidrawData, [data]);
 
   return (
     <>
