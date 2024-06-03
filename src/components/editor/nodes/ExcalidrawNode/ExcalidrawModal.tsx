@@ -111,6 +111,32 @@ export default function ExcalidrawModal({
   const { resolvedTheme } = useTheme();
   initialAppState.theme = resolvedTheme === "dark" ? "dark" : "light";
 
+  useEffect(() => {
+    if (excaliDrawModelRef.current !== null) {
+      excaliDrawModelRef.current.focus();
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    const currentModalRef = excaliDrawModelRef.current;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        discard();
+      }
+    };
+
+    if (currentModalRef !== null) {
+      currentModalRef.addEventListener("keydown", onKeyDown);
+    }
+
+    return () => {
+      if (currentModalRef !== null) {
+        currentModalRef.removeEventListener("keydown", onKeyDown);
+      }
+    };
+  }, [elements, files, discard]);
+
   function save() {
     if (elements && elements.filter((el) => !el.isDeleted).length > 0) {
       const appState = excalidrawAPI?.getAppState();
@@ -188,21 +214,23 @@ export default function ExcalidrawModal({
     setFiles(fls);
   };
 
-  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-    if (event.key === "Escape") {
-      onDelete();
-    }
-  }
+  // function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+  //   if (event.key === "Escape") {
+  //     discard();
+  //   }
+  // }
 
-  return (
-    <Dialog open={isShown} modal={true}>
-      <DialogContent
-        className="flex h-[80vh] w-full max-w-screen-xl flex-col"
+  return createPortal(
+    <div
+      className="fixed bottom-0 left-0 right-0 top-0 z-50 flex flex-shrink flex-grow-0 flex-col items-center bg-black/80"
+      role="dialog"
+    >
+      <div
+        className="relative left-0 top-[50px] z-10 flex items-center justify-center rounded-lg bg-background"
+        tabIndex={-1}
         ref={excaliDrawModelRef}
-        onKeyDown={handleKeyDown}
-        hideClose
       >
-        <DialogHeader className="h-full w-full">
+        <div className=" relative h-[70vh] w-screen max-w-screen-xl rounded-lg border px-2 pb-2 pt-12">
           {discardModalOpen && <ShowDiscardDialog />}
           <Excalidraw
             onChange={onChange}
@@ -212,18 +240,50 @@ export default function ExcalidrawModal({
               elements: initialElements,
               files: initialFiles,
             }}
-            autoFocus
           />
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="destructive" onClick={discard}>
-            Discard
-          </Button>
-          <Button variant="default" onClick={save}>
-            Save
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <div className="absolute right-2 top-2 flex gap-2">
+            <Button size="sm" variant="destructive" onClick={discard}>
+              Discard
+            </Button>
+            <Button size="sm" variant="secondary" onClick={save}>
+              Save
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body,
   );
+
+  // return (
+  //   <Dialog open={isShown} modal={true}>
+  //     <DialogContent
+  //       className="flex h-[70vh] w-screen max-w-screen-xl flex-col"
+  //       onKeyDown={handleKeyDown}
+  //       hideClose
+  //     >
+  //       {discardModalOpen && <ShowDiscardDialog />}
+  //       <DialogHeader className="h-full w-full">
+  //         <Excalidraw
+  //           onChange={onChange}
+  //           excalidrawAPI={excalidrawAPIRefCallback}
+  //           initialData={{
+  //             appState: initialAppState || { isLoading: false },
+  //             elements: initialElements,
+  //             files: initialFiles,
+  //           }}
+  //           autoFocus
+  //         />
+  //       </DialogHeader>
+  //       <DialogFooter>
+  //         <Button variant="destructive" onClick={discard}>
+  //           Discard
+  //         </Button>
+  //         <Button variant="default" onClick={save}>
+  //           Save
+  //         </Button>
+  //       </DialogFooter>
+  //     </DialogContent>
+  //   </Dialog>
+  // );
 }

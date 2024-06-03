@@ -31,6 +31,7 @@ import ImageResizer from "../../ui/ImageResizer";
 import { $isExcalidrawNode } from ".";
 import ExcalidrawImage from "./ExcalidrawImage";
 import ExcalidrawModal from "./ExcalidrawModal";
+import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 
 export default function ExcalidrawComponent({
   nodeKey,
@@ -87,7 +88,7 @@ export default function ExcalidrawComponent({
             return true;
           }
 
-          if (buttonElem !== null && buttonElem.contains(eventTarget as Node)) {
+          if (buttonElem?.contains(eventTarget as Node)) {
             if (!event.shiftKey) {
               clearSelection();
             }
@@ -166,6 +167,18 @@ export default function ExcalidrawComponent({
   const openModal = useCallback(() => {
     setModalOpen(true);
   }, []);
+
+  // interface ExcalidrawData {
+  //   elements: ExcalidrawElement[];
+  //   files: BinaryFiles;
+  //   appState: AppState;
+  // }
+
+  // const {
+  //   elements = [],
+  //   files = {},
+  //   appState = {},
+  // }: ExcalidrawData = useMemo(() => JSON.parse(data) as ExcalidrawData, [data]);
 
   const {
     elements = [],
