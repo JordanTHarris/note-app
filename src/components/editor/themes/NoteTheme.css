@@ -445,6 +445,7 @@
   color: #ccc;
 }
 .NoteTheme__hr {
+  height: auto;
   padding: 2px 2px;
   border: none;
   margin: 1em 0;
@@ -454,11 +455,14 @@
   content: "";
   display: block;
   height: 2px;
-  background-color: #ccc;
+  background-color: #e4e4e7;
   line-height: 2px;
 }
+.dark .NoteTheme__hr:after {
+  background-color: #27272a;
+}
 .NoteTheme__hr.selected {
-  outline: 2px solid rgb(60, 132, 244);
+  outline: 2px solid theme("colors.primary.DEFAULT");
   user-select: none;
 }
 

@@ -4,9 +4,9 @@ import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
 import { CharacterLimitPlugin } from "@lexical/react/LexicalCharacterLimitPlugin";
 import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
 import { ClearEditorPlugin } from "@lexical/react/LexicalClearEditorPlugin";
-import ClickableLinkPlugin from "@lexical/react/LexicalClickableLinkPlugin";
+import { ClickableLinkPlugin } from "@lexical/react/LexicalClickableLinkPlugin";
 // import { CollaborationPlugin } from "@lexical/react/LexicalCollaborationPlugin";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HashtagPlugin } from "@lexical/react/LexicalHashtagPlugin";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { HorizontalRulePlugin } from "@lexical/react/LexicalHorizontalRulePlugin";
@@ -15,7 +15,7 @@ import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
-import useLexicalEditable from "@lexical/react/useLexicalEditable";
+import { useLexicalEditable } from "@lexical/react/useLexicalEditable";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { CAN_USE_DOM } from "@/components/editor/shared/canUseDOM";
@@ -173,12 +173,13 @@ export function Editor({ note }: { note: Note }): JSX.Element {
         {isRichText ? (
           <>
             {isCollab ? (
-              // <CollaborationPlugin
-              //   id="main"
-              //   providerFactory={createWebsocketProvider}
-              //   shouldBootstrap={!skipCollaborationInit}
-              // />
-              <div></div>
+              <>
+                {/* <CollaborationPlugin
+                id="main"
+                providerFactory={createWebsocketProvider}
+                shouldBootstrap={!skipCollaborationInit}
+              /> */}
+              </>
             ) : (
               <HistoryPlugin externalHistoryState={historyState} />
             )}
@@ -190,7 +191,7 @@ export function Editor({ note }: { note: Note }): JSX.Element {
                   )}
                 >
                   <div className="relative flex-1" ref={onRef}>
-                    <ContentEditable className="relative h-full min-h-40 w-full border-none px-2 py-10 pt-2 text-[15px] outline-none lg:px-7" />
+                    <ContentEditable className="relative h-96 max-h-full min-h-40 w-full max-w-full border-none px-2 py-10 pt-2 text-[15px] outline-none lg:px-7" />
                   </div>
                 </ScrollArea>
               }

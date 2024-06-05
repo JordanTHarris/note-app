@@ -257,8 +257,8 @@ function CommentInputBox({
           const elementsLength = elements.length;
 
           for (let i = 0; i < selectionRectsLength; i++) {
-            const selectionRect = selectionRects[i];
-            let elem: HTMLSpanElement = elements[i];
+            const selectionRect = selectionRects[i]!;
+            let elem: HTMLSpanElement = elements[i]!;
             if (elem === undefined) {
               elem = document.createElement("span");
               elements[i] = elem;
@@ -268,7 +268,7 @@ function CommentInputBox({
             const style = `position:absolute;top:${
               selectionRect.top +
               (window.pageYOffset || document.documentElement.scrollTop)
-            }px;left:${selectionRect.left}px;height:${selectionRect.height}px;width:${
+            }px;left:${selectionRect.left}px;height:${selectionRect?.height}px;width:${
               selectionRect.width
             }px;background-color:rgba(${color}, 0.3);pointer-events:none;z-index:5;`;
             elem.style.cssText = style;
@@ -566,7 +566,7 @@ function CommentsPanelList({
               editor.update(
                 () => {
                   const markNodeKey = Array.from(markNodeKeys)[0];
-                  const markNode = $getNodeByKey<MarkNode>(markNodeKey);
+                  const markNode = $getNodeByKey<MarkNode>(markNodeKey!);
                   if ($isMarkNode(markNode)) {
                     markNode.selectStart();
                   }
