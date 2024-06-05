@@ -91,7 +91,7 @@
   cursor: pointer;
 }
 .NoteTheme__code {
-  background-color: theme("colors.secondary.DEFAULT");
+  background-color: theme("colors.background-secondary");
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
