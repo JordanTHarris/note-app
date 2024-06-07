@@ -21,7 +21,7 @@ export const DEFAULT_SETTINGS = {
   isRichText: true,
   measureTypingPerf: false,
   shouldPreserveNewLinesInMarkdown: false,
-  shouldUseLexicalContextMenu: false,
+  shouldUseLexicalContextMenu: true,
   showNestedEditorTreeView: false,
   showTableOfContents: false,
   showTreeView: true,

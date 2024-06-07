@@ -1,5 +1,6 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
+"use client";
+
+/** * Copyright (c) Meta Platforms, Inc. and affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -39,10 +40,10 @@ function ContextMenuItem({
   onMouseEnter: () => void;
   option: ContextMenuOption;
 }) {
-  let className = "item";
-  if (isSelected) {
-    className += " selected";
-  }
+  // let className = "item";
+  // if (isSelected) {
+  //   className += " selected";
+  // }
   return (
     <li
       key={option.key}
