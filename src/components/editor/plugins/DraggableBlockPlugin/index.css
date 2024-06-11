@@ -12,8 +12,12 @@
 .draggable-block-menu .icon {
   width: 16px;
   height: 16px;
-  /* opacity: 0.3; */
+  opacity: 0.8;
   background-image: url(/images/icons/draggable-block-menu.svg);
+}
+
+.dark .draggable-block-menu .icon {
+  filter: invert(1);
 }
 
 .draggable-block-menu:active {

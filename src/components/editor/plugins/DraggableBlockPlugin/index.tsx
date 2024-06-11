@@ -94,8 +94,8 @@ function getBlockElement(
   editor.getEditorState().read(() => {
     if (useEdgeAsDefault) {
       const [firstNode, lastNode] = [
-        editor.getElementByKey(topLevelNodeKeys[0]),
-        editor.getElementByKey(topLevelNodeKeys[topLevelNodeKeys.length - 1]),
+        editor.getElementByKey(topLevelNodeKeys[0]!),
+        editor.getElementByKey(topLevelNodeKeys[topLevelNodeKeys.length - 1]!),
       ];
 
       const [firstNodeRect, lastNodeRect] = [
@@ -122,7 +122,7 @@ function getBlockElement(
     let direction = Indeterminate;
 
     while (index >= 0 && index < topLevelNodeKeys.length) {
-      const key = topLevelNodeKeys[index];
+      const key = topLevelNodeKeys[index]!;
       const elem = editor.getElementByKey(key);
       if (elem === null) {
         break;
